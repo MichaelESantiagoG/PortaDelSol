@@ -65,20 +65,20 @@ def main():
     with st.sidebar:
         st.title("Porta del Sol")
         navigation = st_option_menu.option_menu(
-            menu_title="Navigation",
+            menu_title="Menu",
             default_index=0,
-            options=["Home", "Clients", "Employees", "Settings"],
+            options=["Inicio", "Clientes", "Empleados", "Ajustes"],
             icons=["house", "people", "person-vcard", "gear"],
             menu_icon="menu-up",
         )
 
-    if navigation == "Home":
+    if navigation == "Inicio":
         Home.view()
-    elif navigation == "Clients":
+    elif navigation == "Clientes":
         Client.view()
-    elif navigation == "Employees":
+    elif navigation == "Empleados":
         Employee.view()
-    elif navigation == "Settings":
+    elif navigation == "Ajustes":
         st.session_state.user["layout"] = "wide"
         st.session_state.user["initial_sidebar_state"] = "expanded"
         Profile.view()

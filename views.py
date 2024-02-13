@@ -15,20 +15,20 @@ class Login:
 
     def login():
         st.markdown(
-            """<h2 style="text-align: center;"> Login</h2> """, unsafe_allow_html=True
+            """<h2 style="text-align: center;"> Iniciar Sesion</h2> """, unsafe_allow_html=True
         )
         with st.form("auth"):
             pin = st.text_input(
                 label="Pin", max_chars=4, type="password", label_visibility="visible"
             )
             if st.form_submit_button(
-                label="Login", type="primary", use_container_width=True
+                label="Iniciar Sesion", type="primary", use_container_width=True
             ):
                 if Login.auth(pin):
                     st.rerun()
                 else:
                     st.warning(
-                        body="Access denied, or pin number not assigned", icon="⛔"
+                        body="Acceso denegado", icon="⛔"
                     )
 
             st.markdown(
@@ -69,7 +69,7 @@ class Home:
             }
             </style>
             <div class="middle-center">
-                <h1>Welcome to Porta del Sol Memorial</h1>
+                <h1>Bienvenidos a Porta del Sol Memorial</h1>
             </div>
             """,
             unsafe_allow_html=True,
@@ -109,7 +109,7 @@ class Client:
             </style>
             <div class="middle-center">
                 <h1>Porta del Sol</h1>
-                <h2>Client Management</h2>
+                <h2>Clientes</h2>
             </div>
             """,
             unsafe_allow_html=True,
@@ -130,9 +130,9 @@ class Client:
             )
             col1, col2 = st.columns(2)
             with col1:
-                search = st.text_input(label="Search", placeholder="Search")
+                search = st.text_input(label="Buscar", placeholder="Buscar")
             with col2:
-                add_btn = st.button(label="Add", type="primary")
+                add_btn = st.button(label="Añadir", type="primary")
         fake = Faker()
         data = {
             "Nombre": [fake.name() for _ in range(50)],
@@ -183,7 +183,7 @@ class Employee:
             </style>
             <div class="middle-center">
                 <h1>Porta del Sol</h1>
-                <h2>Employee Management</h2>
+                <h2>Empleados</h2>
             </div>
             """,
             unsafe_allow_html=True,
@@ -204,9 +204,9 @@ class Employee:
             )
             col1, col2 = st.columns(2)
             with col1:
-                search = st.text_input(label="Search", placeholder="Search")
+                search = st.text_input(label="Buscar", placeholder="Buscar")
             with col2:
-                add_btn = st.button(label="Add", type="primary")
+                add_btn = st.button(label="Añadir", type="primary")
         fake = Faker()
 
         data = {
@@ -234,6 +234,31 @@ class Employee:
 
 class Profile:
     def view():
+        header = st.empty()
+        header.markdown(
+            """
+            <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .middle-center {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                padding-bottom: 50px;
+            }
+            </style>
+            <div class="middle-center">
+                <h1>Porta del Sol</h1>
+                <h2>Perfil</h2>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         with st.form(key="profile"):
             st.text_input("First Name")
             st.text_input("Last Name")
