@@ -1,0 +1,8 @@
+streamlit
+streamlit_extras
+streamli-option-menu
+streamlit_pandas_profiling
+pandas
+numpy
+random
+faker
