@@ -15,14 +15,14 @@ class Login:
 
     def login():
         st.markdown(
-            """<h2 style="text-align: center;"> Iniciar Sesion</h2> """, unsafe_allow_html=True
+            """<h2 style="text-align: center;"> Iniciar sesión</h2> """, unsafe_allow_html=True
         )
         with st.form("auth"):
             pin = st.text_input(
                 label="Pin", max_chars=4, type="password", label_visibility="visible"
             )
             if st.form_submit_button(
-                label="Iniciar Sesion", type="primary", use_container_width=True
+                label="Iniciar sesión", type="primary", use_container_width=True
             ):
                 if Login.auth(pin):
                     st.rerun()
@@ -32,7 +32,7 @@ class Login:
                     )
 
             st.markdown(
-                """<p style="text-align: center;"><span style="color: #999999;"><a style="color: #999999; text-decoration: underline;" title="ticket" href="mailto:ithelpdesk@amphenol-sensors.com?subject=Forgot NC Pin Number&amp;body=Hi, I forgot my pin for Non Conformance System">Forgot Pin</a></span></p>""",
+                """<p style="text-align: center;"><span style="color: #999999;"><a style="color: #999999; text-decoration: underline;" title="Recuperación de contraseña" href="mailto:?subject=Contraseña&amp;body=Hola, he olvidado mi contraseña">¿Olvidaste tu contraseña?</a></span></p>""",
                 unsafe_allow_html=True,
             )
         pass
@@ -132,7 +132,9 @@ class Client:
             with col1:
                 search = st.text_input(label="Buscar", placeholder="Buscar")
             with col2:
-                add_btn = st.button(label="Añadir", type="primary")
+                col_2_1,col_2_2 = st.columns([4,1])
+                with col_2_1: add_btn = st.button(label="Añadir", type="primary")
+                with col_2_2:edit_btn = st.button(label="Editar", type="secondary", use_container_width=True)
         fake = Faker()
         data = {
             "Nombre": [fake.name() for _ in range(50)],
@@ -206,7 +208,9 @@ class Employee:
             with col1:
                 search = st.text_input(label="Buscar", placeholder="Buscar")
             with col2:
-                add_btn = st.button(label="Añadir", type="primary")
+                col_2_1,col_2_2 = st.columns([4,1])
+                with col_2_1: add_btn = st.button(label="Añadir", type="primary")
+                with col_2_2:edit_btn = st.button(label="Editar", type="secondary", use_container_width=True)
         fake = Faker()
 
         data = {
@@ -259,7 +263,7 @@ class Profile:
             """,
             unsafe_allow_html=True,
         )
-        with st.form(key="profile"):
+        with st.form(key="profile", clear_on_submit=True):
             st.text_input("First Name")
             st.text_input("Last Name")
             st.text_input("Address")
