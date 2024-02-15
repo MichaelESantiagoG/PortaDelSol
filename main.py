@@ -67,8 +67,8 @@ def main():
         navigation = st_option_menu.option_menu(
             menu_title="Menu",
             default_index=0,
-            options=["Inicio", "Clientes", "Empleados", "Ajustes"],
-            icons=["house", "people", "person-vcard", "gear"],
+            options=["Inicio", "Servicios","Clientes", "Empleados", "Ajustes"],
+            icons=["house", "record","people", "person-vcard", "gear"],
             menu_icon="menu-up",
         )
 
@@ -79,8 +79,6 @@ def main():
     elif navigation == "Empleados":
         Employee.view()
     elif navigation == "Ajustes":
-        st.session_state.user["layout"] = "wide"
-        st.session_state.user["initial_sidebar_state"] = "expanded"
         Profile.view()
 
     pass

@@ -46,6 +46,8 @@ class Login:
                 "layout": "wide",
                 "sidebar_state": "expanded",
             }
+            st.session_state.user["layout"] = "wide"
+            st.session_state.user["sidebar_state"] = "expanded"
             return True
 
 
@@ -191,8 +193,7 @@ class Employee:
             unsafe_allow_html=True,
         )
 
-        container = st.container()
-        with container:
+        with st.container():
             st.markdown(
                 """
                 <style>
@@ -263,18 +264,46 @@ class Profile:
             """,
             unsafe_allow_html=True,
         )
-        with st.form(key="profile", clear_on_submit=True):
-            st.text_input("First Name")
-            st.text_input("Last Name")
-            st.text_input("Address")
-            st.text_input("Phone")
-            st.text_input("Email")
-            st.text_input("Username")
-            st.text_input("Password")
-            st.date_input("Start Date")
-            st.date_input("End Date")
-            st.checkbox("Active")
-            st.form_submit_button("Submit")
-            pass
+        with st.container():
+            st.markdown(
+                """
+                <style>
+                .stButton > button {
+                    display: block;
+                    margin: 0 auto;              
+                }
+                .st-emotion-cache-r421ms {
+                    border: 1px solid rgba(49, 51, 63, 0.2);
+                    border-radius: 0.5rem;
+                    padding: calc(1em - 1px);
+                    width: 70%;
+                    margin: 0 auto; /* Center horizontally */
+                }
 
-        # pass
+                </style>
+                """,
+                unsafe_allow_html=True,
+            )
+            with st.form(key="profile", clear_on_submit=True):
+                col1,col2 = st.columns(2)
+                with col1:
+                    st.text_input("First Name")
+                    st.text_input("Email")
+
+                with col2:
+                    st.text_input("Last Name")
+                    st.text_input("Phone")
+  
+                st.text_input("Address")
+                col1,col2 = st.columns(2)
+                with col1:
+                    st.text_input("Username")
+                    st.date_input("Start Date")
+                with col2:
+                    st.text_input("Password")
+                    st.date_input("End Date")
+                st.checkbox("Active")
+                st.form_submit_button("Submit")
+                pass
+
+            # pass
