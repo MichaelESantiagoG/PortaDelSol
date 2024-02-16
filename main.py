@@ -109,5 +109,5 @@ if __name__ == "__main__":
     if not st.session_state.user["logged"]:
         st.markdown(header, unsafe_allow_html=True)
         st.markdown(footer, unsafe_allow_html=True)
-        st.markdown(side_bar_icon, unsafe_allow_html=True)
+        st.markdown(side_bar_icon,unsafe_allow_html=True)
         Login.login()
