@@ -67,7 +67,7 @@ class Home:
                 justify-content: center;
                 align-items: center;
                 height: 100%;
-                padding-bottom: 50px;
+                padding-bottom: 25px;
             }
             </style>
             <div class="middle-center">
@@ -106,7 +106,7 @@ class Client:
                 justify-content: center;
                 align-items: center;
                 height: 100%;
-                padding-bottom: 50px;
+                padding-bottom: 25px;
             }
             </style>
             <div class="middle-center">
@@ -182,7 +182,7 @@ class Employee:
                 justify-content: center;
                 align-items: center;
                 height: 100%;
-                padding-bottom: 50px;
+                padding-bottom: 25px;
             }
             </style>
             <div class="middle-center">
@@ -254,7 +254,7 @@ class Profile:
                 justify-content: center;
                 align-items: center;
                 height: 100%;
-                padding-bottom: 50px;
+                padding-bottom: 25px;
             }
             </style>
             <div class="middle-center">
