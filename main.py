@@ -50,7 +50,17 @@ text-align: left;
 </div>
 
 """
-
+side_menu_icon = """ 
+   <style>
+    .sidebar .sidebar-content .sidebar-collapse-icon::before {
+        content: "\\2630"; /* Unicode for hamburger icon */
+        font-size: 24px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+"""
 access = [0, 1]
 
 
@@ -99,4 +109,5 @@ if __name__ == "__main__":
     if not st.session_state.user["logged"]:
         st.markdown(header, unsafe_allow_html=True)
         st.markdown(footer, unsafe_allow_html=True)
+        st.markdown(side_bar_icon, unsafe_allow_html=True)
         Login.login()
