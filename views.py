@@ -270,7 +270,7 @@ class Profile:
                 <style>
                 .stButton > button {
                     display: block;
-                    margin: 0 auto;              
+                    margin: 20px auto;        
                 }
                 .st-emotion-cache-r421ms {
                     border: 1px solid rgba(49, 51, 63, 0.2);
@@ -300,9 +300,8 @@ class Profile:
                     st.text_input("Username")
                     st.date_input("Start Date")
                 with col2:
-                    st.text_input("Password")
+                    st.text_input("Password",type="password")
                     st.date_input("End Date")
-                st.checkbox("Active")
                 st.form_submit_button("Submit")
                 pass
 
