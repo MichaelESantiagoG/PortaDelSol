@@ -74,13 +74,14 @@ def main():
 
     if navigation == "Inicio":
         Home.view()
+    elif navigation == "Servicios":
+        Services.view()
     elif navigation == "Clientes":
         Client.view()
     elif navigation == "Empleados":
         Employee.view()
     elif navigation == "Ajustes":
         Profile.view()
-
     pass
 
 
