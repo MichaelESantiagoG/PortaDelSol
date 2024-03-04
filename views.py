@@ -290,6 +290,7 @@ class Client:
     def display_client_form(client, disabled):
         if disabled: key = "delete_client"
         else: key = "edit_client"
+        search = st.text_input(label="Buscar", placeholder="Buscar")
         with st.form(key=key, clear_on_submit=False):
             col1, col2 = st.columns(2)
             with col1:
