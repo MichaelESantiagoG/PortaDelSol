@@ -329,8 +329,7 @@ class Client:
 
     @staticmethod
     def delete_client_form():
-        if search is not None:
-            Client.display_client_form(Client.find_client(),True)
+        Client.display_client_form(Client.find_client(),True)
 
 class Employee:
     @staticmethod
