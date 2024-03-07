@@ -1,9 +1,17 @@
+import json
 import streamlit as st
-from views import *
+from streamlit_lottie import st_lottie
+import streamlit_option_menu as st_option_menu
+from Views.Clients import Clients
+from Views.Dashboard import Dashboard
+from Views.Employees import Employees
+from Views.Log_in import Login
+from Views.Profile import Profile
+from Views.Services import Services
 
 initial_layout = "centered"
 initial_sidebar_state = "collapsed"
-header = """<h1 style="text-align: center;"><span style="color: #1A7BC1;">Porta del Sol</span></h1><h4 style="text-align: center;"</h4>"""
+header = """<h1 style="text-align: center;"><span style="color: Black;">Porta del Sol</span></h1><h4 style="text-align: center;"</h4>"""
 footer = """<style>
 .css-h5rgaw{
     visibility:hidden;
@@ -50,10 +58,14 @@ text-align: left;
 </div>
 
 """
+access = []
 
-access = [0, 1]
+@st.cache_data
+def load_lottiefile(filepath: str):
+    with open(filepath,"r") as f:
+        return json.load(f)
 
-
+@staticmethod
 def main():
     st.set_page_config(
         page_title="Porta del Sol Memorial",
@@ -67,19 +79,23 @@ def main():
         navigation = st_option_menu.option_menu(
             menu_title="Menu",
             default_index=0,
-            options=["Inicio", "Servicios","Clientes", "Empleados", "Ajustes"],
+            options=["Panel", "Servicios","Clientes", "Empleados", "Ajustes"],
             icons=["house", "card-list","people", "person-vcard", "gear"],
-            menu_icon="menu-up",
-        )
+            menu_icon="menu-up",)
+        lottie = load_lottiefile("Media/rip.json")
+        st_lottie(lottie,key='loc')
 
-    if navigation == "Inicio":
-        Home.view()
+        st.markdown("""<style>.stButton > button {display: block;margin: 10px auto;}""", unsafe_allow_html=True)
+        if st.sidebar.button("Cerrar Sesión", use_container_width=True): Login.logout()
+
+    if navigation == "Panel":
+        Dashboard.view()
     elif navigation == "Servicios":
         Services.view()
     elif navigation == "Clientes":
-        Client.view()
+        Clients.view()
     elif navigation == "Empleados":
-        Employee.view()
+        Employees.view()
     elif navigation == "Ajustes":
         Profile.view()
     pass
@@ -100,4 +116,4 @@ if __name__ == "__main__":
     if not st.session_state.user["logged"]:
         st.markdown(header, unsafe_allow_html=True)
         st.markdown(footer, unsafe_allow_html=True)
-        Login.login()
+        Login.view()
