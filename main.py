@@ -65,7 +65,6 @@ def load_lottiefile(filepath: str):
     with open(filepath,"r") as f:
         return json.load(f)
 
-@staticmethod
 def main():
     st.set_page_config(
         page_title="Porta del Sol Memorial",
