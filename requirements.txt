@@ -7,3 +7,4 @@ pandas-profiling==3.2.0
 numpy==1.26.4
 faker==23.1.0
 sqlalchemy==2.0.27
+streamlit_lottie==0.0.5
