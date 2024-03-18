@@ -1,6 +1,7 @@
 import streamlit as st
 
 class Profile:
+    @staticmethod
     def view():
         header = st.empty()
         header.markdown(

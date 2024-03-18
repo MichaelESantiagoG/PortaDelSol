@@ -51,6 +51,7 @@ width: 100%;
 background-color: ;
 color: grey;
 text-align: left;
+margin-left: 50px;
 }
 </style>
 <div class="footer">
@@ -88,17 +89,47 @@ def main():
         if st.sidebar.button("Cerrar Sesión", use_container_width=True): Login.logout()
 
     if navigation == "Panel":
-        Dashboard.view()
+        router('/panel').view()
     elif navigation == "Servicios":
-        Services.view()
+        router('/servicios').view()
     elif navigation == "Clientes":
-        Clients.view()
+        router('/clientes').view()
     elif navigation == "Empleados":
-        Employees.view()
+        router('/empleados').view()
     elif navigation == "Ajustes":
-        Profile.view()
-    pass
+        router('/ajustes').view()
+        
 
+def router(app_path: str):
+    component_to_return = None
+
+    if app_path == "/panel":
+        component_to_return = Dashboard
+        st.query_params.path = "/panel"
+
+    elif app_path == "/servicios":
+        component_to_return = Services
+        st.query_params.path = "/services"
+
+    elif app_path == "/clientes":
+        component_to_return = Clients
+        st.query_params.path = "/clients"
+
+    elif app_path == "/empleados":
+        component_to_return = Employees
+        st.query_params.path = "/employees"
+
+    elif app_path == "/ajustes":
+        component_to_return = Profile
+        st.query_params.path = "/profile"
+
+    else:
+        # default, no path, go to Panel
+        component_to_return = Dashboard
+        st.query_params.path = "/panel"
+
+    # todo validation for invalid
+    return component_to_return    
 
 if __name__ == "__main__":
     if "user" not in st.session_state:

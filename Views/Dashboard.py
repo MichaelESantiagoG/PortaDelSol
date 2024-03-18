@@ -4,6 +4,7 @@ import numpy as np
 
 class Dashboard:
     def view():
+        # print ('this is path', st.query_params.get('path'))
         header = st.empty()
         header.markdown(
             """
@@ -27,15 +28,11 @@ class Dashboard:
             """,
             unsafe_allow_html=True,
         )
-        col1, col2 = st.columns(2)
-        with col1:
-            chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
-            st.line_chart(chart_data)
-        with col2:
-            df = pd.read_csv(
-                "https://storage.googleapis.com/tf-datasets/titanic/train.csv"
-            )
-            st.dataframe(df)
 
-    pass
+        chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
+        st.line_chart(chart_data)
 
+        df = pd.read_csv(
+            "https://storage.googleapis.com/tf-datasets/titanic/train.csv"
+        )
+        st.dataframe(df)

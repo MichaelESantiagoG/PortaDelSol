@@ -4,7 +4,7 @@ class Login:
 
     def __init__(self, pin) -> None:
         self.pin = pin
-
+    @staticmethod
     def view():
         st.session_state.user["layout"] = "centered"
         st.markdown(

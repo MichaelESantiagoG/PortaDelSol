@@ -3,7 +3,7 @@ import pandas as pd
 import random
 import datetime
 from faker import Faker
-        
+
 class Clients:
     clients = set()
 
@@ -20,6 +20,9 @@ class Clients:
         
     @staticmethod
     def view():
+        def router(app_path: str): pass
+            # if st.query_params.path == 
+
         header = """
             <style>
             html, body {
@@ -42,7 +45,6 @@ class Clients:
             </div>
             """
         st.markdown(header, unsafe_allow_html=True)
-
         more_btn_session_state = st.session_state.setdefault('more_opitions', {})
         col1, col2 = st.columns(2)
         with col1:
@@ -66,6 +68,11 @@ class Clients:
                 )          
                 if st.button(label="Más +", type="primary"): 
                     more_btn_session_state['more_opitions'] = not more_btn_session_state.get('more_opitions', False)
+                    if more_btn_session_state['more_opitions']:
+                        st.query_params.path = '/client/more'
+                    else:
+                        st.query_params.path = '"/client"'
+
 
         if more_btn_session_state.get('more_opitions', False):
             tab1, tab2, tab3 = st.tabs(["Añadir", "Editar", "Borrar"])
@@ -79,29 +86,28 @@ class Clients:
             with tab3:
                 Clients.delete_client_form()
 
-        
-        
-        fake = Faker()
-        data = {
-            "Nombre": [fake.name() for _ in range(50)],
-            "Dirección": [fake.address() for _ in range(50)],
-            "Teléfono": [fake.phone_number() for _ in range(50)],
-            "Email": [fake.email() for _ in range(50)],
-            "Fecha de visita/orientación": [
-                fake.date_between(start_date="-1y", end_date="today") for _ in range(50)
-            ],
-            "Servicio solicitado": [
-                fake.random_element(
-                    elements=("Consultoría", "Asesoramiento", "Soporte técnico")
-                )
-                for _ in range(50)
-            ],
-            "Detalle de los servicios cotizados": [
-                fake.sentence(nb_words=6) for _ in range(50)
-            ],
-            "Precio cotizado": [round(random.uniform(100, 1000), 2) for _ in range(50)],
-        }
-        st.dataframe(pd.DataFrame(data))
+        else:     
+            fake = Faker()
+            data = {
+                "Nombre": [fake.name() for _ in range(50)],
+                "Dirección": [fake.address() for _ in range(50)],
+                "Teléfono": [fake.phone_number() for _ in range(50)],
+                "Email": [fake.email() for _ in range(50)],
+                "Fecha de visita/orientación": [
+                    fake.date_between(start_date="-1y", end_date="today") for _ in range(50)
+                ],
+                "Servicio solicitado": [
+                    fake.random_element(
+                        elements=("Consultoría", "Asesoramiento", "Soporte técnico")
+                    )
+                    for _ in range(50)
+                ],
+                "Detalle de los servicios cotizados": [
+                    fake.sentence(nb_words=6) for _ in range(50)
+                ],
+                "Precio cotizado": [round(random.uniform(100, 1000), 2) for _ in range(50)],
+            }
+            st.dataframe(pd.DataFrame(data))
 
     @staticmethod
     def add_client_form():
