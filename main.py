@@ -7,7 +7,7 @@ from Views.Dashboard import Dashboard
 from Views.Employees import Employees
 from Views.Log_in import Login
 from Views.Profile import Profile
-from Views.Services import Services
+from Views.Services import Servicios
 
 initial_layout = "centered"
 initial_sidebar_state = "collapsed"
@@ -108,7 +108,7 @@ def router(app_path: str):
         st.query_params.path = "/panel"
 
     elif app_path == "/servicios":
-        component_to_return = Services
+        component_to_return = Servicios
         st.query_params.path = "/services"
 
     elif app_path == "/clientes":

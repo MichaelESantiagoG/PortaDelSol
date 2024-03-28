@@ -5,23 +5,24 @@ import datetime
 from faker import Faker
 
 class Clients:
-    clients = set()
+    def __init__(self, Cliente_ID, Nombre, Apellido_Paterno, Apellido_Materno, Fecha_De_Nacimiento, Lugar_De_Nacimiento, Genero, Celular, Celular_2, Direccion, Licencia, Seguro_Social, Numero_De_Servicio_Militar):
+        self.Cliente_ID = Cliente_ID
+        self.Nombre = Nombre
+        self.Apellido_Paterno = Apellido_Paterno
+        self.Apellido_Materno = Apellido_Materno
+        self.Fecha_De_Nacimiento = Fecha_De_Nacimiento
+        self.Lugar_De_Nacimiento = Lugar_De_Nacimiento
+        self.Genero = Genero
+        self.Celular = Celular
+        self.Celular_2 = Celular_2
+        self.Direccion = Direccion
+        self.Licencia = Licencia
+        self.Seguro_Social = Seguro_Social
+        self.Numero_De_Servicio_Militar = Numero_De_Servicio_Militar
 
-    def __init__(self, first_name, last_name, phone, email, address, visit_date, service, details, balance):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.phone = phone
-        self.email = email
-        self.address = address
-        self.visit_date = visit_date
-        self.service = service
-        self.details = details
-        self.price = balance
         
     @staticmethod
     def view():
-        def router(app_path: str): pass
-            # if st.query_params.path == 
 
         header = """
             <style>
@@ -45,7 +46,7 @@ class Clients:
             </div>
             """
         st.markdown(header, unsafe_allow_html=True)
-        more_btn_session_state = st.session_state.setdefault('more_opitions', {})
+        # more_btn_session_state = st.session_state.setdefault('more_opitions', {})
         col1, col2 = st.columns(2)
         with col1:
             search = st.text_input(label="Buscar", placeholder="Buscar")
@@ -54,60 +55,55 @@ class Clients:
                 st.markdown(
                     """
                     <style>
-                        .stButton > button {
-                            float:right;               
-                        }
-                        .row-widget {
-                            margin-top:auto; 
-                            float:left;               
+                        .st-emotion-cache-1i4zmrw{
+                            float:right;
+                            margin-top: 13px;
+                            }
+                        .stPopoverBody{
+                            width:500px;
+                            height:500px;
                         }
                     </style>
 
                     """,
                     unsafe_allow_html=True,
-                )          
-                if st.button(label="Más +", type="primary"): 
-                    more_btn_session_state['more_opitions'] = not more_btn_session_state.get('more_opitions', False)
-                    if more_btn_session_state['more_opitions']:
-                        st.query_params.path = '/client/more'
-                    else:
-                        st.query_params.path = '"/client"'
+                )
+            with st.popover(label="Más+"):
+            # if more_btn_session_state.get('more_opitions', False):
+                tab1, tab2, tab3 = st.tabs(["Añadir", "Editar", "Borrar"])
 
+                with tab1:
+                    Clients.form('Añadir', False)
+                    # Clients.add_client_form()
 
-        if more_btn_session_state.get('more_opitions', False):
-            tab1, tab2, tab3 = st.tabs(["Añadir", "Editar", "Borrar"])
+                # with tab2:
+                #     Clients.edit_client_form()
 
-            with tab1:
-                Clients.add_client_form()
+                # with tab3:
+                #     Clients.delete_client_form()
 
-            with tab2:
-                Clients.edit_client_form()
-
-            with tab3:
-                Clients.delete_client_form()
-
-        else:     
-            fake = Faker()
-            data = {
-                "Nombre": [fake.name() for _ in range(50)],
-                "Dirección": [fake.address() for _ in range(50)],
-                "Teléfono": [fake.phone_number() for _ in range(50)],
-                "Email": [fake.email() for _ in range(50)],
-                "Fecha de visita/orientación": [
-                    fake.date_between(start_date="-1y", end_date="today") for _ in range(50)
-                ],
-                "Servicio solicitado": [
-                    fake.random_element(
-                        elements=("Consultoría", "Asesoramiento", "Soporte técnico")
-                    )
-                    for _ in range(50)
-                ],
-                "Detalle de los servicios cotizados": [
-                    fake.sentence(nb_words=6) for _ in range(50)
-                ],
-                "Precio cotizado": [round(random.uniform(100, 1000), 2) for _ in range(50)],
-            }
-            st.dataframe(pd.DataFrame(data))
+     
+        fake = Faker()
+        data = {
+            "Nombre": [fake.name() for _ in range(50)],
+            "Dirección": [fake.address() for _ in range(50)],
+            "Teléfono": [fake.phone_number() for _ in range(50)],
+            "Email": [fake.email() for _ in range(50)],
+            "Fecha de visita/orientación": [
+                fake.date_between(start_date="-1y", end_date="today") for _ in range(50)
+            ],
+            "Servicio solicitado": [
+                fake.random_element(
+                    elements=("Consultoría", "Asesoramiento", "Soporte técnico")
+                )
+                for _ in range(50)
+            ],
+            "Detalle de los servicios cotizados": [
+                fake.sentence(nb_words=6) for _ in range(50)
+            ],
+            "Precio cotizado": [round(random.uniform(100, 1000), 2) for _ in range(50)],
+        }
+        st.dataframe(pd.DataFrame(data))
 
     @staticmethod
     def add_client_form():
@@ -140,29 +136,25 @@ class Clients:
                 st.success("Cliente añadido.")
 
 
-    @staticmethod
-    def edit_client_form():
-        Clients.display_client_form(Clients.find_client(), False)
 
 
     @staticmethod
-    def display_client_form(client, disabled):
-        if disabled: key = "delete_client"
-        else: key = "edit_client"
+    def form(key, disabled):
+
         search = st.text_input(label="Buscar", placeholder="Buscar", key=key)
         with st.form(key=key, clear_on_submit=False):
             col1, col2 = st.columns(2)
             with col1:
-                first_name = st.text_input(label="Nombre", value=client.first_name, disabled=disabled)
-                phone = st.text_input(label="Telefono", value=client.phone, disabled=disabled)
-                address = st.text_input(label="Dirección", value=client.address, disabled=disabled)
-                visit_date = st.date_input(label="Fecha de Orientación", value=client.visit_date, disabled=disabled)
+                first_name = st.text_input(label="Nombre", disabled=disabled)
+                phone = st.text_input(label="Telefono", disabled=disabled)
+                address = st.text_input(label="Dirección", disabled=disabled)
+                visit_date = st.date_input(label="Fecha de Orientación", disabled=disabled)
             with col2:
-                last_name = st.text_input(label="Apellidos", value=client.last_name, disabled=disabled)
-                email = st.text_input(label="Correo", value=client.email, disabled=disabled)
-                service = st.text_input(label="Servicio solicitado", value=client.service, disabled=disabled)
-                details = st.text_input(label="Detalles de cotización", value=client.details, disabled=disabled)
-                price = st.number_input(label="Precio cotizado", value=client.price, disabled=disabled)
+                last_name = st.text_input(label="Apellidos", disabled=disabled)
+                email = st.text_input(label="Correo", disabled=disabled)
+                service = st.text_input(label="Servicio solicitado", disabled=disabled)
+                details = st.text_input(label="Detalles de cotización", disabled=disabled)
+                price = st.number_input(label="Precio cotizado", disabled=disabled)
 
             if disabled: label = "Eliminar"
             else:  label = "Actualizar"
@@ -180,13 +172,17 @@ class Clients:
                 }
                 st.success("Informacion del cliente actualizada.")
 
-    @staticmethod
-    def find_client():
-        # Here you would retrieve the existing client information from the database based on the provided ID
-        # For now, returning a hardcoded client
-        return Clients('Michael', 'Santiago', '939-287-3001', 'mickey@disney.com', '123 Main St', datetime.date(2022, 5, 16), 'Funeral', 'Capybaras', 1500)
+    # @staticmethod
+    # def find_client():
+    #     # Here you would retrieve the existing client information from the database based on the provided ID
+    #     # For now, returning a hardcoded client
+    #     # return Clients('Michael', 'Santiago', '939-287-3001', 'mickey@disney.com', '123 Main St', datetime.date(2022, 5, 16), 'Funeral', 'Capybaras', 1500)
 
-    @staticmethod
-    def delete_client_form():
-        Clients.display_client_form(Clients.find_client(),True)
+    # @staticmethod
+    # def edit_client_form():
+    #     Clients.display_client_form(Clients.find_client(), False)
+    
+    # @staticmethod
+    # def delete_client_form():
+    #     Clients.display_client_form(Clients.find_client(),True)
 
