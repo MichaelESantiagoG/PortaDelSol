@@ -3,6 +3,11 @@ import pandas as pd
 import random
 from faker import Faker
 
+select_employees =""""""
+select_employee=""""""
+insert_employee=""""""
+edit_employee=""""""
+delete_employee=""""""
 
 class Employees:
     @staticmethod
@@ -40,15 +45,23 @@ class Employees:
                 st.markdown(
                     """
                     <style>
-                    .stButton > button {
-                    float:right;               
-                    }
+                        .st-emotion-cache-1i4zmrw{
+                            float:right;
+                            margin-top: 13px;
+                            }
                     </style>
 
                     """,
                     unsafe_allow_html=True,
-                )          
-                if st.button(label="Más +", type="primary"): pass
+                )
+            with st.popover(label="Más+"):
+            # if more_btn_session_state.get('more_opitions', False):
+                tab1, tab2, tab3 = st.tabs(["Añadir", "Editar", "Borrar"])
+
+                with tab1:Employees.add_employee_form()
+                with tab2:Employees.edit_employee_form()
+                with tab3:Employees.delete_employee_form()
+
         fake = Faker()
 
         data = {
@@ -73,3 +86,6 @@ class Employees:
         st.dataframe(df)
         pass
 
+    def add_employee_form():pass
+    def edit_employee_form():pass
+    def delete_employee_form():pass

@@ -47,7 +47,7 @@ class Connections:
             cursor = conn.cursor()
             cursor.execute(query)
             conn.commit()
-            print("Update or delete operation executed successfully.")
+            # print("Update or delete operation executed successfully.")
         except Exception as e:
             print(f"Error executing update or delete query: {e}")
         finally:

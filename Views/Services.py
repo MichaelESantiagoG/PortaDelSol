@@ -8,15 +8,42 @@ select_services = """
         ,[Servicio_Precio]
     FROM [dbo].[Servicios]
     """
-select_service = """"""
-insert_services = """"""
-delete_service = """"""
+
+select_service = """
+    SELECT [Servicio_ID]
+        ,[Servicio_Nombre]
+        ,[Servicio_Precio]
+    FROM [dbo].[Servicios]
+    WHERE [dbo].[Servicios].[Servicio_ID] = {}
+    """
+
+insert_service = """
+INSERT INTO [dbo].[Servicios]
+           ([Servicio_Nombre]
+           ,[Servicio_Precio])
+     VALUES
+           ('{}',{})"""
+
+update_service = """
+    UPDATE [dbo].[Servicios]
+    SET [Servicio_Nombre] = '{}'
+        ,[Servicio_Precio] = {}
+    WHERE [dbo].[Servicios].[Servicio_ID] = {}
+    """
+
+delete_service = """
+    DELETE FROM [dbo].[Servicios]
+        WHERE [dbo].[Servicios].[Servicio_ID] = {}
+    GO
+    """
 
 class Servicios:
+
     def __init__(self, nombre_de_servcicio, precio_de_servicio ) -> None:
         self.nombre_de_servcicio = nombre_de_servcicio
         self.precio_de_servicio = precio_de_servicio
         pass
+
 
     @staticmethod
     def view():
@@ -42,65 +69,83 @@ class Servicios:
             </div>
             """
         st.markdown(header, unsafe_allow_html=True)
-# {
-        # datos_servicios = {
-        #     'Servicio': ['Cremación', 'Entierro tradicional', 'Funeral religioso', 'Servicio de urna', 'Pre-arreglos funerarios'],
-        #     'Precio': ['$1000', '$2000', '$1500', 'N/A', 'N/A'],
-        #     'Incluye': ['Urna básica', 'Ataúd, sala de velatorio', 'Servicio religioso', 'N/A', 'N/A']
-        # }
+        
+        # Crear el DataFrame con los datos de los servicios
+        datos_servicios = {
+            'Servicio': ['Cremación', 'Entierro tradicional', 'Funeral religioso', 'Servicio de urna', 'Pre-arreglos funerarios'],
+            'Precio': ['$1000', '$2000', '$1500', 'N/A', 'N/A'],
+        }
 
-        # # Replicar los datos 50 veces
-        # datos_repetidos = {k: v * 50 for k, v in datos_servicios.items()}
+        # Replicar los datos 50 veces
+        datos_repetidos = {k: v * 50 for k, v in datos_servicios.items()}
+        df_servicios = pd.DataFrame(datos_repetidos)
 
-        # # Crear el DataFrame con los datos repetidos
-        # df_servicios = pd.DataFrame(datos_repetidos)
-# }
-
-        # Mostrar el DataFrame en Streamlit
-       
         col1, col2 = st.columns([30,50])
-        with col1: st.dataframe(data=conn.Connections.query1(select_services), hide_index=True)
+        with col1: 
+            # st.dataframe(data=conn.Connections.query1(select_services), hide_index=True)
+            st.dataframe(data=df_servicios, hide_index=False)
+
         with col2: 
             with st.container(border=True):
                 tab1, tab2, tab3 = st.tabs(['Añadir', 'Editar', 'Eliminar'])
-                with tab1: Servicios.Servicios_Formulario('Añadir', False)
-                with tab2: Servicios.Servicios_Formulario('Editar', True)
-                with tab3: Servicios.Servicios_Formulario('Eliminar', True)
+                with tab1: Servicios.add_service_form()
+                with tab2: Servicios.edit_service_form()
+                with tab3: Servicios.delete_service_form()
 
     @staticmethod
-    def Servicios_Formulario(mode: str, disable: bool):
-        option_types = ['Velorio','Entierro','Cremación']
-        if mode != "Añadir": 
-            st.text_input(key = mode + 'search', label='Buscar ID')
-        if mode == "Añadir": pass
-        if mode == "Editar": pass
-            # option_types = searched
-        if mode == "Eliminar": pass
-            # option_types = searched
-        with st.form(key=mode, border=False):
-            nombre_de_servcicio = st.selectbox(key= mode + 'nombre_de_servcicio' , label='Tipo de Servicio', options=option_types, disabled=disable)
-            precio_de_servicio = st.number_input(key= mode + 'precio_de_servicio', label='Precio de Servicio', step= 0.01, min_value=0.0, disabled=disable)
+    def Buscar_Servicio(id):
+        try: 
+            servicio = conn.Connections.query1(select_service.format(id))
+            if not servicio.empty:
+                nombre = servicio['Servicio_Nombre'].iloc[0]
+                precio = servicio['Servicio_Precio'].iloc[0]
+                return nombre, precio
+            else:
+                st.warning("Servicio no existe")
+                return None, None
+        except Exception as e:
+            st.error(f"Error al buscar servicio: {e}")
+            return None, None
+
+    def add_service_form():
+        key, disable = 'Añadir', False
+        with st.form(key=key, border=False, clear_on_submit=True):
+            nombre_de_servcicio = st.text_input(key= key + 'nombre_de_servcicio' , label='Tipo de Servicio', disabled=disable)
+            precio_de_servicio = st.number_input(key= key + 'precio_de_servicio', label='Precio de Servicio', step= 0.01, min_value=0.0, disabled=disable)
             servicio = Servicios(nombre_de_servcicio=nombre_de_servcicio, precio_de_servicio=precio_de_servicio)
-            if st.form_submit_button(label=mode): 
-                if mode == "Añadir": 
-                    try: 
-                        Servicios.Añadir_Servicio(servicio)
-                        st.success('Exitoso')
-                    except: st.error('Fracaso')
-                if mode == "Editar": 
-                    try: 
-                        Servicios.Editar_Servicio(servicio)
-                        st.warning('Actualizado')
-                    except: st.error('Fracaso al actualizar')
-                if mode == "Eliminar": 
-                    try: 
-                        Servicios.Eliminar_Servicio(servicio)
-                        st.warning('Eliminado')
-                    except: st.error('Fracaso al actualizar')
+            if st.form_submit_button(label=key): 
+                try:
+                    if servicio.nombre_de_servcicio == '' or servicio.precio_de_servicio == 0: return st.warning("Favor y llenar todos los elementos")
+                    conn.Connections.query2(insert_service.format(servicio.nombre_de_servcicio, servicio.precio_de_servicio))
+                    st.success('Servicio Añadido {}: {}'.format(servicio.nombre_de_servcicio, servicio.precio_de_servicio))
+                except: st.warning('Servicio No Añadido')
+                
+    def edit_service_form():
+        key, disable = 'Editar', False
+        id = st.number_input(key = key + 'search', label='Buscar ID', min_value=0, step=1)
+        servicio = Servicios.Buscar_Servicio(id)
+        nombre, precio = servicio[0], servicio[1]
+        with st.form(key=key, border=False, clear_on_submit=True):
+            nombre_de_servcicio = st.text_input(value=nombre, key=key + 'nombre_de_servcicio' , label='Tipo de Servicio', disabled=disable)
+            precio_de_servicio = st.number_input(value=precio, key=key + 'precio_de_servicio', label='Precio de Servicio', step= 0.01, min_value=0.0, disabled=disable)
+            servicio = Servicios(nombre_de_servcicio=nombre_de_servcicio, precio_de_servicio=precio_de_servicio)
+            if st.form_submit_button(label=key): 
+                try:
+                    conn.Connections.query2(update_service.format(servicio.nombre_de_servcicio, servicio.precio_de_servicio, id))
+                    st.warning('Servicio Actualizado')
+                except: st.error('Error al Actualizar')
 
-    def Buscar_Servicio(Servicio): pass
-    def Añadir_Servicio(Servicio): pass
-    def Editar_Servicio(Servicio): pass
-    def Eliminar_Servicio(Servicio): pass
-
-
+    def delete_service_form():
+        key, disable = 'Eliminar', True
+        id = st.number_input(key = key + 'search', label='Buscar ID',min_value=0, step=1)
+        servicio = Servicios.Buscar_Servicio(id)
+        nombre, precio = servicio[0], servicio[1]
+        with st.form(key=key, border=False, clear_on_submit=True):
+            nombre_de_servcicio = st.text_input(value=nombre, key=key + 'nombre_de_servcicio', label='Tipo de Servicio', disabled=disable)
+            precio_de_servicio = st.number_input(value=precio, key=key + 'precio_de_servicio', label='Precio de Servicio', step= 0.01, min_value=0.0, disabled=disable)
+            servicio = Servicios(nombre_de_servcicio=nombre_de_servcicio, precio_de_servicio=precio_de_servicio)
+            if st.form_submit_button(label=key): 
+                try:
+                    conn.Connections.query2(delete_service.format(id))
+                    st.warning('Servicio Eliminado {}: {}'.format(servicio.nombre_de_servcicio, servicio.precio_de_servicio))
+                except: st.error('Servicio No Eliminado')
