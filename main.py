@@ -8,6 +8,7 @@ from Views.Employees import Employees
 from Views.Log_in import Login
 from Views.Profile import Profile
 from Views.Services import Servicios
+from Views.Contracts import Contracts
 
 initial_layout = "centered"
 initial_sidebar_state = "collapsed"
@@ -79,8 +80,8 @@ def main():
         navigation = st_option_menu.option_menu(
             menu_title="Menu",
             default_index=0,
-            options=["Panel", "Servicios","Clientes", "Empleados", "Ajustes"],
-            icons=["house", "card-list","people", "person-vcard", "gear"],
+            options=["Panel", "Empleados","Servicios", "Clientes", "Contratos","Ajustes"],
+            icons=["house", "person-vcard", "card-list","people", "card-list","gear"],
             menu_icon="menu-up",)
         lottie = load_lottiefile("Media/rip.json")
         st_lottie(lottie,key='loc')
@@ -98,6 +99,8 @@ def main():
         router('/empleados').view()
     elif navigation == "Ajustes":
         router('/ajustes').view()
+    elif navigation == "Contratos":
+        router('/contratos').view()
         
 
 def router(app_path: str):
@@ -118,6 +121,10 @@ def router(app_path: str):
     elif app_path == "/empleados":
         component_to_return = Employees
         st.query_params.path = "/employees"
+
+    elif app_path == "/contratos":
+        component_to_return = Contracts
+        st.query_params.path = "/contratos"
 
     elif app_path == "/ajustes":
         component_to_return = Profile

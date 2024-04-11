@@ -18,6 +18,7 @@ SELECT [Cliente_ID]
       ,[Licencia]
       ,[Seguro_Social]
       ,[Numero_De_Servicio_Militar]
+      ,[Descripcion]
   FROM [dbo].[Clientes]"""
 select_client = """
 SELECT [Cliente_ID]
@@ -33,6 +34,7 @@ SELECT [Cliente_ID]
       ,[Licencia]
       ,[Seguro_Social]
       ,[Numero_De_Servicio_Militar]
+      ,[Descripcion]
   FROM [dbo].[Clientes]
   WHERE [Cliente_ID] = {}"""
 insert_client = """
@@ -48,9 +50,10 @@ INSERT INTO [dbo].[Clientes]
            ,[Direccion]
            ,[Licencia]
            ,[Seguro_Social]
-           ,[Numero_De_Servicio_Militar])
+           ,[Numero_De_Servicio_Militar]
+           ,[Descripcion])
      VALUES
-           ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')
+           ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')
 
 """
 edit_client = """
@@ -67,6 +70,7 @@ UPDATE [dbo].[Clientes]
       ,[Licencia] = '{}'
       ,[Seguro_Social] = '{}'
       ,[Numero_De_Servicio_Militar] = '{}'
+      ,[Descripcion] = '{}'
   where[dbo].Clientes.Cliente_ID = {} """
 delete_client = """
 DELETE FROM [dbo].[Clientes]
@@ -136,6 +140,8 @@ class Clients:
                 fecha_de_nacimiento = st.date_input(key= key + 'birth_date', label="Fecha de Nacimiento", min_value=None, max_value=None, disabled=disabled)
                 lugar_de_nacimiento = st.text_input(key= key + 'birth_place', label="Lugar de Nacimiento", disabled=disabled)
                 genero = st.selectbox(key= key + 'gender', label="Género", options=['Masculino', 'Femenino'], disabled=disabled)
+                descripcion = st.text_input(key=key + 'descripcion', label="Descripcion", disabled=disabled)
+
             with col2:
                 celular = st.text_input(key= key + 'phone_number', label="Celular", disabled=disabled)
                 celular2 = st.text_input(key= key + 'phone_number2', label="Celular 2", disabled=disabled)
@@ -146,7 +152,7 @@ class Clients:
 
             if st.form_submit_button(label="Añadir", type="secondary", use_container_width=True):
                 try:
-                    query = insert_client.format(nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento, lugar_de_nacimiento, genero, celular, celular2, direccion, numero_de_licencia, seguro_social, numero_servicio_militar)
+                    query = insert_client.format(nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento, lugar_de_nacimiento, genero, celular, celular2, direccion, numero_de_licencia, seguro_social, numero_servicio_militar, descripcion)
                     conn.Connections.query2(query=query)
                     st.success("Cliente añadido")
 
@@ -168,6 +174,8 @@ class Clients:
                         birth_date = st.date_input(key=key + 'birth_date', label="Fecha de Nacimiento", value=client_info['Fecha_De_Nacimiento'], min_value=None, max_value=None, disabled=disabled)
                         birth_place = st.text_input(key=key + 'birth_place', label="Lugar de Nacimiento", value=client_info['Lugar_De_Nacimiento'], disabled=disabled)
                         gender = st.selectbox(key=key + 'gender', label="Género", options=['Masculino', 'Femenino'], index=0 if client_info['Genero'] == 'Masculino' else 1, disabled=disabled)
+                        descripcion = st.text_input(key=key + 'descripcion', label="Descripcion", value=client_info['Descripcion'], disabled=disabled)
+
                     with col2:
                         phone_number = st.text_input(key=key + 'phone_number', label="Celular", value=client_info['Celular'], disabled=disabled)
                         phone_number2 = st.text_input(key=key + 'phone_number2', label="Celular 2", value=client_info['Celular_2'], disabled=disabled)
@@ -178,7 +186,7 @@ class Clients:
 
                     if st.form_submit_button(label="Actualizar", disabled=disabled, use_container_width=True):
                         try:
-                            query = edit_client.format(first_name, last_name, maternal_name, birth_date, birth_place, gender, phone_number, phone_number2, address, license_number, social_security, military_service_number, search_id)
+                            query = edit_client.format(first_name, last_name, maternal_name, birth_date, birth_place, gender, phone_number, phone_number2, address, license_number, social_security, military_service_number, descripcion, search_id)
                             conn.Connections.query2(query=query)
                             st.success("Cliente actualizado")
                         except:
@@ -200,6 +208,8 @@ class Clients:
                         birth_date = st.date_input(key=key + 'birth_date', label="Fecha de Nacimiento", value=client_info['Fecha_De_Nacimiento'], min_value=None, max_value=None, disabled=disabled)
                         birth_place = st.text_input(key=key + 'birth_place', label="Lugar de Nacimiento", value=client_info['Lugar_De_Nacimiento'], disabled=disabled)
                         gender = st.selectbox(key=key + 'gender', label="Género", options=['Masculino', 'Femenino'], index=0 if client_info['Genero'] == 'Masculino' else 1, disabled=disabled)
+                        descripcion = st.text_input(key=key + 'descripcion', label="Descripcion", value=client_info['Descripcion'], disabled=disabled)
+
                     with col2:
                         phone_number = st.text_input(key=key + 'phone_number', label="Celular", value=client_info['Celular'], disabled=disabled)
                         phone_number2 = st.text_input(key=key + 'phone_number2', label="Celular 2", value=client_info['Celular_2'], disabled=disabled)
@@ -235,6 +245,8 @@ class Clients:
                 'Licencia': client.iloc[0, 10],
                 'Seguro_Social': client.iloc[0, 11],
                 'Numero_De_Servicio_Militar': client.iloc[0, 12],
+                'Descripcion': client.iloc[0, 13],
+
             }
             return client_info
         except: return False
