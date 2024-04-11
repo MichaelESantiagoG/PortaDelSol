@@ -82,8 +82,8 @@ class Servicios:
 
         col1, col2 = st.columns([30,50])
         with col1: 
-            # st.dataframe(data=conn.Connections.query1(select_services), hide_index=True)
-            st.dataframe(data=df_servicios, hide_index=False)
+            st.dataframe(data=conn.Connections.query1(select_services), hide_index=True)
+            #st.dataframe(data=df_servicios, hide_index=False)
 
         with col2: 
             with st.container(border=True):
