@@ -37,5 +37,37 @@ class Contracts:
             """,
             unsafe_allow_html=True,
         )
+        data = {
+            "Num. Contrato": [8672, 9647, 8934, 5514, 1257],
+            "Documentos EG": ["Procesados", "Procesando", "No Proesados", "Procesados", "Procesados"],
+            "Cliente": ["Eduardo G. Martinez", "Gabriel Ramirez", "Antonia Lopez", "José Rodriguez", "Carlos Sanrtana"],
+            "Descripcion": ["Su Pre-Arreglo Funebre", "Arreglo Funebre Familiar Fallecido", "Su Pre-Arreglo Funebre", "Arreglo Funebre Familiar Fallecido", "Arreglo Funebre Familiar Fallecido"],
+            "Servicios Solicitados": ["Cremación", "Velatorio Funebre", "Cremación", "Cremación", "Velatorio Funebre"],
+            "Empleados Asignados": [2, 8, 2, 2, 5]
+        }
+
+        col1, col2 = st.columns(2)
+        with col1: st.text_input('Search')
+        with col2:
+            with st.container():
+                st.markdown(
+                    """
+                    <style>
+                        .st-emotion-cache-1i4zmrw{
+                            float:right;
+                            margin-top: 13px;
+                            }
+                    </style>
+
+                    """,
+                    unsafe_allow_html=True,
+                )
+                with st.popover(label="Más+", use_container_width=False):
+                    tab1, tab2, tab3 = st.tabs(["Añadir", "Editar", "Borrar"])
+
+                    with tab1:pass
+                    with tab2:pass
+                    with tab3:pass
         st.write('***')
-        st.dataframe(conn.Connections.query1(select_contracts))
+        #st.dataframe(conn.Connections.query1(select_contracts))
+        st.dataframe(data)
