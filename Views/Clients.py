@@ -4,78 +4,6 @@ import datetime
 from datetime import datetime
 from modules import conn
 
-# select_clients = """
-# SELECT [Cliente_ID]
-#       ,[Nombre]
-#       ,[Apellido_Paterno]
-#       ,[Apellido_Materno]
-#       ,[Fecha_De_Nacimiento]
-#       ,[Lugar_De_Nacimiento]
-#       ,[Genero]
-#       ,[Celular]
-#       ,[Celular_2]
-#       ,[Direccion]
-#       ,[Licencia]
-#       ,[Seguro_Social]
-#       ,[Numero_De_Servicio_Militar]
-#       ,[Descripcion]
-#   FROM [dbo].[Clientes]"""
-# select_client = """
-# SELECT [Cliente_ID]
-#       ,[Nombre]
-#       ,[Apellido_Paterno]
-#       ,[Apellido_Materno]
-#       ,[Fecha_De_Nacimiento]
-#       ,[Lugar_De_Nacimiento]
-#       ,[Genero]
-#       ,[Celular]
-#       ,[Celular_2]
-#       ,[Direccion]
-#       ,[Licencia]
-#       ,[Seguro_Social]
-#       ,[Numero_De_Servicio_Militar]
-#       ,[Descripcion]
-#   FROM [dbo].[Clientes]
-#   WHERE [Cliente_ID] = {}"""
-# insert_client = """
-# INSERT INTO [dbo].[Clientes]
-#            ([Nombre]
-#            ,[Apellido_Paterno]
-#            ,[Apellido_Materno]
-#            ,[Fecha_De_Nacimiento]
-#            ,[Lugar_De_Nacimiento]
-#            ,[Genero]
-#            ,[Celular]
-#            ,[Celular_2]
-#            ,[Direccion]
-#            ,[Licencia]
-#            ,[Seguro_Social]
-#            ,[Numero_De_Servicio_Militar]
-#            ,[Descripcion])
-#      VALUES
-#            ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')
-
-# """
-# edit_client = """
-# UPDATE [dbo].[Clientes]
-#    SET [Nombre] = '{}'
-#       ,[Apellido_Paterno] = '{}'
-#       ,[Apellido_Materno] = '{}'
-#       ,[Fecha_De_Nacimiento] = '{}'
-#       ,[Lugar_De_Nacimiento] = '{}'
-#       ,[Genero] = '{}'
-#       ,[Celular] = '{}'
-#       ,[Celular_2] = '{}'
-#       ,[Direccion] = '{}'
-#       ,[Licencia] = '{}'
-#       ,[Seguro_Social] = '{}'
-#       ,[Numero_De_Servicio_Militar] = '{}'
-#       ,[Descripcion] = '{}'
-#   where[dbo].Clientes.Cliente_ID = {} """
-# delete_client = """
-# DELETE FROM [dbo].[Clientes]
-#   WHERE [Cliente_ID] = {}"""
-
 select_clients = """SELECT * FROM Clientes;"""
 select_client = """ SELECT * FROM Clientes WHERE Cliente_ID = {};"""
 insert_client = """ INSERT INTO Clientes (Nombre, Apellido_Paterno, Apellido_Materno, Fecha_De_Nacimiento, Lugar_De_Nacimiento, Genero, Celular, Celular_2, Direccion, Licencia, Seguro_Social, Numero_De_Servicio_Militar, Descripcion) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')"""
@@ -349,7 +277,9 @@ class Clients:
                     )
 
                 if st.form_submit_button(
-                    label="Actualizar", disabled=disabled, use_container_width=True
+                    label="Actualizar",
+                    disabled=disabled,
+                    use_container_width=True,
                 ):
                     try:
                         query = update_client.format(
