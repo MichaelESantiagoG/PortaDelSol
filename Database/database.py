@@ -96,6 +96,7 @@ CREATE TABLE Empleados (
     EstadoDeEmpleo TEXT NOT NULL DEFAULT 'Activo'
 );"""
 )
+
 cursor.execute(
     """
 INSERT INTO Empleados (Nombre, Apellido_Paterno, Apellido_Materno, Celular, Celular_2, Direccion, Ocupacion, Seguro_Social, Correo_Electronico, Fecha_De_Nacimiento, Licencia, Estado_Civil, EstadoDeEmpleo) VALUES

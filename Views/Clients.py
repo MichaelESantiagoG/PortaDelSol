@@ -99,6 +99,7 @@ delete_client = """ DELETE FROM Clientes WHERE Cliente_ID = {};"""
 
 
 class Clients:
+
     @staticmethod
     def view():
         header = st.empty()
@@ -248,13 +249,13 @@ class Clients:
                     st.warning("Cliente NO se pudo añadir")
 
     def edit_client_form():
-        key, disabled = "edit_client", False
+        key, disabled = "update_client", False
         search_id = st.number_input(
             key=key + "search_id", label="ID de Cliente", min_value=0, step=1
         )
         client_info = Clients.select_client(search_id)
         if client_info:
-            with st.form(key=key + "form", clear_on_submit=True, border=False):
+            with st.form(key=key + "form", clear_on_submit=False, border=False):
                 col1, col2 = st.columns(2)
                 with col1:
                     nombre = st.text_input(
