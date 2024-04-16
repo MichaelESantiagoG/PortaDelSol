@@ -136,7 +136,6 @@ class Employees:
         # st.dataframe(conn.Connections.query1(select_employees))
         st.dataframe(conn.query1(select_employees), hide_index=True)
 
-    @staticmethod
     def add_employee_form():
         key, disabled = "add_employee", False
         with st.form(key=key, clear_on_submit=False, border=False):
