@@ -9,46 +9,33 @@
 # """
 # --------------------------------------------------------------------------------------------------
 
-import urllib
+import sqlite3 as sql
 import pandas as pd
-import pymssql
-import streamlit as st
 
 
-class Connections:
-    @staticmethod
-    def live_connect():
-        SERVER = st.secrets.server
-        DATABASE = st.secrets.database
-        USERNAME = st.secrets.username
-        PASSWORD = st.secrets.password
-        params = {
-            "server": SERVER,
-            "database": DATABASE,
-            "user": USERNAME,
-            "password": PASSWORD,
-            "autocommit": True,  # You can adjust this parameter as needed
-        }
-        try:
-            conn = pymssql.connect(**params)
-            return conn
-        except Exception as e:
-            print(f"Error connecting to database: {e}")
-            return None
+def query1(query):
+    conn = sql.connect("Database/portadelsol.db")
 
-    def query1(query):
-        conn = Connections.live_connect()
-        data = pd.read_sql_query(query, conn)
-        return data
+    # Execute the SQL query
+    cursor = conn.execute(query)
 
-    def query2(query):
-        conn = Connections.live_connect()
-        try:
-            cursor = conn.cursor()
-            cursor.execute(query)
-            conn.commit()
-            # print("Update or delete operation executed successfully.")
-        except Exception as e:
-            print(f"Error executing update or delete query: {e}")
-        finally:
-            conn.close()
+    # Fetch the column names from the cursor description
+    columns = [description[0] for description in cursor.description]
+
+    # Fetch all rows from the cursor
+    data = cursor.fetchall()
+
+    # Convert the fetched data and column names to a DataFrame
+    data_df = pd.DataFrame(data, columns=columns)
+
+    # Return the DataFrame
+    return data_df
+
+
+def query2(query):
+    conn = sql.connect("Database/portadelsol.db")
+
+    # Execute the SQL query
+    cursor = conn.execute(query)
+
+    conn.commit()
