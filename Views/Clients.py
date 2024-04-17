@@ -2,11 +2,27 @@ import streamlit as st
 import pandas as pd
 import datetime
 from datetime import datetime
-from modules import conn
 
-select_clients = """SELECT * FROM Clientes;"""
-select_client = """ SELECT * FROM Clientes WHERE Cliente_ID = {};"""
-insert_client = """ INSERT INTO Clientes (Nombre, Apellido_Paterno, Apellido_Materno, Fecha_De_Nacimiento, Lugar_De_Nacimiento, Genero, Celular, Celular_2, Direccion, Licencia, Seguro_Social, Numero_De_Servicio_Militar, Descripcion) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')"""
+# from modules import conn
+from modules import flex_mysql as conn
+
+select_clients = """SELECT * FROM clientes;"""
+select_client = """ SELECT * FROM clientes WHERE Cliente_ID = {};"""
+insert_client = """ INSERT INTO Clientes (
+    Nombre, 
+    Apellido_Paterno, 
+    Apellido_Materno, 
+    Fecha_De_Nacimiento, 
+    Lugar_De_Nacimiento, 
+    Genero, 
+    Celular, 
+    Celular_2, 
+    Direccion, 
+    Licencia, 
+    Seguro_Social, 
+    Numero_De_Servicio_Militar, 
+    Descripcion) 
+    VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')"""
 update_client = """ UPDATE Clientes 
                     SET Nombre = '{}', 
                         Apellido_Paterno = '{}', 
@@ -205,15 +221,15 @@ class Clients:
                         disabled=disabled,
                     )
                     # Convert the date string to a datetime object
-                    date_obj = datetime.strptime(
-                        client_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
-                    ).date()
+                    # date_obj = datetime.strptime(
+                    #     client_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
+                    # ).date()
 
                     # Use the datetime object as the value for the date input
                     fecha_de_nacimiento = st.date_input(
                         key=key + "fecha_de_nacimiento",
                         label="Fecha de Nacimiento",
-                        value=date_obj,
+                        value=client_info["Fecha_De_Nacimiento"],
                         min_value=None,
                         max_value=None,
                         disabled=disabled,
@@ -333,13 +349,13 @@ class Clients:
                         value=client_info["Apellido_Materno"],
                         disabled=disabled,
                     )
-                    date_obj = datetime.strptime(
-                        client_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
-                    ).date()
+                    # date_obj = datetime.strptime(
+                    #     client_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
+                    # ).date()
                     fecha_de_nacimiento = st.date_input(
                         key=key + "fecha_de_nacimiento",
                         label="Fecha de Nacimiento",
-                        value=date_obj,
+                        value=client_info["Fecha_De_Nacimiento"],
                         min_value=None,
                         max_value=None,
                         disabled=disabled,
