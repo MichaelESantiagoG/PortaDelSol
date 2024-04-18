@@ -6,38 +6,95 @@ from datetime import datetime
 # from modules import conn
 from modules import flex_mysql as conn
 
-select_clients = """SELECT * FROM clientes;"""
-select_client = """ SELECT * FROM clientes WHERE Cliente_ID = {};"""
-insert_client = """ INSERT INTO Clientes (
-    Nombre, 
-    Apellido_Paterno, 
-    Apellido_Materno, 
-    Fecha_De_Nacimiento, 
-    Lugar_De_Nacimiento, 
-    Genero, 
-    Celular, 
-    Celular_2, 
-    Direccion, 
-    Licencia, 
-    Seguro_Social, 
-    Numero_De_Servicio_Militar, 
-    Descripcion) 
-    VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')"""
+select_clients = """
+SELECT 
+    `Cliente_ID`, 
+    `Nombre`, 
+    `Apellido_Paterno`, 
+    `Apellido_Materno`, 
+    `Correo_Electronico`, 
+    `Celular`, 
+    `Celular_2`, 
+    `Direccion`, 
+    `Genero`,
+    `Fecha_De_Nacimiento`, 
+    `Lugar_De_Nacimiento`, 
+    `Licencia`, 
+    `Seguro_Social`, 
+    `Numero_De_Servicio_Militar`, 
+    `Descripcion` 
+FROM clientes;"""
+select_client = """
+SELECT 
+    `Cliente_ID`, 
+    `Nombre`, 
+    `Apellido_Paterno`, 
+    `Apellido_Materno`, 
+    `Correo_Electronico`, 
+    `Celular`, 
+    `Celular_2`, 
+    `Direccion`, 
+    `Genero`,
+    `Fecha_De_Nacimiento`, 
+    `Lugar_De_Nacimiento`, 
+    `Licencia`, 
+    `Seguro_Social`, 
+    `Numero_De_Servicio_Militar`, 
+    `Descripcion` 
+FROM clientes WHERE Cliente_ID = {};"""
+insert_client = """
+INSERT INTO clientes 
+(
+    `Nombre`, 
+    `Apellido_Paterno`, 
+    `Apellido_Materno`, 
+    `Correo_Electronico`, 
+    `Celular`, 
+    `Celular_2`, 
+    `Direccion`, 
+    `Genero`,
+    `Fecha_De_Nacimiento`, 
+    `Lugar_De_Nacimiento`, 
+    `Licencia`, 
+    `Seguro_Social`, 
+    `Numero_De_Servicio_Militar`, 
+    `Descripcion` 
+) 
+
+
+VALUES 
+(
+    '{}', 
+    '{}', 
+    '{}', 
+    '{}', 
+    '{}', 
+    '{}', 
+    '{}', 
+    '{}', 
+    '{}',
+    '{}', 
+    '{}', 
+    '{}', 
+    '{}', 
+    '{}'
+);"""
 update_client = """ UPDATE Clientes 
-                    SET Nombre = '{}', 
-                        Apellido_Paterno = '{}', 
-                        Apellido_Materno = '{}', 
-                        Fecha_De_Nacimiento = '{}', 
-                        Lugar_De_Nacimiento = '{}', 
-                        Genero = '{}', 
-                        Celular = '{}', 
-                        Celular_2 = '{}', 
-                        Direccion = '{}', 
-                        Licencia = '{}',
-                        Seguro_Social = '{}',
-                        Numero_De_Servicio_Militar = '{}',
-                        Descripcion = '{}'
-                    WHERE Cliente_ID = {};
+SET `Nombre` = '{}', 
+    `Apellido_Paterno` = '{}', 
+    `Apellido_Materno` = '{}', 
+    `Correo_Electronico` = '{}', 
+    `Celular` = '{}', 
+    `Celular_2` = '{}', 
+    `Direccion` = '{}', 
+    `Genero` = '{}',
+    `Fecha_De_Nacimiento` = '{}', 
+    `Lugar_De_Nacimiento` = '{}', 
+    `Licencia` = '{}',
+    `Seguro_Social` = '{}', 
+    `Numero_De_Servicio_Militar` = '{}', 
+    `Descripcion`  = '{}'
+WHERE Cliente_ID = {};
                 """
 delete_client = """ DELETE FROM Clientes WHERE Cliente_ID = {};"""
 
@@ -144,16 +201,29 @@ class Clients:
 
             with col2:
                 celular = st.text_input(
-                    key=key + "celular", label="Celular", disabled=disabled
+                    key=key + "celular",
+                    label="Celular",
+                    disabled=disabled,
                 )
                 celular2 = st.text_input(
-                    key=key + "celular2", label="Celular 2", disabled=disabled
+                    key=key + "celular2",
+                    label="Celular 2",
+                    disabled=disabled,
+                )
+                correo_electronico = st.text_input(
+                    key=key + "correo_electronico",
+                    label="Correo Electronico",
+                    disabled=disabled,
                 )
                 direccion = st.text_area(
-                    key=key + "direccion", label="Dirección", disabled=disabled
+                    key=key + "direccion",
+                    label="Dirección",
+                    disabled=disabled,
                 )
-                numero_de_licencia = st.text_input(
-                    key=key + "numero_de_licencia", label="Licencia", disabled=disabled
+                licencia = st.text_input(
+                    key=key + "numero_de_licencia",
+                    label="Licencia",
+                    disabled=disabled,
                 )
                 seguro_social = st.text_input(
                     key=key + "seguro_social",
@@ -175,13 +245,14 @@ class Clients:
                             nombre,
                             apellido_paterno,
                             apellido_materno,
-                            fecha_de_nacimiento,
-                            lugar_de_nacimiento,
-                            genero,
+                            correo_electronico,
                             celular,
                             celular2,
                             direccion,
-                            numero_de_licencia,
+                            genero,
+                            fecha_de_nacimiento,
+                            lugar_de_nacimiento,
+                            licencia,
                             seguro_social,
                             numero_servicio_militar,
                             descripcion,
@@ -220,20 +291,15 @@ class Clients:
                         value=client_info["Apellido_Materno"],
                         disabled=disabled,
                     )
-                    # Convert the date string to a datetime object
-                    # date_obj = datetime.strptime(
-                    #     client_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
-                    # ).date()
-
-                    # Use the datetime object as the value for the date input
                     fecha_de_nacimiento = st.date_input(
                         key=key + "fecha_de_nacimiento",
                         label="Fecha de Nacimiento",
-                        value=client_info["Fecha_De_Nacimiento"],
                         min_value=None,
                         max_value=None,
+                        value=client_info["Fecha_De_Nacimiento"],
                         disabled=disabled,
-                    )
+                    ).strftime("%Y-%m-%d")
+
                     lugar_de_nacimiento = st.text_input(
                         key=key + "lugar_de_nacimiento",
                         label="Lugar de Nacimiento",
@@ -267,13 +333,19 @@ class Clients:
                         value=client_info["Celular_2"],
                         disabled=disabled,
                     )
+                    correo_electronico = st.text_input(
+                        key=key + "correo_electronico",
+                        label="Correo Electronico",
+                        value=client_info["Correo_Electronico"],
+                        disabled=disabled,
+                    )
                     direccion = st.text_area(
                         key=key + "direccion",
                         label="Dirección",
                         value=client_info["Direccion"],
                         disabled=disabled,
                     )
-                    numero_de_licencia = st.text_input(
+                    licencia = st.text_input(
                         key=key + "numero_de_licencia",
                         label="Licencia",
                         value=client_info["Licencia"],
@@ -302,13 +374,14 @@ class Clients:
                             nombre,
                             apellido_paterno,
                             apellido_materno,
-                            fecha_de_nacimiento,
-                            lugar_de_nacimiento,
-                            genero,
+                            correo_electronico,
                             celular,
                             celular2,
                             direccion,
-                            numero_de_licencia,
+                            genero,
+                            fecha_de_nacimiento,
+                            lugar_de_nacimiento,
+                            licencia,
                             seguro_social,
                             numero_servicio_militar,
                             descripcion,
@@ -349,9 +422,6 @@ class Clients:
                         value=client_info["Apellido_Materno"],
                         disabled=disabled,
                     )
-                    # date_obj = datetime.strptime(
-                    #     client_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
-                    # ).date()
                     fecha_de_nacimiento = st.date_input(
                         key=key + "fecha_de_nacimiento",
                         label="Fecha de Nacimiento",
@@ -391,6 +461,12 @@ class Clients:
                         key=key + "celular2",
                         label="Celular 2",
                         value=client_info["Celular_2"],
+                        disabled=disabled,
+                    )
+                    correo_electronico = st.text_input(
+                        key=key + "correo_electronico",
+                        label="Correo Electronico",
+                        value=client_info["Correo_Electronico"],
                         disabled=disabled,
                     )
                     direccion = st.text_area(
@@ -438,34 +514,18 @@ class Clients:
                 "Nombre": client.iloc[0, 1],
                 "Apellido_Paterno": client.iloc[0, 2],
                 "Apellido_Materno": client.iloc[0, 3],
-                "Fecha_De_Nacimiento": client.iloc[0, 4],
-                "Lugar_De_Nacimiento": client.iloc[0, 5],
-                "Genero": client.iloc[0, 6],
-                "Celular": client.iloc[0, 7],
-                "Celular_2": client.iloc[0, 8],
-                "Direccion": client.iloc[0, 9],
-                "Licencia": client.iloc[0, 10],
-                "Seguro_Social": client.iloc[0, 11],
-                "Numero_De_Servicio_Militar": client.iloc[0, 12],
-                "Descripcion": client.iloc[0, 13],
+                "Correo_Electronico": client.iloc[0, 4],
+                "Celular": client.iloc[0, 5],
+                "Celular_2": client.iloc[0, 6],
+                "Direccion": client.iloc[0, 7],
+                "Genero": client.iloc[0, 8],
+                "Fecha_De_Nacimiento": client.iloc[0, 9],
+                "Lugar_De_Nacimiento": client.iloc[0, 10],
+                "Licencia": client.iloc[0, 11],
+                "Seguro_Social": client.iloc[0, 12],
+                "Numero_De_Servicio_Militar": client.iloc[0, 13],
+                "Descripcion": client.iloc[0, 14],
             }
             return client_info
         except:
             return False
-
-    def select_mock_data():
-        client_info = {
-            "Nombre": "Juan",
-            "Apellido_Paterno": "Gonzalez",
-            "Apellido_Materno": "Perez",
-            "Fecha_De_Nacimiento": datetime(1990, 5, 15),
-            "Lugar_De_Nacimiento": "Ciudad de Mexico",
-            "Genero": "Masculino",
-            "Celular": "5551234567",
-            "Celular_2": "5551112233",
-            "Direccion": "Calle 123",
-            "Licencia": "L123456",
-            "Seguro_Social": "1234567890",
-            "Numero_De_Servicio_Militar": "S12345",
-        }
-        return client_info
