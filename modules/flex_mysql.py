@@ -17,7 +17,7 @@ def query1(query):
     cxn, cursor = connect()
     cursor.execute(query)
     columns = [description[0] for description in cursor.description]
-    print(columns)
+
     data = cursor.fetchall()
     df = pd.DataFrame(data=data, columns=columns)
     return df
@@ -27,3 +27,6 @@ def query2(query):
     cxn, cursor = connect()
     cursor.execute(query)
     cxn.commit()
+
+
+# query1("""SELECT * FROM vinculo_certificaciones;""")

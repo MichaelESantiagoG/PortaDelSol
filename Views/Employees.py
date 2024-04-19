@@ -1,82 +1,76 @@
 import streamlit as st
 import pandas as pd
-from modules import conn
+from modules import flex_mysql as conn
 from datetime import datetime
 
-# select_employees = """
-#     SELECT [Empleado_ID]
-#         ,[Nombre]
-#         ,[Apellido_Paterno]
-#         ,[Apellido_Materno]
-#         ,[Celular]
-#         ,[Celular_2]
-#         ,[Direccion]
-#         ,[Ocupacion]
-#         ,[Seguro_Social]
-#         ,[Correo_Electronico]
-#         ,[Fecha_De_Nacimiento]
-#         ,[Licencia]
-#         ,[Estado_Civil]
-#         ,[EstadoDeEmpleo]
-#     FROM [Empleados]
-#     """
-# select_employee = """
-# SELECT [Empleado_ID]
-#         ,[Nombre]
-#         ,[Apellido_Paterno]
-#         ,[Apellido_Materno]
-#         ,[Celular]
-#         ,[Celular_2]
-#         ,[Direccion]
-#         ,[Ocupacion]
-#         ,[Seguro_Social]
-#         ,[Correo_Electronico]
-#         ,[Fecha_De_Nacimiento]
-#         ,[Licencia]
-#         ,[Estado_Civil]
-#         ,[EstadoDeEmpleo]
-#     FROM [dbo].[Empleados]
-#     WHERE [dbo].[Empleados].[Empleado_ID] = {}"""
-# insert_employee = """
-# INSERT INTO [dbo].[Empleados]
-#            ([Nombre]
-#            ,[Apellido_Paterno]
-#            ,[Apellido_Materno]
-#            ,[Celular]
-#            ,[Celular_2]
-#            ,[Direccion]
-#            ,[Ocupacion]
-#            ,[Seguro_Social]
-#            ,[Correo_Electronico]
-#            ,[Fecha_De_Nacimiento]
-#            ,[Licencia]
-#            ,[Estado_Civil]
-#            ,[EstadoDeEmpleo])
-#      VALUES
-#            ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')"""
-# edit_employee = """"""
-# delete_employee = """"""
-
-select_employees = """SELECT * FROM Empleados;"""
-select_employee = """SELECT * FROM Empleados WHERE Empleado_ID = {};"""
+select_employees = """
+    SELECT
+    `Empleado_ID`,
+    `Nombre`,
+    `Apellido_Paterno`,
+    `Apellido_Materno`,
+    `Celular`,
+    `Celular_2`,
+    `Direccion`,
+    `Seguro_Social`,
+    `Correo_Electronico`,
+    `Fecha_De_Nacimiento`,
+    `Licencia`,
+    `Estado_Civil`,
+    `EstadoDeEmpleo`,
+    `Numero_De_Servicio_Militar`
+    FROM
+    empleados;"""
+select_employee = """
+    SELECT
+    `Empleado_ID`,
+    `Nombre`,
+    `Apellido_Paterno`,
+    `Apellido_Materno`,
+    `Celular`,
+    `Celular_2`,
+    `Direccion`,
+    `Seguro_Social`,
+    `Correo_Electronico`,
+    `Fecha_De_Nacimiento`,
+    `Licencia`,
+    `Estado_Civil`,
+    `EstadoDeEmpleo`,
+    `Numero_De_Servicio_Militar`
+    FROM empleados
+    WHERE Empleado_ID = {};"""
 insert_employee = """
-INSERT INTO Empleados (Nombre, Apellido_Paterno, Apellido_Materno, Celular, Celular_2, Direccion, Ocupacion, Seguro_Social, Correo_Electronico, Fecha_De_Nacimiento, Licencia, Estado_Civil, EstadoDeEmpleo)
-VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}');"""
+INSERT INTO Empleados (
+    `Nombre`,
+    `Apellido_Paterno`,
+    `Apellido_Materno`,
+    `Celular`,
+    `Celular_2`,
+    `Direccion`,
+    `Seguro_Social`,
+    `Correo_Electronico`,
+    `Fecha_De_Nacimiento`,
+    `Licencia`,
+    `Estado_Civil`,
+    `EstadoDeEmpleo`,
+    `Numero_De_Servicio_Militar`)
+VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');"""
 update_employee = """
 UPDATE Empleados
-SET Nombre = '{}',
-    Apellido_Paterno = '{}',
-    Apellido_Materno = '{}',
-    Celular = '{}',
-    Celular_2 = '{}',
-    Direccion = '{}',
-    Ocupacion = '{}',
-    Seguro_Social = '{}',
-    Correo_Electronico = '{}',
-    Fecha_De_Nacimiento = '{}',
-    Licencia = '{}',
-    Estado_Civil = '{}',
-    EstadoDeEmpleo = '{}'
+SET 
+    `Nombre` = '{}',
+    `Apellido_Paterno` = '{}',
+    `Apellido_Materno` = '{}',
+    `Celular` = '{}',
+    `Celular_2` = '{}',
+    `Direccion` = '{}',
+    `Seguro_Social` = '{}',
+    `Correo_Electronico` = '{}',
+    `Fecha_De_Nacimiento` = '{}',
+    `Licencia` = '{}',
+    `Estado_Civil` = '{}',
+    `EstadoDeEmpleo` = '{}',
+    `Numero_De_Servicio_Militar` = '{}'
 WHERE Empleado_ID = {};"""
 delete_employee = """DELETE FROM Empleados WHERE Empleado_ID = '{}'"""
 
@@ -220,9 +214,9 @@ class Employees:
                         celular,
                         celular_2,
                         direccion,
-                        ocupacion,
                         seguro_social,
                         correo_electronico,
+                        ocupacion,
                         fecha_de_nacimiento,
                         licencia,
                         estado_civil,

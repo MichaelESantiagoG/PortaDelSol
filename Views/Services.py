@@ -1,37 +1,6 @@
 import streamlit as st
 import pandas as pd
-from modules import conn
-
-# select_services = """
-#     SELECT TOP (1000) [Servicio_ID]
-#         ,[Servicio_Nombre]
-#         ,[Servicio_Precio]
-#     FROM [dbo].[Servicios]
-#     """
-# select_service = """
-#     SELECT [Servicio_ID]
-#         ,[Servicio_Nombre]
-#         ,[Servicio_Precio]
-#     FROM [dbo].[Servicios]
-#     WHERE [dbo].[Servicios].[Servicio_ID] = {}
-#     """
-# insert_service = """
-# INSERT INTO [dbo].[Servicios]
-#            ([Servicio_Nombre]
-#            ,[Servicio_Precio])
-#      VALUES
-#            ('{}',{})"""
-# update_service = """
-#     UPDATE [dbo].[Servicios]
-#     SET [Servicio_Nombre] = '{}'
-#         ,[Servicio_Precio] = {}
-#     WHERE [dbo].[Servicios].[Servicio_ID] = {}
-#     """
-# delete_service = """
-#     DELETE FROM [dbo].[Servicios]
-#         WHERE [dbo].[Servicios].[Servicio_ID] = {}
-#     GO
-#     """
+from modules import flex_mysql as conn
 
 select_services = """SELECT * FROM Servicios;"""
 select_service = """SELECT * FROM Servicios WHERE Servicio_ID = {} ;"""
