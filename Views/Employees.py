@@ -3,80 +3,26 @@ import pandas as pd
 from modules import conn
 from datetime import datetime
 
-# select_employees = """
-#     SELECT [Empleado_ID]
-#         ,[Nombre]
-#         ,[Apellido_Paterno]
-#         ,[Apellido_Materno]
-#         ,[Celular]
-#         ,[Celular_2]
-#         ,[Direccion]
-#         ,[Ocupacion]
-#         ,[Seguro_Social]
-#         ,[Correo_Electronico]
-#         ,[Fecha_De_Nacimiento]
-#         ,[Licencia]
-#         ,[Estado_Civil]
-#         ,[EstadoDeEmpleo]
-#     FROM [Empleados]
-#     """
-# select_employee = """
-# SELECT [Empleado_ID]
-#         ,[Nombre]
-#         ,[Apellido_Paterno]
-#         ,[Apellido_Materno]
-#         ,[Celular]
-#         ,[Celular_2]
-#         ,[Direccion]
-#         ,[Ocupacion]
-#         ,[Seguro_Social]
-#         ,[Correo_Electronico]
-#         ,[Fecha_De_Nacimiento]
-#         ,[Licencia]
-#         ,[Estado_Civil]
-#         ,[EstadoDeEmpleo]
-#     FROM [dbo].[Empleados]
-#     WHERE [dbo].[Empleados].[Empleado_ID] = {}"""
-# insert_employee = """
-# INSERT INTO [dbo].[Empleados]
-#            ([Nombre]
-#            ,[Apellido_Paterno]
-#            ,[Apellido_Materno]
-#            ,[Celular]
-#            ,[Celular_2]
-#            ,[Direccion]
-#            ,[Ocupacion]
-#            ,[Seguro_Social]
-#            ,[Correo_Electronico]
-#            ,[Fecha_De_Nacimiento]
-#            ,[Licencia]
-#            ,[Estado_Civil]
-#            ,[EstadoDeEmpleo])
-#      VALUES
-#            ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')"""
-# edit_employee = """"""
-# delete_employee = """"""
-
-select_employees = """SELECT * FROM Empleados;"""
-select_employee = """SELECT * FROM Empleados WHERE Empleado_ID = {};"""
+select_employees = """SELECT Empleado_ID, Posicion, Nombre, Apellido_Paterno, Apellido_Materno, Correo_Electronico, Celular, Celular_2, Direccion, Seguro_Social, Fecha_De_Nacimiento, Licencia, Estado_Civil, Estado_De_Empleo FROM Empleados;"""
+select_employee = """SELECT Empleado_ID, Posicion, Nombre, Apellido_Paterno, Apellido_Materno, Correo_Electronico, Celular, Celular_2, Direccion, Seguro_Social, Fecha_De_Nacimiento, Licencia, Estado_Civil, Estado_De_Empleo FROM Empleados WHERE Empleado_ID = {};"""
 insert_employee = """
-INSERT INTO Empleados (Nombre, Apellido_Paterno, Apellido_Materno, Celular, Celular_2, Direccion, Ocupacion, Seguro_Social, Correo_Electronico, Fecha_De_Nacimiento, Licencia, Estado_Civil, EstadoDeEmpleo)
-VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}');"""
+INSERT INTO Empleados (Posicion, Nombre, Apellido_Paterno, Apellido_Materno, Correo_Electronico, Celular, Celular_2, Direccion, Seguro_Social, Fecha_De_Nacimiento, Licencia, Estado_Civil, Estado_De_Empleo)
+VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');"""
 update_employee = """
-UPDATE Empleados
-SET Nombre = '{}',
+UPDATE Empleados 
+SET Posicion = '{}',
+    Nombre = '{}',
     Apellido_Paterno = '{}',
     Apellido_Materno = '{}',
+    Correo_Electronico = '{}',
     Celular = '{}',
     Celular_2 = '{}',
     Direccion = '{}',
-    Ocupacion = '{}',
     Seguro_Social = '{}',
-    Correo_Electronico = '{}',
     Fecha_De_Nacimiento = '{}',
     Licencia = '{}',
     Estado_Civil = '{}',
-    EstadoDeEmpleo = '{}'
+    Estado_De_Empleo = '{}'
 WHERE Empleado_ID = {};"""
 delete_employee = """DELETE FROM Empleados WHERE Empleado_ID = '{}'"""
 
@@ -169,12 +115,13 @@ class Employees:
                     label="Direccion",
                     disabled=disabled,
                 )
-                ocupacion = st.text_input(
+
+            with col2:
+                posicion = st.text_input(
                     key=key + "Ocupacion",
                     label="Ocupacion",
                     disabled=disabled,
                 )
-            with col2:
                 seguro_social = st.text_input(
                     key=key + "Seguro_Social",
                     label="Seguro Social",
@@ -214,15 +161,15 @@ class Employees:
             ):
                 try:
                     query = insert_employee.format(
+                        posicion,
                         nombre,
                         apellido_paterno,
                         apellido_materno,
+                        correo_electronico,
                         celular,
                         celular_2,
                         direccion,
-                        ocupacion,
                         seguro_social,
-                        correo_electronico,
                         fecha_de_nacimiento,
                         licencia,
                         estado_civil,
@@ -281,13 +228,14 @@ class Employees:
                         disabled=disabled,
                         value=employee_info["Direccion"],
                     )
-                    ocupacion = st.text_input(
+
+                with col2:
+                    posicion = st.text_input(
                         key=key + "Ocupacion",
                         label="Ocupacion",
                         disabled=disabled,
-                        value=employee_info["Ocupacion"],
+                        value=employee_info["Posicion"],
                     )
-                with col2:
                     seguro_social = st.text_input(
                         key=key + "Seguro_Social",
                         label="Seguro Social",
@@ -336,15 +284,15 @@ class Employees:
                 ):
                     try:
                         query = update_employee.format(
+                            posicion,
                             nombre,
                             apellido_paterno,
                             apellido_materno,
+                            correo_electronico,
                             celular,
                             celular_2,
                             direccion,
-                            ocupacion,
                             seguro_social,
-                            correo_electronico,
                             fecha_de_nacimiento,
                             licencia,
                             estado_civil,
@@ -405,11 +353,11 @@ class Employees:
                         disabled=disabled,
                         value=employee_info["Direccion"],
                     )
-                    ocupacion = st.text_input(
+                    posicion = st.text_input(
                         key=key + "Ocupacion",
                         label="Ocupacion",
                         disabled=disabled,
-                        value=employee_info["Ocupacion"],
+                        value=employee_info["Posicion"],
                     )
                 with col2:
                     seguro_social = st.text_input(
@@ -476,15 +424,15 @@ class Employees:
             employee = conn.query1(select_employee.format(search_id))
             employee_info = {
                 "Empleado_ID": employee.iloc[0, 0],  # row, column
-                "Nombre": employee.iloc[0, 1],
-                "Apellido_Paterno": employee.iloc[0, 2],
-                "Apellido_Materno": employee.iloc[0, 3],
-                "Celular": employee.iloc[0, 4],
-                "Celular_2": employee.iloc[0, 5],
-                "Direccion": employee.iloc[0, 6],
-                "Ocupacion": employee.iloc[0, 7],
-                "Seguro_Social": employee.iloc[0, 8],
-                "Correo_Electronico": employee.iloc[0, 9],
+                "Posicion": employee.iloc[0, 1],
+                "Nombre": employee.iloc[0, 2],
+                "Apellido_Paterno": employee.iloc[0, 3],
+                "Apellido_Materno": employee.iloc[0, 4],
+                "Correo_Electronico": employee.iloc[0, 5],
+                "Celular": employee.iloc[0, 6],
+                "Celular_2": employee.iloc[0, 7],
+                "Direccion": employee.iloc[0, 8],
+                "Seguro_Social": employee.iloc[0, 9],
                 "Fecha_De_Nacimiento": employee.iloc[0, 10],
                 "Licencia": employee.iloc[0, 11],
                 "Estado_Civil": employee.iloc[0, 12],

@@ -1,37 +1,7 @@
 import streamlit as st
 import pandas as pd
 from modules import conn
-
-# select_services = """
-#     SELECT TOP (1000) [Servicio_ID]
-#         ,[Servicio_Nombre]
-#         ,[Servicio_Precio]
-#     FROM [dbo].[Servicios]
-#     """
-# select_service = """
-#     SELECT [Servicio_ID]
-#         ,[Servicio_Nombre]
-#         ,[Servicio_Precio]
-#     FROM [dbo].[Servicios]
-#     WHERE [dbo].[Servicios].[Servicio_ID] = {}
-#     """
-# insert_service = """
-# INSERT INTO [dbo].[Servicios]
-#            ([Servicio_Nombre]
-#            ,[Servicio_Precio])
-#      VALUES
-#            ('{}',{})"""
-# update_service = """
-#     UPDATE [dbo].[Servicios]
-#     SET [Servicio_Nombre] = '{}'
-#         ,[Servicio_Precio] = {}
-#     WHERE [dbo].[Servicios].[Servicio_ID] = {}
-#     """
-# delete_service = """
-#     DELETE FROM [dbo].[Servicios]
-#         WHERE [dbo].[Servicios].[Servicio_ID] = {}
-#     GO
-#     """
+import time
 
 select_services = """SELECT * FROM Servicios;"""
 select_service = """SELECT * FROM Servicios WHERE Servicio_ID = {} ;"""
@@ -43,6 +13,8 @@ delete_service = """DELETE FROM Servicios WHERE Servicio_ID = {};"""
 
 
 class Servicios:
+    def load_data():
+        return conn.query1(select_services)
 
     def view():
         header = """
@@ -70,7 +42,7 @@ class Servicios:
 
         col1, col2 = st.columns([50, 50])
         with col1:
-            st.dataframe(data=conn.query1(select_services), hide_index=True)
+            st.dataframe(data=Servicios.load_data(), hide_index=True)
             # st.dataframe(data=df_servicios, hide_index=False)
 
         with col2:
@@ -107,8 +79,12 @@ class Servicios:
                         insert_service.format(nombre_de_servcicio, precio_de_servicio)
                     )
                     st.success("Servicio Añadido")
+                    time.sleep(3)
+
                 except:
                     st.warning("Servicio No se pudo añadir")
+                    time.sleep(3)
+                st.rerun()
 
     def edit_service_form():
         key, disable = "Editar", False
@@ -145,8 +121,12 @@ class Servicios:
                             )
                         )
                         st.success("Servicio Actualizado")
+                        time.sleep(3)
                     except:
                         st.error("Error al Actualizar")
+                        time.sleep(3)
+                    st.rerun()
+
         else:
             st.warning("Servicio no existe")
 
@@ -174,7 +154,7 @@ class Servicios:
                 )
 
                 if st.form_submit_button(
-                    label="Actualizar", type="secondary", use_container_width=False
+                    label="Eliminar", type="secondary", use_container_width=False
                 ):
                     try:
                         conn.query2(
@@ -183,8 +163,12 @@ class Servicios:
                             )
                         )
                         st.success("Servicio Eliminado")
+                        time.sleep(3)
                     except:
                         st.warning("Servicio no se pudo eliminar")
+                        time.sleep(3)
+                    st.rerun()
+
         else:
             st.warning("Servicio no existe")
 
