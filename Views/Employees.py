@@ -3,28 +3,87 @@ import pandas as pd
 from modules import conn
 from datetime import datetime
 
-select_employees = """SELECT Empleado_ID, Posicion, Nombre, Apellido_Paterno, Apellido_Materno, Correo_Electronico, Celular, Celular_2, Direccion, Seguro_Social, Fecha_De_Nacimiento, Licencia, Estado_Civil, Estado_De_Empleo FROM Empleados;"""
-select_employee = """SELECT Empleado_ID, Posicion, Nombre, Apellido_Paterno, Apellido_Materno, Correo_Electronico, Celular, Celular_2, Direccion, Seguro_Social, Fecha_De_Nacimiento, Licencia, Estado_Civil, Estado_De_Empleo FROM Empleados WHERE Empleado_ID = {};"""
+select_employees = """
+    SELECT
+        Empleado_ID
+        Posicion,
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Genero,
+        Correo_Electronico,
+        Celular,
+        Celular_2,
+        Direccion,
+        Fecha_Nacimiento,
+        Lugar_Nacimiento,
+        Seguro_Social,
+        Licencia,
+        Servicio_Militar,
+        Estado_Civil,
+        Estado_Empleo
+    FROM Empleados;"""
+select_employee = """
+    SELECT 
+        Empleado_ID,
+        Posicion,
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Genero,
+        Correo_Electronico,
+        Celular,
+        Celular_2,
+        Direccion,
+        Fecha_Nacimiento,
+        Lugar_Nacimiento,
+        Seguro_Social,
+        Licencia,
+        Servicio_Militar,
+        Estado_Civil,
+        Estado_Empleo
+    FROM Empleados 
+    WHERE Empleado_ID = {};"""
 insert_employee = """
-INSERT INTO Empleados (Posicion, Nombre, Apellido_Paterno, Apellido_Materno, Correo_Electronico, Celular, Celular_2, Direccion, Seguro_Social, Fecha_De_Nacimiento, Licencia, Estado_Civil, Estado_De_Empleo)
-VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');"""
+    INSERT INTO Empleados (
+        Posicion,
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Genero,
+        Correo_Electronico,
+        Celular,
+        Celular_2,
+        Direccion,
+        Fecha_Nacimiento,
+        Lugar_Nacimiento,
+        Seguro_Social,
+        Licencia,
+        Servicio_Militar,
+        Estado_Civil,
+        Estado_Empleo)
+    VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')"""
 update_employee = """
-UPDATE Empleados 
-SET Posicion = '{}',
-    Nombre = '{}',
-    Apellido_Paterno = '{}',
-    Apellido_Materno = '{}',
-    Correo_Electronico = '{}',
-    Celular = '{}',
-    Celular_2 = '{}',
-    Direccion = '{}',
-    Seguro_Social = '{}',
-    Fecha_De_Nacimiento = '{}',
-    Licencia = '{}',
-    Estado_Civil = '{}',
-    Estado_De_Empleo = '{}'
-WHERE Empleado_ID = {};"""
-delete_employee = """DELETE FROM Empleados WHERE Empleado_ID = '{}'"""
+    UPDATE Empleados 
+    SET 
+        Posicion= '{}',
+        Nombre= '{}',
+        Apellido_Paterno= '{}',
+        Apellido_Materno= '{}',
+        Genero= '{}',
+        Correo_Electronico= '{}',
+        Celular= '{}',
+        Celular_2= '{}',
+        Direccion= '{}',
+        Fecha_Nacimiento= '{}',
+        Lugar_Nacimiento= '{}',
+        Seguro_Social= '{}',
+        Licencia= '{}',
+        Servicio_Militar= '{}',
+        Estado_Civil= '{}',
+        Estado_Empleo== '{}'
+    WHERE Empleado_ID = {};"""
+delete_employee = """DELETE FROM Empleados WHERE Empleado_ID = '{}';"""
 
 
 class Employees:
@@ -87,72 +146,91 @@ class Employees:
         with st.form(key=key, clear_on_submit=False, border=False):
             col1, col2 = st.columns(2)
             with col1:
-                nombre = st.text_input(
-                    key=key + "Nombre", label="Nombre", disabled=False
+                Nombre = st.text_input(
+                    key=key + "Nombre",
+                    label="Nombre",
+                    disabled=disabled,
                 )
-                apellido_paterno = st.text_input(
+                Apellido_Paterno = st.text_input(
                     key=key + "Apellido_Paterno",
                     label="Apellido Paterno",
                     disabled=disabled,
                 )
-                apellido_materno = st.text_input(
+                Apellido_Materno = st.text_input(
                     key=key + "Apellido_Materno",
                     label="Apellido Materno",
                     disabled=disabled,
                 )
-                celular = st.text_input(
-                    key=key + "Celular",
-                    label="Celular",
-                    disabled=disabled,
-                )
-                celular_2 = st.text_input(
-                    key=key + "Celular_2",
-                    label="Celular 2",
-                    disabled=disabled,
-                )
-                direccion = st.text_input(
-                    key=key + "Direccion",
-                    label="Direccion",
-                    disabled=disabled,
-                )
-
-            with col2:
-                posicion = st.text_input(
-                    key=key + "Ocupacion",
-                    label="Ocupacion",
-                    disabled=disabled,
-                )
-                seguro_social = st.text_input(
-                    key=key + "Seguro_Social",
-                    label="Seguro Social",
-                    disabled=disabled,
-                )
-                correo_electronico = st.text_input(
+                Correo_Electronico = st.text_input(
                     key=key + "Correo_Electronico",
                     label="Correo Electronico",
                     disabled=disabled,
                 )
-                fecha_de_nacimiento = st.date_input(
-                    key=key + "Fecha_De_Nacimiento",
+                Celular = st.text_input(
+                    key=key + "Celular",
+                    label="Celular",
+                    disabled=disabled,
+                )
+                Celular_2 = st.text_input(
+                    key=key + "Celular_2",
+                    label="Celular 2",
+                    disabled=disabled,
+                )
+                Direccion = st.text_input(
+                    key=key + "Direccion",
+                    label="Direccion",
+                    disabled=disabled,
+                )
+                Estado_Civil = st.selectbox(
+                    key=key + "Estado_Civil",
+                    label="Estado Civil",
+                    disabled=disabled,
+                    options=["Soltero", "Casado", "Divorciado", "Viudo"],
+                )
+
+            with col2:
+                Posicion = st.text_input(
+                    key=key + "Posicion",
+                    label="Posicion",
+                    disabled=disabled,
+                )
+                Estado_Empleo = st.selectbox(
+                    key=key + "Estado_Empleo",
+                    label="Estado de Empleo",
+                    options=["Activo", "Inactivo"],
+                    disabled=disabled,
+                )
+                Seguro_Social = st.text_input(
+                    key=key + "Seguro_Social",
+                    label="Seguro Social",
+                    disabled=disabled,
+                )
+                Genero = st.selectbox(
+                    key=key + "Genero",
+                    label="Género",
+                    options=["Masculino", "Femenino"],
+                    disabled=disabled,
+                )
+                Fecha_Nacimiento = st.date_input(
+                    key=key + "Fecha_Nacimiento",
                     label="Fecha de Nacimiento",
                     min_value=None,
                     max_value=None,
                     disabled=disabled,
                 ).strftime("%Y-%m-%d")
-                licencia = st.text_input(
+                Lugar_Nacimiento = st.text_input(
+                    key=key + "Lugar_Nacimiento",
+                    label="Lugar de Nacimiento",
+                    disabled=disabled,
+                )
+                Licencia = st.text_input(
                     key=key + "Licencia",
                     label="Licencia",
                     disabled=disabled,
                 )
-                estado_civil = st.text_input(
-                    key=key + "Estado_Civil",
-                    label="Estado Civil",
-                    disabled=disabled,
-                )
-                estado_de_empleo = st.selectbox(
-                    key=key + "EstadoDeEmpleo",
-                    label="Estado de Empleo",
-                    options=["Activo", "Inactivo"],
+                Servicio_Militar = st.text_input(
+                    key=key + "Servicio_Militar",
+                    label="Número de Servicio Militar",
                     disabled=disabled,
                 )
 
@@ -161,19 +239,22 @@ class Employees:
             ):
                 try:
                     query = insert_employee.format(
-                        posicion,
-                        nombre,
-                        apellido_paterno,
-                        apellido_materno,
-                        correo_electronico,
-                        celular,
-                        celular_2,
-                        direccion,
-                        seguro_social,
-                        fecha_de_nacimiento,
-                        licencia,
-                        estado_civil,
-                        estado_de_empleo,
+                        Posicion,
+                        Nombre,
+                        Apellido_Paterno,
+                        Apellido_Materno,
+                        Genero,
+                        Correo_Electronico,
+                        Celular,
+                        Celular_2,
+                        Direccion,
+                        Fecha_Nacimiento,
+                        Lugar_Nacimiento,
+                        Seguro_Social,
+                        Licencia,
+                        Servicio_Militar,
+                        Estado_Civil,
+                        Estado_Empleo,
                     )
                     conn.query2(query=query)
                     st.success("Empleado añadido")
@@ -192,111 +273,145 @@ class Employees:
             with st.form(key=key, clear_on_submit=False, border=False):
                 col1, col2 = st.columns(2)
                 with col1:
-                    nombre = st.text_input(
+                    Nombre = st.text_input(
                         key=key + "Nombre",
                         label="Nombre",
                         disabled=disabled,
                         value=employee_info["Nombre"],
                     )
-                    apellido_paterno = st.text_input(
+                    Apellido_Paterno = st.text_input(
                         key=key + "Apellido_Paterno",
                         label="Apellido Paterno",
                         disabled=disabled,
                         value=employee_info["Apellido_Paterno"],
                     )
-                    apellido_materno = st.text_input(
+                    Apellido_Materno = st.text_input(
                         key=key + "Apellido_Materno",
                         label="Apellido Materno",
                         disabled=disabled,
                         value=employee_info["Apellido_Materno"],
                     )
-                    celular = st.text_input(
+                    Genero = st.selectbox(
+                        key=key + "Genero",
+                        label="Género",
+                        options=["Masculino", "Femenino"],
+                        disabled=disabled,
+                        index=0 if employee_info["Genero"] == "Masculino" else 1,
+                    )
+                    Celular = st.text_input(
                         key=key + "Celular",
                         label="Celular",
                         disabled=disabled,
                         value=employee_info["Celular"],
                     )
-                    celular_2 = st.text_input(
+                    Celular_2 = st.text_input(
                         key=key + "Celular_2",
                         label="Celular 2",
                         disabled=disabled,
                         value=employee_info["Celular_2"],
                     )
-                    direccion = st.text_input(
+                    Direccion = st.text_input(
                         key=key + "Direccion",
                         label="Direccion",
                         disabled=disabled,
                         value=employee_info["Direccion"],
                     )
+                    # Define the options
+                    options = ["Soltero", "Casado", "Divorciado", "Viudo"]
+
+                    # Set the default index to None initially
+                    default_index = None
+
+                    # Check if the value from employee_info["Estado_Civil"] matches any option
+                    if employee_info["Estado_Civil"] in options:
+                        default_index = options.index(employee_info["Estado_Civil"])
+
+                    # Create the select box with the correct default index
+                    Estado_Civil = st.selectbox(
+                        key=key + "Estado_Civil",
+                        label="Estado Civil",
+                        disabled=disabled,
+                        options=options,
+                        index=default_index,
+                    )
 
                 with col2:
-                    posicion = st.text_input(
-                        key=key + "Ocupacion",
-                        label="Ocupacion",
+                    Posicion = st.text_input(
+                        key=key + "Posicion",
+                        label="Posicion",
                         disabled=disabled,
                         value=employee_info["Posicion"],
                     )
-                    seguro_social = st.text_input(
+                    Estado_Empleo = st.selectbox(
+                        key=key + "Estado_Empleo",
+                        label="Estado de Empleo",
+                        options=["Activo", "Inactivo"],
+                        disabled=disabled,
+                        index=0 if employee_info["Estado_Empleo"] == "Activo" else 1,
+                    )
+                    Seguro_Social = st.text_input(
                         key=key + "Seguro_Social",
                         label="Seguro Social",
                         disabled=disabled,
                         value=employee_info["Seguro_Social"],
                     )
-                    correo_electronico = st.text_input(
+                    Correo_Electronico = st.text_input(
                         key=key + "Correo_Electronico",
                         label="Correo Electronico",
                         disabled=disabled,
                         value=employee_info["Correo_Electronico"],
                     )
                     date_obj = datetime.strptime(
-                        employee_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
+                        employee_info["Fecha_Nacimiento"], "%Y-%m-%d"
                     ).date()
-                    fecha_de_nacimiento = st.date_input(
-                        key=key + "Fecha_De_Nacimiento",
+                    Fecha_Nacimiento = st.date_input(
+                        key=key + "Fecha_Nacimiento",
                         label="Fecha de Nacimiento",
+                        value=date_obj,
                         min_value=None,
                         max_value=None,
                         disabled=disabled,
-                        value=date_obj,
                     )
-                    licencia = st.text_input(
+                    Lugar_Nacimiento = st.text_input(
+                        key=key + "Lugar_Nacimiento",
+                        label="Lugar de Nacimiento",
+                        disabled=disabled,
+                        value=employee_info["Lugar_Nacimiento"],
+                    )
+                    Licencia = st.text_input(
                         key=key + "Licencia",
                         label="Licencia",
                         disabled=disabled,
                         value=employee_info["Licencia"],
                     )
-                    estado_civil = st.text_input(
-                        key=key + "Estado_Civil",
-                        label="Estado Civil",
+                    Servicio_Militar = st.text_input(
+                        key=key + "Servicio_Militar",
+                        label="Número de Servicio Militar",
                         disabled=disabled,
-                        value=employee_info["Estado_Civil"],
-                    )
-                    estado_de_empleo = st.selectbox(
-                        key=key + "EstadoDeEmpleo",
-                        label="Estado de Empleo",
-                        disabled=disabled,
-                        options=["Activo", "Inactivo"],
-                        index=0 if employee_info["EstadoDeEmpleo"] == "Activo" else 1,
+                        value=employee_info["Servicio_Militar"],
                     )
 
                 if st.form_submit_button(
-                    label="Añadir", type="secondary", use_container_width=True
+                    label="Editar", type="secondary", use_container_width=True
                 ):
                     try:
                         query = update_employee.format(
-                            posicion,
-                            nombre,
-                            apellido_paterno,
-                            apellido_materno,
-                            correo_electronico,
-                            celular,
-                            celular_2,
-                            direccion,
-                            seguro_social,
-                            fecha_de_nacimiento,
-                            licencia,
-                            estado_civil,
-                            estado_de_empleo,
+                            Posicion,
+                            Nombre,
+                            Apellido_Paterno,
+                            Apellido_Materno,
+                            Genero,
+                            Correo_Electronico,
+                            Celular,
+                            Celular_2,
+                            Direccion,
+                            Fecha_Nacimiento,
+                            Lugar_Nacimiento,
+                            Seguro_Social,
+                            Licencia,
+                            Servicio_Militar,
+                            Estado_Civil,
+                            Estado_Empleo,
                             search_id,
                         )
                         conn.query2(query=query)
@@ -317,94 +432,126 @@ class Employees:
             with st.form(key=key, clear_on_submit=False, border=False):
                 col1, col2 = st.columns(2)
                 with col1:
-                    nombre = st.text_input(
+                    Nombre = st.text_input(
                         key=key + "Nombre",
                         label="Nombre",
                         disabled=disabled,
                         value=employee_info["Nombre"],
                     )
-                    apellido_paterno = st.text_input(
+                    Apellido_Paterno = st.text_input(
                         key=key + "Apellido_Paterno",
                         label="Apellido Paterno",
                         disabled=disabled,
                         value=employee_info["Apellido_Paterno"],
                     )
-                    apellido_materno = st.text_input(
+                    Apellido_Materno = st.text_input(
                         key=key + "Apellido_Materno",
                         label="Apellido Materno",
                         disabled=disabled,
                         value=employee_info["Apellido_Materno"],
                     )
-                    celular = st.text_input(
+                    Genero = st.selectbox(
+                        key=key + "Genero",
+                        label="Género",
+                        options=["Masculino", "Femenino"],
+                        disabled=disabled,
+                        index=0 if employee_info["Genero"] == "Masculino" else 1,
+                    )
+                    Celular = st.text_input(
                         key=key + "Celular",
                         label="Celular",
                         disabled=disabled,
                         value=employee_info["Celular"],
                     )
-                    celular_2 = st.text_input(
+                    Celular_2 = st.text_input(
                         key=key + "Celular_2",
                         label="Celular 2",
                         disabled=disabled,
                         value=employee_info["Celular_2"],
                     )
-                    direccion = st.text_input(
+                    Direccion = st.text_input(
                         key=key + "Direccion",
                         label="Direccion",
                         disabled=disabled,
                         value=employee_info["Direccion"],
                     )
-                    posicion = st.text_input(
-                        key=key + "Ocupacion",
-                        label="Ocupacion",
+                    # Define the options
+                    options = ["Soltero", "Casado", "Divorciado", "Viudo"]
+
+                    # Set the default index to None initially
+                    default_index = None
+
+                    # Check if the value from employee_info["Estado_Civil"] matches any option
+                    if employee_info["Estado_Civil"] in options:
+                        default_index = options.index(employee_info["Estado_Civil"])
+
+                    # Create the select box with the correct default index
+                    Estado_Civil = st.selectbox(
+                        key=key + "Estado_Civil",
+                        label="Estado Civil",
+                        disabled=disabled,
+                        options=options,
+                        index=default_index,
+                    )
+
+                with col2:
+                    Posicion = st.text_input(
+                        key=key + "Posicion",
+                        label="Posicion",
                         disabled=disabled,
                         value=employee_info["Posicion"],
                     )
-                with col2:
-                    seguro_social = st.text_input(
+                    Estado_Empleo = st.selectbox(
+                        key=key + "Estado_Empleo",
+                        label="Estado de Empleo",
+                        options=["Activo", "Inactivo"],
+                        disabled=disabled,
+                        index=0 if employee_info["Estado_Empleo"] == "Activo" else 1,
+                    )
+                    Seguro_Social = st.text_input(
                         key=key + "Seguro_Social",
                         label="Seguro Social",
                         disabled=disabled,
                         value=employee_info["Seguro_Social"],
                     )
-                    correo_electronico = st.text_input(
+                    Correo_Electronico = st.text_input(
                         key=key + "Correo_Electronico",
                         label="Correo Electronico",
                         disabled=disabled,
                         value=employee_info["Correo_Electronico"],
                     )
                     date_obj = datetime.strptime(
-                        employee_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
+                        employee_info["Fecha_Nacimiento"], "%Y-%m-%d"
                     ).date()
-                    fecha_de_nacimiento = st.date_input(
-                        key=key + "Fecha_De_Nacimiento",
+                    Fecha_Nacimiento = st.date_input(
+                        key=key + "Fecha_Nacimiento",
                         label="Fecha de Nacimiento",
+                        value=date_obj,
                         min_value=None,
                         max_value=None,
                         disabled=disabled,
-                        value=date_obj,
                     )
-                    licencia = st.text_input(
+                    Lugar_Nacimiento = st.text_input(
+                        key=key + "Lugar_Nacimiento",
+                        label="Lugar de Nacimiento",
+                        disabled=disabled,
+                        value=employee_info["Lugar_Nacimiento"],
+                    )
+                    Licencia = st.text_input(
                         key=key + "Licencia",
                         label="Licencia",
                         disabled=disabled,
                         value=employee_info["Licencia"],
                     )
-                    estado_civil = st.text_input(
-                        key=key + "Estado_Civil",
-                        label="Estado Civil",
+                    Servicio_Militar = st.text_input(
+                        key=key + "Servicio_Militar",
+                        label="Número de Servicio Militar",
                         disabled=disabled,
-                        value=employee_info["Estado_Civil"],
-                    )
-                    estado_de_empleo = st.selectbox(
-                        key=key + "EstadoDeEmpleo",
-                        label="Estado de Empleo",
-                        disabled=disabled,
-                        options=["Activo", "Inactivo"],
-                        index=0 if employee_info["EstadoDeEmpleo"] == "Activo" else 1,
+                        value=employee_info["Servicio_Militar"],
                     )
 
                 if st.form_submit_button(
-                    label="Añadir", type="secondary", use_container_width=True
+                    label="Eliminar", type="secondary", use_container_width=True
                 ):
                     try:
                         query = delete_employee.format(
@@ -421,23 +568,27 @@ class Employees:
 
     def select_employee(search_id):
         try:
-            employee = conn.query1(select_employee.format(search_id))
-            employee_info = {
-                "Empleado_ID": employee.iloc[0, 0],  # row, column
-                "Posicion": employee.iloc[0, 1],
-                "Nombre": employee.iloc[0, 2],
-                "Apellido_Paterno": employee.iloc[0, 3],
-                "Apellido_Materno": employee.iloc[0, 4],
-                "Correo_Electronico": employee.iloc[0, 5],
-                "Celular": employee.iloc[0, 6],
-                "Celular_2": employee.iloc[0, 7],
-                "Direccion": employee.iloc[0, 8],
-                "Seguro_Social": employee.iloc[0, 9],
-                "Fecha_De_Nacimiento": employee.iloc[0, 10],
-                "Licencia": employee.iloc[0, 11],
-                "Estado_Civil": employee.iloc[0, 12],
-                "EstadoDeEmpleo": employee.iloc[0, 13],
+            employee_info = conn.query3(select_employee.format(search_id))
+            employee_info1 = {
+                "Empleado_ID": employee_info["Empleado_ID"],  # row, column
+                "Posicion": employee_info["Posicion"],
+                "Nombre": employee_info["Nombre"],
+                "Apellido_Paterno": employee_info["Apellido_Paterno"],
+                "Apellido_Materno": employee_info["Apellido_Materno"],
+                "Genero": employee_info["Genero"],
+                "Correo_Electronico": employee_info["Correo_Electronico"],
+                "Celular": employee_info["Celular"],
+                "Celular_2": employee_info["Celular_2"],
+                "Direccion": employee_info["Direccion"],
+                "Fecha_Nacimiento": employee_info["Fecha_Nacimiento"],
+                "Lugar_Nacimiento": employee_info["Lugar_Nacimiento"],
+                "Seguro_Social": employee_info["Seguro_Social"],
+                "Licencia": employee_info["Licencia"],
+                "Servicio_Militar": employee_info["Servicio_Militar"],
+                "Estado_Civil": employee_info["Estado_Civil"],
+                "Estado_Empleo": employee_info["Estado_Empleo"],
             }
-            return employee_info
+            print(employee_info1)
+            return employee_info1
         except:
             return False

@@ -63,8 +63,8 @@ class Servicios:
                 label="Tipo de Servicio",
                 disabled=disable,
             )
-            precio_de_servicio = st.number_input(
-                key=key + "precio_de_servicio",
+            Servicio_Precio = st.number_input(
+                key=key + "Servicio_Precio",
                 label="Precio de Servicio",
                 step=0.01,
                 min_value=0.0,
@@ -76,7 +76,7 @@ class Servicios:
             ):
                 try:
                     conn.query2(
-                        insert_service.format(nombre_de_servcicio, precio_de_servicio)
+                        insert_service.format(nombre_de_servcicio, Servicio_Precio)
                     )
                     st.success("Servicio Añadido")
                     time.sleep(3)
@@ -95,14 +95,14 @@ class Servicios:
         if service_info:
             with st.form(key=key, border=False, clear_on_submit=True):
                 nombre_de_servcicio = st.text_input(
-                    value=service_info["Nombre_De_Servicio"],
+                    value=service_info["Servicio_Nombre"],
                     key=key + "nombre_de_servcicio",
                     label="Tipo de Servicio",
                     disabled=disable,
                 )
-                precio_de_servicio = st.number_input(
-                    value=float(service_info["Precio_De_Servicio"]),
-                    key=key + "precio_de_servicio",
+                Servicio_Precio = st.number_input(
+                    value=float(service_info["Servicio_Precio"]),
+                    key=key + "Servicio_Precio",
                     label="Precio de Servicio",
                     step=0.01,
                     min_value=0.0,
@@ -116,7 +116,7 @@ class Servicios:
                         conn.query2(
                             update_service.format(
                                 nombre_de_servcicio,
-                                precio_de_servicio,
+                                Servicio_Precio,
                                 search_id,
                             )
                         )
@@ -139,14 +139,14 @@ class Servicios:
         if service_info:
             with st.form(key=key, border=False, clear_on_submit=True):
                 nombre_de_servcicio = st.text_input(
-                    value=service_info["Nombre_De_Servicio"],
+                    value=service_info["Servicio_Nombre"],
                     key=key + "nombre_de_servcicio",
                     label="Tipo de Servicio",
                     disabled=disable,
                 )
-                precio_de_servicio = st.number_input(
-                    value=service_info["Precio_De_Servicio"],
-                    key=key + "precio_de_servicio",
+                Servicio_Precio = st.number_input(
+                    value=service_info["Servicio_Precio"],
+                    key=key + "Servicio_Precio",
                     label="Precio de Servicio",
                     step=0.01,
                     min_value=0.0,
@@ -174,11 +174,11 @@ class Servicios:
 
     def select_service(id):
         try:
-            service = conn.query1(select_service.format(id))
+            service = conn.query3(select_service.format(id))
             service_info = {
-                "Servicio_ID": service.iloc[0, 0],
-                "Nombre_De_Servicio": service.iloc[0, 1],
-                "Precio_De_Servicio": float(service.iloc[0, 2]),
+                "Servicio_ID": service["Servicio_ID"],
+                "Servicio_Nombre": service["Servicio_Nombre"],
+                "Servicio_Precio": float(service["Servicio_Precio"]),
             }
             return service_info
         except:

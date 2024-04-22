@@ -1,17 +1,17 @@
 import sqlite3
 
 # Connect to SQLite database (creates a new one if not exists)
-conn = sqlite3.connect("Database/portadelsol.db")
+conn = sqlite3.connect("PortaDelSol/Database/portadelsol.db")
 
 # Create a cursor object to execute SQL commands
 cursor = conn.cursor()
 
-# Execute SQL commands to create tables
+# Execute SQL commands to CREATE TABLE IF NOT EXISTSs
 # (Use the SQL statements from the previous response)
 cursor.execute(
     """
 -- Credenciales
-CREATE TABLE Credenciales (
+CREATE TABLE IF NOT EXISTS Credenciales (
     Usuario_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Empleado_ID INTEGER NOT NULL,
     Usuario TEXT NOT NULL,
@@ -79,7 +79,7 @@ INSERT INTO Credenciales (Empleado_ID, Usuario, Contraseña, Posicion) VALUES
 cursor.execute(
     """
 -- Empleados
-CREATE TABLE Empleados (
+CREATE TABLE IF NOT EXISTS Empleados (
     Empleado_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre TEXT NOT NULL,
     Apellido_Paterno TEXT NOT NULL,
@@ -151,7 +151,7 @@ INSERT INTO Empleados (Nombre, Apellido_Paterno, Apellido_Materno, Celular, Celu
 cursor.execute(
     """
 -- Servicios
-CREATE TABLE Servicios (
+CREATE TABLE IF NOT EXISTS Servicios (
     Servicio_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Servicio_Nombre TEXT NOT NULL,
     Servicio_Precio DECIMAL(6,2) NOT NULL
@@ -178,7 +178,7 @@ INSERT INTO Servicios (Servicio_Nombre, Servicio_Precio) VALUES
 cursor.execute(
     """
 -- Servicios_Elegidos
-CREATE TABLE Servicios_Elegidos (
+CREATE TABLE IF NOT EXISTS Servicios_Elegidos (
     Servicios_Elegidos_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Servicio_ID INTEGER NOT NULL,
     Detalles_Servicios TEXT NOT NULL,
@@ -245,7 +245,7 @@ INSERT INTO Servicios_Elegidos (Servicio_ID, Detalles_Servicios) VALUES
 cursor.execute(
     """
 -- Vinculo_Certificaciones
-CREATE TABLE Vinculo_Certificaciones (
+CREATE TABLE IF NOT EXISTS Vinculo_Certificaciones (
     Documento_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Certificado_De_Defuncion TEXT,
     Autorizacion_De_Cremacion TEXT,
@@ -312,7 +312,7 @@ INSERT INTO Vinculo_Certificaciones (Certificado_De_Defuncion, Autorizacion_De_C
 cursor.execute(
     """
 -- Clientes
-CREATE TABLE Clientes (
+CREATE TABLE IF NOT EXISTS Clientes (
     Cliente_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre TEXT NOT NULL,
     Apellido_Paterno TEXT NOT NULL,
@@ -389,7 +389,7 @@ INSERT INTO Clientes (Nombre, Apellido_Paterno, Apellido_Materno, Fecha_De_Nacim
 cursor.execute(
     """
 -- Difuntos
-CREATE TABLE Difuntos (
+CREATE TABLE IF NOT EXISTS Difuntos (
     Difunto_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre TEXT NOT NULL,
     Apellido_Paterno TEXT NOT NULL,
@@ -465,7 +465,7 @@ INSERT INTO Difuntos (Nombre, Apellido_Paterno, Apellidp_Materno, Genero, Estado
 cursor.execute(
     """
 -- Contratos
-CREATE TABLE Contratos (
+CREATE TABLE IF NOT EXISTS Contratos (
     Contrato_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Documentos_ID INTEGER NOT NULL,
     Cliente_ID INTEGER NOT NULL,

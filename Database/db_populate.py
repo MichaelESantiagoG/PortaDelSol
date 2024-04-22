@@ -23,55 +23,83 @@ def Empleados():
         Nombre TEXT NOT NULL,
         Apellido_Paterno TEXT NOT NULL,
         Apellido_Materno TEXT NOT NULL,
+        Genero TEXT NOT NULL,
         Correo_Electronico VARCHAR(255) NOT NULL,
         Celular VARCHAR(10) NOT NULL,
         Celular_2 TEXT,
         Direccion TEXT NOT NULL,
+        Fecha_Nacimiento DATE NOT NULL,
+        Lugar_Nacimiento TEXT NOT NULL,
         Seguro_Social VARCHAR(9) NOT NULL,
-        Fecha_De_Nacimiento DATE NOT NULL,
         Licencia VARCHAR(20),
-        Numero_De_Servicio_Militar VARCHAR(11),
+        Servicio_Militar VARCHAR(11),
         Estado_Civil TEXT,
-        Estado_De_Empleo TEXT NOT NULL DEFAULT 'Activo');"""
+        Estado_Empleo TEXT NOT NULL DEFAULT 'Activo');"""
     )
 
     # # Generate 50 records for Empleados table
     for _ in range(50):
-        nombre = fake.first_name()
-        apellido_paterno = fake.last_name()
-        apellido_materno = fake.last_name()
-        posicion = fake.job()
-        correo_electronico = fake.email()
-        celular = fake.phone_number()[:10]  # Ensure max length of 10
-        celular_2 = fake.phone_number()[:10] if random.choice([True, False]) else None
-        direccion = fake.address()
-        seguro_social = "".join(random.choices("0123456789", k=9))
-        fecha_nacimiento = fake.date_of_birth(minimum_age=18, maximum_age=65)
-        licencia = (
+        Posicion = fake.job()
+        Nombre = fake.first_name()
+        Apellido_Paterno = fake.last_name()
+        Apellido_Materno = fake.last_name()
+        Genero = random.choice(["Masculino", "Femenino"])
+        Correo_Electronico = fake.email()
+        Celular = fake.phone_number()[:10]  # Ensure max length of 10
+        Celular_2 = fake.phone_number()[:10] if random.choice([True, False]) else None
+        Direccion = fake.address()
+        Fecha_Nacimiento = fake.date_of_birth(minimum_age=18, maximum_age=65)
+        Lugar_Nacimiento = fake.city()
+        Seguro_Social = "".join(random.choices("0123456789", k=9))
+        Licencia = (
             "".join(random.choices("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", k=7))
             if random.choice([True, False])
             else None
         )
-        estado_civil = random.choice(["Soltero", "Casado", "Divorciado", "Viudo"])
+        Servicio_Militar = (
+            fake.random_number(digits=8) if random.choice([True, False]) else None
+        )
+        Estado_Civil = random.choice(["Soltero", "Casado", "Divorciado", "Viudo"])
+        Estado_Empleo = random.choice(["Activo", "Inactivo"])
 
         cursor.execute(
             """
-        INSERT INTO Empleados (Posicion, Nombre, Apellido_Paterno, Apellido_Materno, Correo_Electronico, Celular, Celular_2, Direccion, Seguro_Social, Fecha_De_Nacimiento, Licencia, Estado_Civil)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO Empleados (
+            Posicion,
+            Nombre,
+            Apellido_Paterno,
+            Apellido_Materno,
+            Genero,
+            Correo_Electronico,
+            Celular,
+            Celular_2,
+            Direccion,
+            Fecha_Nacimiento,
+            Lugar_Nacimiento,
+            Seguro_Social,
+            Licencia,
+            Servicio_Militar,
+            Estado_Civil,
+            Estado_Empleo)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         """,
             (
-                posicion,
-                nombre,
-                apellido_paterno,
-                apellido_materno,
-                correo_electronico,
-                celular,
-                celular_2,
-                direccion,
-                seguro_social,
-                fecha_nacimiento,
-                licencia,
-                estado_civil,
+                Posicion,
+                Nombre,
+                Apellido_Paterno,
+                Apellido_Materno,
+                Genero,
+                Correo_Electronico,
+                Celular,
+                Celular_2,
+                Direccion,
+                Fecha_Nacimiento,
+                Lugar_Nacimiento,
+                Seguro_Social,
+                Licencia,
+                Servicio_Militar,
+                Estado_Civil,
+                Estado_Empleo,
             ),
         )
 
@@ -145,60 +173,95 @@ def Clientes():
     -- Clientes
     CREATE TABLE IF NOT EXISTS Clientes (
         Cliente_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        Ocupacion TEXT NOT NULL,
         Nombre TEXT NOT NULL,
         Apellido_Paterno TEXT NOT NULL,
         Apellido_Materno TEXT NOT NULL,
-        Fecha_De_Nacimiento DATE NOT NULL,
-        Lugar_De_Nacimiento TEXT NOT NULL,
-        Genero TEXT,
-        Celular VARCHAR(15) NOT NULL,
-        Celular_2 VARCHAR(15),
+        Genero TEXT NOT NULL,
+        Correo_Electronico VARCHAR(255) NOT NULL,
+        Celular VARCHAR(10) NOT NULL,
+        Celular_2 TEXT,
         Direccion TEXT NOT NULL,
-        Licencia VARCHAR(10),
-        Seguro_Social VARCHAR(11) NOT NULL,
-        Numero_De_Servicio_Militar VARCHAR(11),
-        Descripcion TEXT
-    );"""
+        Fecha_Nacimiento DATE NOT NULL,
+        Lugar_Nacimiento TEXT NOT NULL,
+        Seguro_Social VARCHAR(9) NOT NULL,
+        Licencia VARCHAR(20),
+        Servicio_Militar VARCHAR(11),
+        Estado_Civil TEXT,
+        Descripcion TEXT);"""
     )
     # Generate 50 records for Clientes table
     for _ in range(50):
-        nombre = fake.first_name()
-        apellido_paterno = fake.last_name()
-        apellido_materno = fake.last_name()
-        fecha_nacimiento = fake.date_of_birth(minimum_age=18, maximum_age=90)
-        lugar_nacimiento = fake.city()
-        genero = random.choice(["Masculino", "Femenino"])
-        celular = fake.phone_number()
-        celular_2 = fake.phone_number() if random.choice([True, False]) else None
-        direccion = fake.address()
-        licencia = (
+        Ocupacion = fake.job()
+        Nombre = fake.first_name()
+        Apellido_Paterno = fake.last_name()
+        Apellido_Materno = fake.last_name()
+        Genero = random.choice(["Masculino", "Femenino"])
+        Correo_Electronico = fake.email()
+        Celular = fake.phone_number()[:10]  # Ensure max length of 10
+        Celular_2 = fake.phone_number()[:10] if random.choice([True, False]) else None
+        Direccion = fake.address()
+        Fecha_Nacimiento = fake.date_of_birth(minimum_age=18, maximum_age=65)
+        Lugar_Nacimiento = fake.city()
+        Seguro_Social = "".join(random.choices("0123456789", k=9))
+        Licencia = (
+            "".join(random.choices("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", k=7))
+            if random.choice([True, False])
+            else None
+        )
+        Servicio_Militar = (
             fake.random_number(digits=8) if random.choice([True, False]) else None
         )
-        seguro_social = fake.random_number(digits=9)
-        servicio_militar = (
-            fake.random_number(digits=8) if random.choice([True, False]) else None
+        Estado_Civil = random.choice(["Soltero", "Casado", "Divorciado", "Viudo"])
+        Descripcion = random.choice(
+            [
+                "Familias en duelo",
+                "Clientes previsores",
+                "Instituciones religiosas",
+                "Compañías de seguros",
+                "Hospitales y hogares de ancianos",
+                "Servicios sociales y organizaciones benéficas",
+                "Personas que han perdido a sus mascotas",
+            ]
         )
-        descripcion = fake.text(max_nb_chars=200)
-
         cursor.execute(
             """
-        INSERT INTO Clientes (Nombre, Apellido_Paterno, Apellido_Materno, Fecha_De_Nacimiento, Lugar_De_Nacimiento, Genero, Celular, Celular_2, Direccion, Licencia, Seguro_Social, Numero_De_Servicio_Militar, Descripcion)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO Clientes (
+        Ocupacion,
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Genero,
+        Correo_Electronico,
+        Celular,
+        Celular_2,
+        Direccion,
+        Fecha_Nacimiento,
+        Lugar_Nacimiento,
+        Seguro_Social,
+        Licencia,
+        Servicio_Militar,
+        Estado_Civil,
+        Descripcion)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         """,
             (
-                nombre,
-                apellido_paterno,
-                apellido_materno,
-                fecha_nacimiento,
-                lugar_nacimiento,
-                genero,
-                celular,
-                celular_2,
-                direccion,
-                licencia,
-                seguro_social,
-                servicio_militar,
-                descripcion,
+                Ocupacion,
+                Nombre,
+                Apellido_Paterno,
+                Apellido_Materno,
+                Genero,
+                Correo_Electronico,
+                Celular,
+                Celular_2,
+                Direccion,
+                Fecha_Nacimiento,
+                Lugar_Nacimiento,
+                Seguro_Social,
+                Licencia,
+                Servicio_Militar,
+                Estado_Civil,
+                Descripcion,
             ),
         )
 

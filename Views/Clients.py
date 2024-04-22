@@ -4,25 +4,82 @@ import datetime
 from datetime import datetime
 from modules import conn
 
-select_clients = """SELECT * FROM Clientes;"""
-select_client = """ SELECT * FROM Clientes WHERE Cliente_ID = {};"""
-insert_client = """ INSERT INTO Clientes (Nombre, Apellido_Paterno, Apellido_Materno, Fecha_De_Nacimiento, Lugar_De_Nacimiento, Genero, Celular, Celular_2, Direccion, Licencia, Seguro_Social, Numero_De_Servicio_Militar, Descripcion) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')"""
-update_client = """ UPDATE Clientes 
-                    SET Nombre = '{}', 
-                        Apellido_Paterno = '{}', 
-                        Apellido_Materno = '{}', 
-                        Fecha_De_Nacimiento = '{}', 
-                        Lugar_De_Nacimiento = '{}', 
-                        Genero = '{}', 
-                        Celular = '{}', 
-                        Celular_2 = '{}', 
-                        Direccion = '{}', 
-                        Licencia = '{}',
-                        Seguro_Social = '{}',
-                        Numero_De_Servicio_Militar = '{}',
-                        Descripcion = '{}'
-                    WHERE Cliente_ID = {};
-                """
+select_clients = """
+    SELECT Cliente_ID,
+        Ocupacion,
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Genero,
+        Correo_Electronico,
+        Celular,
+        Celular_2,
+        Direccion,
+        Fecha_Nacimiento,
+        Lugar_Nacimiento,
+        Seguro_Social,
+        Licencia,
+        Servicio_Militar,
+        Estado_Civil,
+        Descripcion
+    FROM Clientes;"""
+select_client = """ 
+    SELECT
+        Ocupacion AS Ocupacion,
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Genero,
+        Correo_Electronico,
+        Celular,
+        Celular_2,
+        Direccion,
+        Fecha_Nacimiento,
+        Lugar_Nacimiento,
+        Seguro_Social,
+        Licencia,
+        Servicio_Militar,
+        Estado_Civil,
+        Descripcion
+ FROM Clientes WHERE Cliente_ID = {};"""
+insert_client = """ 
+    INSERT INTO Clientes (
+        Ocupacion,
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Genero,
+        Correo_Electronico,
+        Celular,
+        Celular_2,
+        Direccion,
+        Fecha_Nacimiento,
+        Lugar_Nacimiento,
+        Seguro_Social,
+        Licencia,
+        Servicio_Militar,
+        Estado_Civil,
+        Descripcion) 
+    VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}','{}','{}','{}')"""
+update_client = """ 
+    UPDATE Clientes
+        SET Ocupacion = '{}',
+            Nombre = '{}',
+            Apellido_Paterno = '{}',
+            Apellido_Materno = '{}',
+            Genero = '{}',
+            Correo_Electronico = '{}',
+            Celular = '{}',
+            Celular_2 = '{}',
+            Direccion = '{}',
+            Fecha_Nacimiento = '{}',
+            Lugar_Nacimiento = '{}',
+            Seguro_Social = '{}',
+            Licencia = '{}',
+            Servicio_Militar = '{}',
+            Estado_Civil = '{}',
+            Descripcion = '{}'
+    WHERE Cliente_ID = {};"""
 delete_client = """ DELETE FROM Clientes WHERE Cliente_ID = {};"""
 
 
@@ -90,62 +147,89 @@ class Clients:
         with st.form(key=key, clear_on_submit=False, border=False):
             col1, col2 = st.columns(2)
             with col1:
-                nombre = st.text_input(
-                    key=key + "nombre", label="Nombre", disabled=disabled
+                Nombre = st.text_input(
+                    key=key + "Nombre",
+                    label="Nombre",
+                    disabled=disabled,
                 )
-                apellido_paterno = st.text_input(
-                    key=key + "apellido_paterno",
+                Apellido_Paterno = st.text_input(
+                    key=key + "Apellido_Paterno",
                     label="Apellido Paterno",
                     disabled=disabled,
                 )
-                apellido_materno = st.text_input(
-                    key=key + "apellido_materno",
+                Apellido_Materno = st.text_input(
+                    key=key + "Apellido_Materno",
                     label="Apellido Materno",
                     disabled=disabled,
                 )
-                fecha_de_nacimiento = st.date_input(
-                    key=key + "fecha_de_nacimiento",
+                Correo_Electronico = st.text_input(
+                    key=key + "Correo_Electronico",
+                    label="Correo Electronico",
+                    disabled=disabled,
+                )
+                Celular = st.text_input(
+                    key=key + "Celular",
+                    label="Celular",
+                    disabled=disabled,
+                )
+                Celular_2 = st.text_input(
+                    key=key + "Celular_2",
+                    label="Celular 2",
+                    disabled=disabled,
+                )
+
+                Direccion = st.text_input(
+                    key=key + "Direccion",
+                    label="Dirección",
+                    disabled=disabled,
+                )
+                Estado_Civil = st.selectbox(
+                    key=key + "Estado_Civil",
+                    label="Estado Civil",
+                    disabled=disabled,
+                    options=["Soltero", "Casado", "Divorciado", "Viudo"],
+                )
+            with col2:
+                Ocupacion = st.text_input(
+                    key=key + "Ocupacion",
+                    label="Ocupacion",
+                    disabled=disabled,
+                )
+                Descripcion = st.text_input(
+                    key=key + "Descripcion", label="Descripcion", disabled=disabled
+                )
+                Seguro_Social = st.text_input(
+                    key=key + "Seguro_Social",
+                    label="Seguro Social",
+                    disabled=disabled,
+                )
+                Genero = st.selectbox(
+                    key=key + "Genero",
+                    label="Género",
+                    options=["Masculino", "Femenino"],
+                    disabled=disabled,
+                )
+                Fecha_Nacimiento = st.date_input(
+                    key=key + "Fecha_Nacimiento",
                     label="Fecha de Nacimiento",
                     min_value=None,
                     max_value=None,
                     disabled=disabled,
                 ).strftime("%Y-%m-%d")
 
-                lugar_de_nacimiento = st.text_input(
-                    key=key + "lugar_de_nacimiento",
+                Lugar_Nacimiento = st.text_input(
+                    key=key + "Lugar_Nacimiento,",
                     label="Lugar de Nacimiento",
                     disabled=disabled,
                 )
-                genero = st.selectbox(
-                    key=key + "genero",
-                    label="Género",
-                    options=["Masculino", "Femenino"],
+                Licencia = st.text_input(
+                    key=key + "Licencia",
+                    label="Licencia",
                     disabled=disabled,
-                )
-                descripcion = st.text_input(
-                    key=key + "descripcion", label="Descripcion", disabled=disabled
                 )
 
-            with col2:
-                celular = st.text_input(
-                    key=key + "celular", label="Celular", disabled=disabled
-                )
-                celular2 = st.text_input(
-                    key=key + "celular2", label="Celular 2", disabled=disabled
-                )
-                direccion = st.text_area(
-                    key=key + "direccion", label="Dirección", disabled=disabled
-                )
-                numero_de_licencia = st.text_input(
-                    key=key + "numero_de_licencia", label="Licencia", disabled=disabled
-                )
-                seguro_social = st.text_input(
-                    key=key + "seguro_social",
-                    label="Seguro Social",
-                    disabled=disabled,
-                )
-                numero_servicio_militar = st.text_input(
-                    key=key + "numero_servicio_militar",
+                Servicio_Militar = st.text_input(
+                    key=key + "Servicio_Militar",
                     label="Número de Servicio Militar",
                     disabled=disabled,
                 )
@@ -156,19 +240,22 @@ class Clients:
                 try:
                     conn.query2(
                         insert_client.format(
-                            nombre,
-                            apellido_paterno,
-                            apellido_materno,
-                            fecha_de_nacimiento,
-                            lugar_de_nacimiento,
-                            genero,
-                            celular,
-                            celular2,
-                            direccion,
-                            numero_de_licencia,
-                            seguro_social,
-                            numero_servicio_militar,
-                            descripcion,
+                            Ocupacion,
+                            Nombre,
+                            Apellido_Paterno,
+                            Apellido_Materno,
+                            Genero,
+                            Correo_Electronico,
+                            Celular,
+                            Celular_2,
+                            Direccion,
+                            Fecha_Nacimiento,
+                            Lugar_Nacimiento,
+                            Seguro_Social,
+                            Licencia,
+                            Servicio_Militar,
+                            Estado_Civil,
+                            Descripcion,
                         )
                     )
                     st.success("Cliente añadido")
@@ -186,94 +273,123 @@ class Clients:
             with st.form(key=key + "form", clear_on_submit=False, border=False):
                 col1, col2 = st.columns(2)
                 with col1:
-                    nombre = st.text_input(
-                        key=key + "nombre",
+                    Nombre = st.text_input(
+                        key=key + "Nombre",
                         label="Nombre",
+                        disabled=disabled,
                         value=client_info["Nombre"],
-                        disabled=disabled,
                     )
-                    apellido_paterno = st.text_input(
-                        key=key + "apellido_paterno",
+                    Apellido_Paterno = st.text_input(
+                        key=key + "Apellido_Paterno",
                         label="Apellido Paterno",
+                        disabled=disabled,
                         value=client_info["Apellido_Paterno"],
-                        disabled=disabled,
                     )
-                    apellido_materno = st.text_input(
-                        key=key + "apellido_materno",
+                    Apellido_Materno = st.text_input(
+                        key=key + "Apellido_Materno",
                         label="Apellido Materno",
-                        value=client_info["Apellido_Materno"],
                         disabled=disabled,
+                        value=client_info["Apellido_Materno"],
                     )
-                    # Convert the date string to a datetime object
-                    date_obj = datetime.strptime(
-                        client_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
-                    ).date()
+                    Correo_Electronico = st.text_input(
+                        key=key + "Correo_Electronico",
+                        label="Correo Electronico",
+                        disabled=disabled,
+                        value=client_info["Correo_Electronico"],
+                    )
+                    Celular = st.text_input(
+                        key=key + "Celular",
+                        label="Celular",
+                        disabled=disabled,
+                        value=client_info["Celular"],
+                    )
+                    Celular_2 = st.text_input(
+                        key=key + "Celular_2",
+                        label="Celular 2",
+                        disabled=disabled,
+                        value=client_info["Celular_2"],
+                    )
 
-                    # Use the datetime object as the value for the date input
-                    fecha_de_nacimiento = st.date_input(
-                        key=key + "fecha_de_nacimiento",
+                    Direccion = st.text_input(
+                        key=key + "Direccion",
+                        label="Dirección",
+                        disabled=disabled,
+                        value=client_info["Direccion"],
+                    )
+                    # Define the options
+                    options = ["Soltero", "Casado", "Divorciado", "Viudo"]
+
+                    # Set the default index to None initially
+                    default_index = None
+
+                    # Check if the value from client_info["Estado_Civil"] matches any option
+                    if client_info["Estado_Civil"] in options:
+                        default_index = options.index(client_info["Estado_Civil"])
+
+                    # Create the select box with the correct default index
+                    Estado_Civil = st.selectbox(
+                        key=key + "Estado_Civil",
+                        label="Estado Civil",
+                        disabled=disabled,
+                        options=options,
+                        index=default_index,
+                    )
+                with col2:
+                    Ocupacion = st.text_input(
+                        key=key + "Ocupacion",
+                        label="Ocupacion",
+                        disabled=disabled,
+                        value=client_info["Ocupacion"],
+                    )
+                    Descripcion = st.text_input(
+                        key=key + "Descripcion",
+                        label="Descripcion",
+                        disabled=disabled,
+                        value=client_info["Descripcion"],
+                    )
+                    Seguro_Social = st.text_input(
+                        key=key + "Seguro_Social",
+                        label="Seguro Social",
+                        disabled=disabled,
+                        value=client_info["Seguro_Social"],
+                    )
+                    Genero = st.selectbox(
+                        key=key + "Genero",
+                        label="Género",
+                        options=["Masculino", "Femenino"],
+                        disabled=disabled,
+                        index=0 if client_info["Genero"] == "Activo" else 1,
+                    )
+                    date_obj = datetime.strptime(
+                        client_info["Fecha_Nacimiento"], "%Y-%m-%d"
+                    ).date()
+                    Fecha_Nacimiento = st.date_input(
+                        key=key + "Fecha_Nacimiento",
                         label="Fecha de Nacimiento",
                         value=date_obj,
                         min_value=None,
                         max_value=None,
                         disabled=disabled,
                     )
-                    lugar_de_nacimiento = st.text_input(
-                        key=key + "lugar_de_nacimiento",
+
+                    Lugar_Nacimiento = st.text_input(
+                        key=key + "Lugar_Nacimiento,",
                         label="Lugar de Nacimiento",
-                        value=client_info["Lugar_De_Nacimiento"],
                         disabled=disabled,
+                        value=client_info["Lugar_Nacimiento"],
                     )
-                    genero = st.selectbox(
-                        key=key + "genero",
-                        label="Género",
-                        options=["Masculino", "Femenino"],
-                        index=0 if client_info["Genero"] == "Masculino" else 1,
+                    Licencia = st.text_input(
+                        key=key + "Licencia",
+                        label="Licencia",
                         disabled=disabled,
-                    )
-                    descripcion = st.text_input(
-                        key=key + "descripcion",
-                        label="Descripcion",
-                        value=client_info["Descripcion"],
-                        disabled=disabled,
+                        value=client_info["Licencia"],
                     )
 
-                with col2:
-                    celular = st.text_input(
-                        key=key + "celular",
-                        label="Celular",
-                        value=client_info["Celular"],
-                        disabled=disabled,
-                    )
-                    celular2 = st.text_input(
-                        key=key + "celular2",
-                        label="Celular 2",
-                        value=client_info["Celular_2"],
-                        disabled=disabled,
-                    )
-                    direccion = st.text_area(
-                        key=key + "direccion",
-                        label="Dirección",
-                        value=client_info["Direccion"],
-                        disabled=disabled,
-                    )
-                    numero_de_licencia = st.text_input(
-                        key=key + "numero_de_licencia",
-                        label="Licencia",
-                        value=client_info["Licencia"],
-                        disabled=disabled,
-                    )
-                    seguro_social = st.text_input(
-                        key=key + "seguro_social",
-                        label="Seguro Social",
-                        value=client_info["Seguro_Social"],
-                        disabled=disabled,
-                    )
-                    numero_servicio_militar = st.text_input(
-                        key=key + "numero_servicio_militar",
+                    Servicio_Militar = st.text_input(
+                        key=key + "Servicio_Militar",
                         label="Número de Servicio Militar",
-                        value=client_info["Numero_De_Servicio_Militar"],
                         disabled=disabled,
+                        value=client_info["Servicio_Militar"],
                     )
 
                 if st.form_submit_button(
@@ -283,19 +399,22 @@ class Clients:
                 ):
                     try:
                         query = update_client.format(
-                            nombre,
-                            apellido_paterno,
-                            apellido_materno,
-                            fecha_de_nacimiento,
-                            lugar_de_nacimiento,
-                            genero,
-                            celular,
-                            celular2,
-                            direccion,
-                            numero_de_licencia,
-                            seguro_social,
-                            numero_servicio_militar,
-                            descripcion,
+                            Ocupacion,
+                            Nombre,
+                            Apellido_Paterno,
+                            Apellido_Materno,
+                            Genero,
+                            Correo_Electronico,
+                            Celular,
+                            Celular_2,
+                            Direccion,
+                            Fecha_Nacimiento,
+                            Lugar_Nacimiento,
+                            Seguro_Social,
+                            Licencia,
+                            Servicio_Militar,
+                            Estado_Civil,
+                            Descripcion,
                             search_id,
                         )
                         conn.query2(query=query)
@@ -315,91 +434,123 @@ class Clients:
             with st.form(key=key + "form", clear_on_submit=True, border=False):
                 col1, col2 = st.columns(2)
                 with col1:
-                    nombre = st.text_input(
-                        key=key + "nombre",
+                    Nombre = st.text_input(
+                        key=key + "Nombre",
                         label="Nombre",
+                        disabled=disabled,
                         value=client_info["Nombre"],
-                        disabled=disabled,
                     )
-                    apellido_paterno = st.text_input(
-                        key=key + "apellido_paterno",
+                    Apellido_Paterno = st.text_input(
+                        key=key + "Apellido_Paterno",
                         label="Apellido Paterno",
+                        disabled=disabled,
                         value=client_info["Apellido_Paterno"],
-                        disabled=disabled,
                     )
-                    apellido_materno = st.text_input(
-                        key=key + "apellido_materno",
+                    Apellido_Materno = st.text_input(
+                        key=key + "Apellido_Materno",
                         label="Apellido Materno",
-                        value=client_info["Apellido_Materno"],
                         disabled=disabled,
+                        value=client_info["Apellido_Materno"],
+                    )
+                    Correo_Electronico = st.text_input(
+                        key=key + "Correo_Electronico",
+                        label="Correo Electronico",
+                        disabled=disabled,
+                        value=client_info["Correo_Electronico"],
+                    )
+                    Celular = st.text_input(
+                        key=key + "Celular",
+                        label="Celular",
+                        disabled=disabled,
+                        value=client_info["Celular"],
+                    )
+                    Celular_2 = st.text_input(
+                        key=key + "Celular_2",
+                        label="Celular 2",
+                        disabled=disabled,
+                        value=client_info["Celular_2"],
+                    )
+
+                    Direccion = st.text_input(
+                        key=key + "Direccion",
+                        label="Dirección",
+                        disabled=disabled,
+                        value=client_info["Direccion"],
+                    )
+                    # Define the options
+                    options = ["Soltero", "Casado", "Divorciado", "Viudo"]
+
+                    # Set the default index to None initially
+                    default_index = None
+
+                    # Check if the value from client_info["Estado_Civil"] matches any option
+                    if client_info["Estado_Civil"] in options:
+                        default_index = options.index(client_info["Estado_Civil"])
+
+                    # Create the select box with the correct default index
+                    Estado_Civil = st.selectbox(
+                        key=key + "Estado_Civil",
+                        label="Estado Civil",
+                        disabled=disabled,
+                        options=options,
+                        index=default_index,
+                    )
+                with col2:
+                    Ocupacion = st.text_input(
+                        key=key + "Ocupacion",
+                        label="Ocupacion",
+                        disabled=disabled,
+                        value=client_info["Ocupacion"],
+                    )
+                    Descripcion = st.text_input(
+                        key=key + "Descripcion",
+                        label="Descripcion",
+                        disabled=disabled,
+                        value=client_info["Descripcion"],
+                    )
+                    Seguro_Social = st.text_input(
+                        key=key + "Seguro_Social",
+                        label="Seguro Social",
+                        disabled=disabled,
+                        value=client_info["Seguro_Social"],
+                    )
+                    Genero = st.selectbox(
+                        key=key + "Genero",
+                        label="Género",
+                        options=["Masculino", "Femenino"],
+                        disabled=disabled,
+                        index=0 if client_info["Genero"] == "Activo" else 1,
                     )
                     date_obj = datetime.strptime(
-                        client_info["Fecha_De_Nacimiento"], "%Y-%m-%d"
+                        client_info["Fecha_Nacimiento"], "%Y-%m-%d"
                     ).date()
-                    fecha_de_nacimiento = st.date_input(
-                        key=key + "fecha_de_nacimiento",
+                    Fecha_Nacimiento = st.date_input(
+                        key=key + "Fecha_Nacimiento",
                         label="Fecha de Nacimiento",
                         value=date_obj,
                         min_value=None,
                         max_value=None,
                         disabled=disabled,
                     )
-                    lugar_de_nacimiento = st.text_input(
-                        key=key + "lugar_de_nacimiento",
+
+                    Lugar_Nacimiento = st.text_input(
+                        key=key + "Lugar_Nacimiento,",
                         label="Lugar de Nacimiento",
-                        value=client_info["Lugar_De_Nacimiento"],
                         disabled=disabled,
+                        value=client_info["Lugar_Nacimiento"],
                     )
-                    genero = st.selectbox(
-                        key=key + "genero",
-                        label="Género",
-                        options=["Masculino", "Femenino"],
-                        index=0 if client_info["Genero"] == "Masculino" else 1,
+                    Licencia = st.text_input(
+                        key=key + "Licencia",
+                        label="Licencia",
                         disabled=disabled,
-                    )
-                    descripcion = st.text_input(
-                        key=key + "descripcion",
-                        label="Descripcion",
-                        value=client_info["Descripcion"],
-                        disabled=disabled,
+                        value=client_info["Licencia"],
                     )
 
-                with col2:
-                    celular = st.text_input(
-                        key=key + "celular",
-                        label="Celular",
-                        value=client_info["Celular"],
-                        disabled=disabled,
-                    )
-                    celular2 = st.text_input(
-                        key=key + "celular2",
-                        label="Celular 2",
-                        value=client_info["Celular_2"],
-                        disabled=disabled,
-                    )
-                    direccion = st.text_area(
-                        key=key + "direccion",
-                        label="Dirección",
-                        value=client_info["Direccion"],
-                        disabled=disabled,
-                    )
-                    numero_de_licencia = st.text_input(
-                        key=key + "numero_de_licencia",
-                        label="Licencia",
-                        value=client_info["Licencia"],
-                        disabled=disabled,
-                    )
-                    seguro_social = st.text_input(
-                        key=key + "seguro_social",
-                        label="Seguro Social",
-                        value=client_info["Seguro_Social"],
-                        disabled=disabled,
-                    )
-                    numero_servicio_militar = st.text_input(
-                        key=key + "numero_servicio_militar",
+                    Servicio_Militar = st.text_input(
+                        key=key + "Servicio_Militar",
                         label="Número de Servicio Militar",
-                        value=client_info["Numero_De_Servicio_Militar"],
                         disabled=disabled,
+                        value=client_info["Servicio_Militar"],
                     )
 
                 if st.form_submit_button(
@@ -416,40 +567,25 @@ class Clients:
     def select_client(search_id):
         try:
             # client = conn.Connections.query1(select_client.format(search_id))
-            client = conn.query1(select_client.format(search_id))
+            client = conn.query3(select_client.format(search_id))
             client_info = {
-                "Cliente_ID": client.iloc[0, 0],  # row, column
-                "Nombre": client.iloc[0, 1],
-                "Apellido_Paterno": client.iloc[0, 2],
-                "Apellido_Materno": client.iloc[0, 3],
-                "Fecha_De_Nacimiento": client.iloc[0, 4],
-                "Lugar_De_Nacimiento": client.iloc[0, 5],
-                "Genero": client.iloc[0, 6],
-                "Celular": client.iloc[0, 7],
-                "Celular_2": client.iloc[0, 8],
-                "Direccion": client.iloc[0, 9],
-                "Licencia": client.iloc[0, 10],
-                "Seguro_Social": client.iloc[0, 11],
-                "Numero_De_Servicio_Militar": client.iloc[0, 12],
-                "Descripcion": client.iloc[0, 13],
+                "Ocupacion": client["Ocupacion"],
+                "Nombre": client["Nombre"],
+                "Apellido_Paterno": client["Apellido_Paterno"],
+                "Apellido_Materno": client["Apellido_Materno"],
+                "Genero": client["Genero"],
+                "Correo_Electronico": client["Correo_Electronico"],
+                "Celular": client["Celular"],
+                "Celular_2": client["Celular_2"],
+                "Direccion": client["Direccion"],
+                "Fecha_Nacimiento": client["Fecha_Nacimiento"],
+                "Lugar_Nacimiento": client["Lugar_Nacimiento"],
+                "Seguro_Social": client["Seguro_Social"],
+                "Licencia": client["Licencia"],
+                "Servicio_Militar": client["Servicio_Militar"],
+                "Estado_Civil": client["Estado_Civil"],
+                "Descripcion": client["Descripcion"],
             }
             return client_info
         except:
             return False
-
-    def select_mock_data():
-        client_info = {
-            "Nombre": "Juan",
-            "Apellido_Paterno": "Gonzalez",
-            "Apellido_Materno": "Perez",
-            "Fecha_De_Nacimiento": datetime(1990, 5, 15),
-            "Lugar_De_Nacimiento": "Ciudad de Mexico",
-            "Genero": "Masculino",
-            "Celular": "5551234567",
-            "Celular_2": "5551112233",
-            "Direccion": "Calle 123",
-            "Licencia": "L123456",
-            "Seguro_Social": "1234567890",
-            "Numero_De_Servicio_Militar": "S12345",
-        }
-        return client_info

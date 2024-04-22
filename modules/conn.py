@@ -31,3 +31,12 @@ def query2(query):
     conn = sql.connect("Database/portadelsol.db")
     conn.execute(query)
     conn.commit()
+
+
+def query3(query):
+    conn = sql.connect("Database/portadelsol.db")
+    cursor = conn.execute(query)
+    data = cursor.fetchone()
+    column_names = [description[0] for description in cursor.description]
+    result_dict = dict(zip(column_names, data))
+    return result_dict
