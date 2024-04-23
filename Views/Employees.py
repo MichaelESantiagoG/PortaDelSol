@@ -5,7 +5,7 @@ from datetime import datetime
 
 select_employees = """
     SELECT
-        Empleado_ID
+        Empleado_ID,
         Posicion,
         Nombre,
         Apellido_Paterno,
