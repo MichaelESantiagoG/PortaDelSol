@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 class Profile:
     @staticmethod
     def view():
@@ -29,7 +30,7 @@ class Profile:
         )
         with st.container(border=True):
             tab1, tab2, tab3 = st.tabs(["Perfil", "Preferencias", "???"])
-        
+
             with tab1:
                 st.markdown(
                     """
@@ -49,7 +50,7 @@ class Profile:
                     unsafe_allow_html=True,
                 )
                 with st.form(key="profile", clear_on_submit=True, border=False):
-                    col1,col2 = st.columns(2)
+                    col1, col2 = st.columns(2)
                     with col1:
                         first_name = st.text_input(label="Nombre")
                         email = st.text_input(label="Correo")
@@ -59,12 +60,15 @@ class Profile:
                         phone = st.text_input(label="Telefono")
 
                     address = st.text_input(label="Dirección")
-                    col1,col2 = st.columns(2)
+                    col1, col2 = st.columns(2)
                     with col1:
                         username = st.text_input(label="Usuario")
                         start_date = st.date_input(label="Fecha de comienzo")
                     with col2:
-                        password = st.text_input(label="Contraseña",type="password")
+                        password = st.text_input(label="Contraseña", type="password")
                         end_date = st.date_input(label="End Date")
-                    if st.form_submit_button(label="Actualizar",type="primary"): st.success('Perfil actualizado')
-                    
+                    if st.form_submit_button(label="Actualizar", type="primary"):
+                        st.success("Perfil actualizado")
+
+            with tab3:
+                st.image("Media/CapyLogo.jpeg", caption="CapyCorpS Monochrome Logo")
