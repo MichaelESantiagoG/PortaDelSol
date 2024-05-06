@@ -3,19 +3,8 @@ import pandas as pd
 from modules import conn
 import time
 
-select_services = """SELECT * FROM Servicios;"""
-select_service = """SELECT * FROM Servicios WHERE Servicio_ID = {} ;"""
-insert_service = (
-    """INSERT INTO Servicios (Servicio_Nombre, Servicio_Precio) VALUES ('{}', {});"""
-)
-update_service = """UPDATE Servicios SET Servicio_Nombre = '{}', Servicio_Precio = {} WHERE Servicio_ID = {};"""
-delete_service = """DELETE FROM Servicios WHERE Servicio_ID = {};"""
-
 
 class Servicios:
-    def load_data():
-        return conn.query1(select_services)
-
     def view():
         header = """
             <style>
@@ -42,7 +31,7 @@ class Servicios:
 
         col1, col2 = st.columns([50, 50])
         with col1:
-            st.dataframe(data=Servicios.load_data(), hide_index=True)
+            st.dataframe(data=conn.Select_All.Servicios(), hide_index=True)
             # st.dataframe(data=df_servicios, hide_index=False)
 
         with col2:
@@ -75,9 +64,11 @@ class Servicios:
                 label="Añadir", type="secondary", use_container_width=False
             ):
                 try:
-                    conn.query2(
-                        insert_service.format(nombre_de_servcicio, Servicio_Precio)
-                    )
+                    Servicio = {
+                        "Servicio_Nombre": nombre_de_servcicio,
+                        "Servicio_Precio": Servicio_Precio,
+                    }
+                    conn.Insert.Servicio(Servicio)
                     st.success("Servicio Añadido")
                     time.sleep(3)
 
@@ -113,13 +104,11 @@ class Servicios:
                     label="Actualizar", type="secondary", use_container_width=False
                 ):
                     try:
-                        conn.query2(
-                            update_service.format(
-                                nombre_de_servcicio,
-                                Servicio_Precio,
-                                search_id,
-                            )
-                        )
+                        Servicio = {
+                            "Servicio_Nombre": nombre_de_servcicio,
+                            "Servicio_Precio": Servicio_Precio,
+                        }
+                        conn.Update.Servicio(search_id, Servicio)
                         st.success("Servicio Actualizado")
                         time.sleep(3)
                     except:
@@ -157,11 +146,7 @@ class Servicios:
                     label="Eliminar", type="secondary", use_container_width=False
                 ):
                     try:
-                        conn.query2(
-                            delete_service.format(
-                                search_id,
-                            )
-                        )
+                        conn.Delete.Servicio(search_id)
                         st.success("Servicio Eliminado")
                         time.sleep(3)
                     except:
@@ -174,7 +159,7 @@ class Servicios:
 
     def select_service(id):
         try:
-            service = conn.query3(select_service.format(id))
+            service = conn.Select.Servicio(id)
             service_info = {
                 "Servicio_ID": service["Servicio_ID"],
                 "Servicio_Nombre": service["Servicio_Nombre"],

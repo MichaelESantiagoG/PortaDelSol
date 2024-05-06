@@ -4,84 +4,6 @@ import datetime
 from datetime import datetime
 from modules import conn
 
-select_clients = """
-    SELECT Cliente_ID,
-        Ocupacion,
-        Nombre,
-        Apellido_Paterno,
-        Apellido_Materno,
-        Genero,
-        Correo_Electronico,
-        Celular,
-        Celular_2,
-        Direccion,
-        Fecha_Nacimiento,
-        Lugar_Nacimiento,
-        Seguro_Social,
-        Licencia,
-        Servicio_Militar,
-        Estado_Civil,
-        Descripcion
-    FROM Clientes;"""
-select_client = """ 
-    SELECT
-        Ocupacion AS Ocupacion,
-        Nombre,
-        Apellido_Paterno,
-        Apellido_Materno,
-        Genero,
-        Correo_Electronico,
-        Celular,
-        Celular_2,
-        Direccion,
-        Fecha_Nacimiento,
-        Lugar_Nacimiento,
-        Seguro_Social,
-        Licencia,
-        Servicio_Militar,
-        Estado_Civil,
-        Descripcion
- FROM Clientes WHERE Cliente_ID = {};"""
-insert_client = """ 
-    INSERT INTO Clientes (
-        Ocupacion,
-        Nombre,
-        Apellido_Paterno,
-        Apellido_Materno,
-        Genero,
-        Correo_Electronico,
-        Celular,
-        Celular_2,
-        Direccion,
-        Fecha_Nacimiento,
-        Lugar_Nacimiento,
-        Seguro_Social,
-        Licencia,
-        Servicio_Militar,
-        Estado_Civil,
-        Descripcion) 
-    VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}','{}','{}','{}')"""
-update_client = """ 
-    UPDATE Clientes
-        SET Ocupacion = '{}',
-            Nombre = '{}',
-            Apellido_Paterno = '{}',
-            Apellido_Materno = '{}',
-            Genero = '{}',
-            Correo_Electronico = '{}',
-            Celular = '{}',
-            Celular_2 = '{}',
-            Direccion = '{}',
-            Fecha_Nacimiento = '{}',
-            Lugar_Nacimiento = '{}',
-            Seguro_Social = '{}',
-            Licencia = '{}',
-            Servicio_Militar = '{}',
-            Estado_Civil = '{}',
-            Descripcion = '{}'
-    WHERE Cliente_ID = {};"""
-delete_client = """ DELETE FROM Clientes WHERE Cliente_ID = {};"""
-
 
 class Clients:
 
@@ -140,7 +62,7 @@ class Clients:
 
         st.write("***")
         # st.dataframe(conn.Connections.query1(select_clients))
-        st.dataframe(conn.query1(select_clients), hide_index=True)
+        st.dataframe(conn.Select_All.CLientes(), hide_index=True)
 
     def add_client_form():
         key, disabled = "add_client", False
@@ -238,26 +160,25 @@ class Clients:
                 label="Añadir", type="secondary", use_container_width=True
             ):
                 try:
-                    conn.query2(
-                        insert_client.format(
-                            Ocupacion,
-                            Nombre,
-                            Apellido_Paterno,
-                            Apellido_Materno,
-                            Genero,
-                            Correo_Electronico,
-                            Celular,
-                            Celular_2,
-                            Direccion,
-                            Fecha_Nacimiento,
-                            Lugar_Nacimiento,
-                            Seguro_Social,
-                            Licencia,
-                            Servicio_Militar,
-                            Estado_Civil,
-                            Descripcion,
-                        )
-                    )
+                    Cliente = {
+                        "Ocupacion": Ocupacion,
+                        "Nombre": Nombre,
+                        "Apellido_Paterno": Apellido_Paterno,
+                        "Apellido_Materno": Apellido_Materno,
+                        "Genero": Genero,
+                        "Correo_Electronico": Correo_Electronico,
+                        "Celular": Celular,
+                        "Celular_2": Celular_2,
+                        "Direccion": Direccion,
+                        "Fecha_Nacimiento": Fecha_Nacimiento,
+                        "Lugar_Nacimiento": Lugar_Nacimiento,
+                        "Seguro_Social": Seguro_Social,
+                        "Licencia": Licencia,
+                        "Servicio_Militar": Servicio_Militar,
+                        "Estado_Civil": Estado_Civil,
+                        "Descripcion": Descripcion,
+                    }
+                    conn.Insert.Cliente(Cliente)
                     st.success("Cliente añadido")
 
                 except:
@@ -398,26 +319,25 @@ class Clients:
                     use_container_width=True,
                 ):
                     try:
-                        query = update_client.format(
-                            Ocupacion,
-                            Nombre,
-                            Apellido_Paterno,
-                            Apellido_Materno,
-                            Genero,
-                            Correo_Electronico,
-                            Celular,
-                            Celular_2,
-                            Direccion,
-                            Fecha_Nacimiento,
-                            Lugar_Nacimiento,
-                            Seguro_Social,
-                            Licencia,
-                            Servicio_Militar,
-                            Estado_Civil,
-                            Descripcion,
-                            search_id,
-                        )
-                        conn.query2(query=query)
+                        Cliente = {
+                            "Ocupacion": Ocupacion,
+                            "Nombre": Nombre,
+                            "Apellido_Paterno": Apellido_Paterno,
+                            "Apellido_Materno": Apellido_Materno,
+                            "Genero": Genero,
+                            "Correo_Electronico": Correo_Electronico,
+                            "Celular": Celular,
+                            "Celular_2": Celular_2,
+                            "Direccion": Direccion,
+                            "Fecha_Nacimiento": Fecha_Nacimiento,
+                            "Lugar_Nacimiento": Lugar_Nacimiento,
+                            "Seguro_Social": Seguro_Social,
+                            "Licencia": Licencia,
+                            "Servicio_Militar": Servicio_Militar,
+                            "Estado_Civil": Estado_Civil,
+                            "Descripcion": Descripcion,
+                        }
+                        conn.Update.Cliente(search_id, Cliente)
                         st.success("Cliente actualizado")
                     except:
                         st.warning("No se pudo actualizar el cliente")
@@ -557,7 +477,7 @@ class Clients:
                     label="Eliminar", disabled=False, use_container_width=True
                 ):
                     try:
-                        conn.query2(query=delete_client.format(search_id))
+                        conn.Delete.Cliente(search_id)
                         st.success("Cliente Eliminado")
                     except:
                         st.warning("No se pudo eliminar el cliente")
@@ -567,7 +487,7 @@ class Clients:
     def select_client(search_id):
         try:
             # client = conn.Connections.query1(select_client.format(search_id))
-            client = conn.query3(select_client.format(search_id))
+            client = conn.Select.CLiente(search_id)
             client_info = {
                 "Ocupacion": client["Ocupacion"],
                 "Nombre": client["Nombre"],

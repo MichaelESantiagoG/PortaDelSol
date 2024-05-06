@@ -3,88 +3,6 @@ import pandas as pd
 from modules import conn
 from datetime import datetime
 
-select_employees = """
-    SELECT
-        Empleado_ID,
-        Posicion,
-        Nombre,
-        Apellido_Paterno,
-        Apellido_Materno,
-        Genero,
-        Correo_Electronico,
-        Celular,
-        Celular_2,
-        Direccion,
-        Fecha_Nacimiento,
-        Lugar_Nacimiento,
-        Seguro_Social,
-        Licencia,
-        Servicio_Militar,
-        Estado_Civil,
-        Estado_Empleo
-    FROM Empleados;"""
-select_employee = """
-    SELECT 
-        Empleado_ID,
-        Posicion,
-        Nombre,
-        Apellido_Paterno,
-        Apellido_Materno,
-        Genero,
-        Correo_Electronico,
-        Celular,
-        Celular_2,
-        Direccion,
-        Fecha_Nacimiento,
-        Lugar_Nacimiento,
-        Seguro_Social,
-        Licencia,
-        Servicio_Militar,
-        Estado_Civil,
-        Estado_Empleo
-    FROM Empleados 
-    WHERE Empleado_ID = {};"""
-insert_employee = """
-    INSERT INTO Empleados (
-        Posicion,
-        Nombre,
-        Apellido_Paterno,
-        Apellido_Materno,
-        Genero,
-        Correo_Electronico,
-        Celular,
-        Celular_2,
-        Direccion,
-        Fecha_Nacimiento,
-        Lugar_Nacimiento,
-        Seguro_Social,
-        Licencia,
-        Servicio_Militar,
-        Estado_Civil,
-        Estado_Empleo)
-    VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')"""
-update_employee = """
-    UPDATE Empleados 
-    SET 
-        Posicion= '{}',
-        Nombre= '{}',
-        Apellido_Paterno= '{}',
-        Apellido_Materno= '{}',
-        Genero= '{}',
-        Correo_Electronico= '{}',
-        Celular= '{}',
-        Celular_2= '{}',
-        Direccion= '{}',
-        Fecha_Nacimiento= '{}',
-        Lugar_Nacimiento= '{}',
-        Seguro_Social= '{}',
-        Licencia= '{}',
-        Servicio_Militar= '{}',
-        Estado_Civil= '{}',
-        Estado_Empleo== '{}'
-    WHERE Empleado_ID = {};"""
-delete_employee = """DELETE FROM Empleados WHERE Empleado_ID = '{}';"""
-
 
 class Employees:
     @staticmethod
@@ -139,7 +57,7 @@ class Employees:
 
         st.write("***")
         # st.dataframe(conn.Connections.query1(select_employees))
-        st.dataframe(conn.query1(select_employees), hide_index=True)
+        st.dataframe(conn.Select_All.Empleados(), hide_index=True)
 
     def add_employee_form():
         key, disabled = "add_employee", False
@@ -238,25 +156,25 @@ class Employees:
                 label="Añadir", type="secondary", use_container_width=True
             ):
                 try:
-                    query = insert_employee.format(
-                        Posicion,
-                        Nombre,
-                        Apellido_Paterno,
-                        Apellido_Materno,
-                        Genero,
-                        Correo_Electronico,
-                        Celular,
-                        Celular_2,
-                        Direccion,
-                        Fecha_Nacimiento,
-                        Lugar_Nacimiento,
-                        Seguro_Social,
-                        Licencia,
-                        Servicio_Militar,
-                        Estado_Civil,
-                        Estado_Empleo,
-                    )
-                    conn.query2(query=query)
+                    Empleado = {
+                        "Posicion": Posicion,
+                        "Nombre": Nombre,
+                        "Apellido_Paterno": Apellido_Paterno,
+                        "Apellido_Materno": Apellido_Materno,
+                        "Genero": Genero,
+                        "Correo_Electronico": Correo_Electronico,
+                        "Celular": Celular,
+                        "Celular_2": Celular_2,
+                        "Direccion": Direccion,
+                        "Fecha_Nacimiento": Fecha_Nacimiento,
+                        "Lugar_Nacimiento": Lugar_Nacimiento,
+                        "Seguro_Social": Seguro_Social,
+                        "Licencia": Licencia,
+                        "Servicio_Militar": Servicio_Militar,
+                        "Estado_Civil": Estado_Civil,
+                        "Estado_Empleo": Estado_Empleo,
+                    }
+                    conn.Insert.Empleado(Empleado)
                     st.success("Empleado añadido")
 
                 except:
@@ -395,26 +313,25 @@ class Employees:
                     label="Editar", type="secondary", use_container_width=True
                 ):
                     try:
-                        query = update_employee.format(
-                            Posicion,
-                            Nombre,
-                            Apellido_Paterno,
-                            Apellido_Materno,
-                            Genero,
-                            Correo_Electronico,
-                            Celular,
-                            Celular_2,
-                            Direccion,
-                            Fecha_Nacimiento,
-                            Lugar_Nacimiento,
-                            Seguro_Social,
-                            Licencia,
-                            Servicio_Militar,
-                            Estado_Civil,
-                            Estado_Empleo,
-                            search_id,
-                        )
-                        conn.query2(query=query)
+                        Empleado = {
+                            "Posicion": Posicion,
+                            "Nombre": Nombre,
+                            "Apellido_Paterno": Apellido_Paterno,
+                            "Apellido_Materno": Apellido_Materno,
+                            "Genero": Genero,
+                            "Correo_Electronico": Correo_Electronico,
+                            "Celular": Celular,
+                            "Celular_2": Celular_2,
+                            "Direccion": Direccion,
+                            "Fecha_Nacimiento": Fecha_Nacimiento,
+                            "Lugar_Nacimiento": Lugar_Nacimiento,
+                            "Seguro_Social": Seguro_Social,
+                            "Licencia": Licencia,
+                            "Servicio_Militar": Servicio_Militar,
+                            "Estado_Civil": Estado_Civil,
+                            "Estado_Empleo": Estado_Empleo,
+                        }
+                        conn.Update.Empleado(id=search_id, data=Empleado)
                         st.success("Empleado Actualizado")
                     except:
                         st.warning("No se pudo actualizar el Empleado")
@@ -554,10 +471,7 @@ class Employees:
                     label="Eliminar", type="secondary", use_container_width=True
                 ):
                     try:
-                        query = delete_employee.format(
-                            search_id,
-                        )
-                        conn.query2(query=query)
+                        conn.Delete.Empleado(search_id)
                         st.success("Empleado Eliminado")
                     except:
                         st.warning("No se pudo eliminar el Empleado")
@@ -566,9 +480,9 @@ class Employees:
 
         pass
 
-    def select_employee(search_id):
+    def select_employee(id):
         try:
-            employee_info = conn.query3(select_employee.format(search_id))
+            employee_info = conn.Select.Empleado(id)
             employee_info1 = {
                 "Empleado_ID": employee_info["Empleado_ID"],  # row, column
                 "Posicion": employee_info["Posicion"],
@@ -588,7 +502,6 @@ class Employees:
                 "Estado_Civil": employee_info["Estado_Civil"],
                 "Estado_Empleo": employee_info["Estado_Empleo"],
             }
-            print(employee_info1)
             return employee_info1
         except:
             return False

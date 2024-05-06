@@ -15,7 +15,7 @@ conn = sql.connect("Database/portadelsol.db")
 cursor = conn.cursor()
 
 
-class Database:
+class Database():
 
     def Empleados(n: int):
         # Create Empleados Table
@@ -553,15 +553,15 @@ CREATE TABLE IF NOT EXISTS Servicios_Elegidos (
 
 
 # Commit changes and close connection
-conn.commit()
-conn.close()
+# conn.commit()
+# conn.close()
 print("Successfully Built Database with sample records.")
 
 # ____________________________________
 
 # Connect to SQLite database
-conn = sql.connect("Database/portadelsol.db")
-cursor = conn.cursor()
+# conn = sql.connect("Database/portadelsol.db")
+# cursor = conn.cursor()
 
 
 class Connection:
@@ -582,6 +582,7 @@ class Connection:
         conn = sql.connect("Database/portadelsol.db")
         conn.execute(query)
         conn.commit()
+        conn.close()
 
     def query3(query):
         conn = sql.connect("Database/portadelsol.db")
@@ -1158,32 +1159,73 @@ Contrato = {
     "Servicio_Detalles": "None",
     "Monto_Total": 0,
 }
-Servicios_Elegidos = {"Contrato_ID": 5, "Servicio_ID": [4, 3]}
+Servicios_Elegidos = {
+    "Contrato_ID": 5,
+    "Servicio_ID": [4, 3],
+}
 
-Insert.Empleado(Employee)
-Insert.Cliente(Client)
-Insert.Servicio(Servicio)
-Insert.Difunto(Difunto)
-Insert.Documentos(Documento)
-Insert.Credenciales(Credenciales)
-Insert.Contrato(Contrato)
-Insert.Servicios_Elegidos(Servicios_Elegidos)
+# Insert.Empleado(Employee)
+# Insert.Cliente(Client)
+# Insert.Servicio(Servicio)
+# Insert.Difunto(Difunto)
+# Insert.Documentos(Documento)
+# Insert.Credenciales(Credenciales)
+# Insert.Contrato(Contrato)
+# Insert.Servicios_Elegidos(Servicios_Elegidos)
 
 
 # __________________________________
-class Update:
-    def Credenciales(data: dict):
+
+
+class Delete(Connection):
+    def Empleado(id):
+        Connection.query2(f"DELETE FROM Empleados WHERE Empleado_ID = {id};")
+
+    def Credenciales(id):
+        Connection.query2(f"DELETE FROM Credenciales WHERE Usuario_ID = {id};")
+
+    def Servicio(id):
+        Connection.query2(f"DELETE FROM Servicios WHERE Servicio_ID = {id};")
+
+    def Cliente(id):
+        Connection.query2(f"DELETE FROM Clientes WHERE Cliente_ID = {id};")
+
+    def Difunto(id):
+        Connection.query2(f"DELETE FROM Difuntos WHERE Difunto_ID = {id};")
+
+    def Documentos(id):
+        Connection.query2(f"DELETE FROM Documentos WHERE Documentos_ID = {id};")
+
+    def Contrato(id):
+        Connection.query2(f"DELETE FROM Contratos WHERE Contrato_ID = {id};")
+
+    def Servicios_Elegidos(id):
+        Connection.query2(f"DELETE FROM Servicios_Elegidos WHERE Contrato_ID = {id};")
+
+
+id = 1
+# Delete.Empleado(id)
+# Delete.Credenciales(id)
+# Delete.Servicio(id)
+# Delete.Cliente(id)
+# Delete.Difunto(id)
+# Delete.Documentos(id)
+# Delete.Contrato(id)
+
+
+class Update(Connection):
+    def Credenciales(id: int, data: dict):
         Connection.query2(
             f"""
             UPDATE Credenciales 
             SET Usuario = '{data['Usuario']}', 
                 Contraseña = '{data['Contraseña']}', 
                 Rol = {data['Rol']} 
-            WHERE Empleado_ID = {data['Empleado_ID']}
+            WHERE Empleado_ID = {id}
             """
         )
 
-    def Empleado(id:int, data: dict):
+    def Empleado(id: int, data: dict):
         Connection.query2(
             f"""UPDATE Empleados 
                 SET Posicion = '{data["Posicion"]}',
@@ -1206,33 +1248,185 @@ class Update:
         """
         )
 
-    def Servicio(id:int, data: dict):
-        Connection.query2(f"""""")
+    def Servicio(id: int, data: dict):
+        Connection.query2(
+            f"""
+UPDATE Servicios SET Servicio_Nombre = '{data['Servicio_Nombre']}', Servicio_Precio = {data['Servicio_Precio']} WHERE Servicio_ID = {id};
+"""
+        )
 
-    def Cliente(id:int, data: dict):
-        Connection.query2(f"""""")
+    def Cliente(id: int, data: dict):
+        Connection.query2(
+            f"""
+            UPDATE Clientes
+            SET Ocupacion = '{data['Ocupacion']}',
+                Nombre = '{data['Nombre']}',
+                Apellido_Paterno = '{data['Apellido_Paterno']}',
+                Apellido_Materno = '{data['Apellido_Materno']}',
+                Genero = '{data['Genero']}',
+                Correo_Electronico = '{data['Correo_Electronico']}',
+                Celular = '{data['Celular']}',
+                Celular_2 = '{data['Celular_2']}',
+                Direccion = '{data['Direccion']}',
+                Fecha_Nacimiento = '{data['Fecha_Nacimiento']}',
+                Lugar_Nacimiento = '{data['Lugar_Nacimiento']}',
+                Seguro_Social = '{data['Seguro_Social']}',
+                Licencia = '{data['Licencia']}',
+                Servicio_Militar = '{data['Servicio_Militar']}',
+                Estado_Civil = '{data['Estado_Civil']}',
+                Descripcion = '{data['Descripcion']}'
+            WHERE Cliente_ID = {id};"""
+        )
 
-    def Difunto(id:int, data: dict):
-        Connection.query2(f"""""")
+    def Difunto(id: int, data: dict):
+        Connection.query2(
+            f"""
+            UPDATE Difuntos
+            SET 
+                Nombre = '{data["Nombre"]}',
+                Apellido_Paterno = '{data["Apellido_Paterno"]}',
+                Apellidp_Materno = '{data["Apellidp_Materno"]}',
+                Genero = '{data["Genero"]}',
+                Estado_Civil = '{data["Estado_Civil"]}',
+                Nombre_Padre = '{data["Nombre_Padre"]}',
+                Nombre_Madre = '{data["Nombre_Madre"]}',
+                Seguro_Social = '{data["Seguro_Social"]}',
+                Servicio_Militar = '{data["Servicio_Militar"]}',
+                Edad = {data["Edad"]},
+                Lugar_Nacimiento = '{data["Lugar_Nacimiento"]}',
+                Fecha_Nacimiento = '{data["Fecha_Nacimiento"]}',
+                Fecha_Defuncion = '{data["Fecha_Defuncion"]}'
+            WHERE 
+                Difunto_ID = {id};
+            """
+        )
 
-    def Documentos(id:int, data: dict):
-        Connection.query2(f"""""")
+    def Documentos(id: int, data: dict):
+        Connection.query2(
+            f"""
+            UPDATE Documentos
+            SET 
+                Certificado_Defuncion = '{data['Certificado_Defuncion']}',
+                Autorizacion_Cremacion = '{data['Autorizacion_Cremacion']}',
+                Permiso_Cremacion = '{data['Permiso_Cremacion']}'
+            WHERE 
+                Documentos_ID = {id};
+            """
+        )
 
-    def Contrato(id:int, data: dict):
-        Connection.query2(f"""""")
+    def Servicios_Elegidos(id: int, data: list):
+        # Delete>Insert
+        Delete.Servicios_Elegidos(id)
+        Insert.Servicios_Elegidos(data)
+
+    def Contrato(id: int, data: dict):
+        Connection.query2(
+            f"""
+            UPDATE Contratos
+            SET 
+                Empleado_ID = {data['Empleado_ID']},
+                Cliente_ID = {data['Cliente_ID']},
+                Servicios_Elegido_ID = {data['Servicios_Elegido_ID']},
+                Difunto_ID = {data['Difunto_ID']},
+                Documentos_ID = {data['Documentos_ID']},
+                Parentesco_Difunto = '{data['Parentesco_Difunto']}',
+                Fecha_Contrato = '{data['Fecha_Contrato']}',
+                Fecha_Servicio = '{data['Fecha_Servicio']}',
+                Metodo_Pago = '{data['Metodo_Pago']}',
+                Servicio_Detalles = '{data['Servicio_Detalles']}',
+                Monto_Total = {data['Monto_Total']}
+            WHERE 
+                Contrato_ID = {id};
+            """
+        )
 
 
-id = 1
-Cuenta = ["new_username", "new_password", 1, id]
-# print(Cuenta)
-# Update.Credenciales(Cuenta)
+id = 2
+Cuenta = {
+    "Usuario": "Usuario",
+    "Contraseña": "Contraseña",
+    "Rol": 0,
+}
+Empleado = {
+    "Posicion": "Posicion",
+    "Nombre": "Nombre",
+    "Apellido_Paterno": "Apellido_Paterno",
+    "Apellido_Materno": "Apellido_Materno",
+    "Genero": "Genero",
+    "Correo_Electronico": "Correo_Electronico",
+    "Celular": "Celular",
+    "Celular_2": "Celular_2",
+    "Direccion": "Direccion",
+    "Fecha_Nacimiento": "Fecha_Nacimiento",
+    "Lugar_Nacimiento": "Lugar_Nacimiento",
+    "Seguro_Social": "Seguro_Social",
+    "Licencia": "Licencia",
+    "Servicio_Militar": "Servicio_Militar",
+    "Estado_Civil": "Estado_Civil",
+    "Estado_Empleo": "Estado_Empleo",
+}
+Servicio = {"Servicio_Nombre": "Servicio_Nombre", "Servicio_Precio": 0}
+Cliente = {
+    "Ocupacion": "Ocupacion",
+    "Nombre": "Nombre",
+    "Apellido_Paterno": "Apellido_Paterno",
+    "Apellido_Materno": "Apellido_Materno",
+    "Genero": "Genero",
+    "Correo_Electronico": "Correo_Electronico",
+    "Celular": "Celular",
+    "Celular_2": "Celular_2",
+    "Direccion": "Direccion",
+    "Fecha_Nacimiento": "Fecha_Nacimiento",
+    "Lugar_Nacimiento": "Lugar_Nacimiento",
+    "Seguro_Social": "Seguro_Social",
+    "Licencia": "Licencia",
+    "Servicio_Militar": "Servicio_Militar",
+    "Estado_Civil": "Estado_Civil",
+    "Descripcion": "Descripcion",
+}
+Difunto = {
+    "Nombre": "Nombre",
+    "Apellido_Paterno": "Apellido_Paterno",
+    "Apellidp_Materno": "Apellidp_Materno",
+    "Genero": "Genero",
+    "Estado_Civil": "Estado_Civil",
+    "Nombre_Padre": "Nombre_Padre",
+    "Nombre_Madre": "Nombre_Madre",
+    "Seguro_Social": "Seguro_Social",
+    "Servicio_Militar": "Servicio_Militar",
+    "Edad": 30,
+    "Lugar_Nacimiento": "New Lugar_Nacimiento",
+    "Fecha_Nacimiento": "2024-01-01",
+    "Fecha_Defuncion": "2025-01-01",
+}  # Update.Credenciales(id, Cuenta)
+Documentos = {
+    "Certificado_Defuncion": "New Certificate",
+    "Autorizacion_Cremacion": False,
+    "Permiso_Cremacion": True,
+}
+Servicios_Elegidos = {
+    "Contrato_ID": id,  # Specify the Contrato_ID for which you want to update Servicios_Elegidos
+    "Servicio_ID": [9, 8, 7],  # Specify the list of Servicio_IDs you want to update
+}
+Contrato = {
+    "Empleado_ID": 1,
+    "Cliente_ID": 1,
+    "Servicios_Elegido_ID": 1,
+    "Difunto_ID": 1,
+    "Documentos_ID": 1,
+    "Parentesco_Difunto": "New Parentesco",
+    "Fecha_Contrato": "2024-05-05",
+    "Fecha_Servicio": "2024-05-06",
+    "Metodo_Pago": "Credit Card",
+    "Servicio_Detalles": "New Details",
+    "Monto_Total": 1000,
+}
+# Update.Empleado(id, Empleado)
+# Update.Servicio(id, Servicio)
+# Update.Cliente(id, Cliente)
+# Update.Difunto(id, Difunto)
+# Update.Documentos(id, Documentos)
+Update.Servicios_Elegidos(id, Servicios_Elegidos)
+# Update.Contrato(id, Contrato)
 
-
-class Delete:
-    (...)
-
-
-# Commit changes and close connection
-conn.commit()
-conn.close()
 print("Records inserted successfully.")
