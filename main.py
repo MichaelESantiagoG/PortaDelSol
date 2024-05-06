@@ -9,6 +9,7 @@ from Views.Log_in import Login
 from Views.Profile import Profile
 from Views.Services import Servicios
 from Views.Contracts import Contracts
+from Views.Deceased import Deceased
 
 initial_layout = "centered"
 initial_sidebar_state = "collapsed"
@@ -62,10 +63,12 @@ margin-left: 50px;
 """
 access = []
 
+
 @st.cache_data
 def load_lottiefile(filepath: str):
-    with open(filepath,"r") as f:
+    with open(filepath, "r") as f:
         return json.load(f)
+
 
 def main():
     st.set_page_config(
@@ -80,28 +83,51 @@ def main():
         navigation = st_option_menu.option_menu(
             menu_title="Menu",
             default_index=0,
-            options=["Panel", "Empleados","Servicios", "Clientes", "Contratos","Ajustes"],
-            icons=["house", "person-vcard", "card-list","people", "card-list","gear"],
-            menu_icon="menu-up",)
+            options=[
+                "Panel",
+                "Empleados",
+                "Servicios",
+                "Clientes",
+                "Difuntos",
+                "Contratos",
+                "Ajustes",
+            ],
+            icons=[
+                "house",
+                "person-vcard",
+                "card-list",
+                "people",
+                "person-wheelchair",
+                "card-list",
+                "gear",
+            ],
+            menu_icon="menu-up",
+        )
         lottie = load_lottiefile("Media/rip.json")
-        st_lottie(lottie,key='loc')
+        st_lottie(lottie, key="loc")
 
-        st.markdown("""<style>.stButton > button {display: block;margin: 10px auto;}""", unsafe_allow_html=True)
-        if st.sidebar.button("Cerrar Sesión", use_container_width=True): Login.logout()
+        st.markdown(
+            """<style>.stButton > button {display: block;margin: 10px auto;}""",
+            unsafe_allow_html=True,
+        )
+        if st.sidebar.button("Cerrar Sesión", use_container_width=True):
+            Login.logout()
 
     if navigation == "Panel":
-        router('/panel').view()
+        router("/panel").view()
     elif navigation == "Servicios":
-        router('/servicios').view()
+        router("/servicios").view()
     elif navigation == "Clientes":
-        router('/clientes').view()
+        router("/clientes").view()
+    elif navigation == "Difuntos":
+        router("/difuntos").view()
     elif navigation == "Empleados":
-        router('/empleados').view()
+        router("/empleados").view()
     elif navigation == "Ajustes":
-        router('/ajustes').view()
+        router("/ajustes").view()
     elif navigation == "Contratos":
-        router('/contratos').view()
-        
+        router("/contratos").view()
+
 
 def router(app_path: str):
     component_to_return = None
@@ -117,6 +143,10 @@ def router(app_path: str):
     elif app_path == "/clientes":
         component_to_return = Clients
         st.query_params.path = "/clients"
+
+    elif app_path == "/difuntos":
+        component_to_return = Deceased
+        st.query_params.path = "/difuntos"
 
     elif app_path == "/empleados":
         component_to_return = Employees
@@ -136,7 +166,8 @@ def router(app_path: str):
         st.query_params.path = "/panel"
 
     # todo validation for invalid
-    return component_to_return    
+    return component_to_return
+
 
 if __name__ == "__main__":
     if "user" not in st.session_state:

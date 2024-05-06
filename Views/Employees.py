@@ -1,8 +1,6 @@
 import streamlit as st
-import pandas as pd
 from modules import conn
 from datetime import datetime
-
 
 class Employees:
     @staticmethod
@@ -23,6 +21,9 @@ class Employees:
                 align-items: center;
                 height: 100%;
                 padding-bottom: 50px;
+            }
+            .st-fq {
+                width: 500px;
             }
             </style>
             <div class="middle-center">

@@ -243,7 +243,7 @@ class Select(Connection):
                 WHERE Cliente_ID = {id};"""
         )
 
-    def Difuntos(id):
+    def Difunto(id):
         return Connection.query3(
             f"""SELECT 
                     Difunto_ID,
@@ -259,9 +259,9 @@ class Select(Connection):
                     Edad,
                     Lugar_Nacimiento,
                     Fecha_Nacimiento,
-                    Fecha_Defuncion    
+                    Fecha_Defuncion 
                 FROM Difuntos
-                WHERE Difunto_ID = {id};      """
+                WHERE Difunto_ID = {id};"""
         )
 
     def Documentos(id):
