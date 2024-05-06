@@ -86,6 +86,7 @@ class Deceased:
                 )
                 if updated_difunto:
                     conn.Update.Difunto(search_id, updated_difunto)
+                    st.success("Registro Actualizado")
             except:
                 st.warning(
                     "No se ha podido actualizar el registro\nFavor trate más tarde"
@@ -105,6 +106,7 @@ class Deceased:
                     "delete", "Eliminar", True, default=conn.Select.Difunto(search_id)
                 ):
                     conn.Delete.Difunto(search_id)
+                    st.success("Registro eliminado")
             except:
                 st.warning("Registro no eliminado")
         except:

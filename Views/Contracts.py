@@ -38,38 +38,6 @@ class Contracts:
             """,
             unsafe_allow_html=True,
         )
-        data = {
-            "Num. Contrato": [8672, 9647, 8934, 5514, 1257],
-            "Documentos EG": [
-                "Procesados",
-                "Procesando",
-                "No Proesados",
-                "Procesados",
-                "Procesados",
-            ],
-            "Cliente": [
-                "Eduardo G. Martinez",
-                "Gabriel Ramirez",
-                "Antonia Lopez",
-                "José Rodriguez",
-                "Carlos Sanrtana",
-            ],
-            "Descripcion": [
-                "Su Pre-Arreglo Funebre",
-                "Arreglo Funebre Familiar Fallecido",
-                "Su Pre-Arreglo Funebre",
-                "Arreglo Funebre Familiar Fallecido",
-                "Arreglo Funebre Familiar Fallecido",
-            ],
-            "Servicios Solicitados": [
-                "Cremación",
-                "Velatorio Funebre",
-                "Cremación",
-                "Cremación",
-                "Velatorio Funebre",
-            ],
-            "Empleados Asignados": [2, 8, 2, 2, 5],
-        }
 
         col1, col2 = st.columns(2)
         with col1:
@@ -99,4 +67,4 @@ class Contracts:
                         pass
         st.write("***")
         # st.dataframe(conn.Connections.query1(select_contracts))
-        st.dataframe(data)
+        st.dataframe(conn.Select_All.Contratos("1"))

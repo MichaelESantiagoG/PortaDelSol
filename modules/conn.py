@@ -143,7 +143,31 @@ class Select_All(Connection):
             FROM Documentos"""
         )
 
-    def Contratos():
+    def Contratos(_):
+        if _ == "1":
+            return Connection.query1(
+                """
+                    SELECT
+                        c.Contrato_ID,
+                        cl.Cliente_ID || ': ' || cl.Nombre AS Cliente,
+                        d.Difunto_ID || ': ' || d.Nombre AS Difunto,
+                        e.Empleado_ID || ': ' || e.Nombre AS Empleado,
+                        GROUP_CONCAT(se.Servicio_ID || ': ' || s.Servicio_Nombre) AS Servicios_Elegidos,
+                        c.Parentesco_Difunto,
+                        c.Fecha_Contrato,
+                        c.Fecha_Servicio,
+                        c.Metodo_Pago,
+                        c.Servicio_Detalles,
+                        c.Monto_Total
+                    FROM Contratos c
+                    JOIN Clientes cl ON c.Cliente_ID = cl.Cliente_ID
+                    JOIN Difuntos d ON c.Difunto_ID = d.Difunto_ID
+                    JOIN Empleados e ON c.Empleado_ID = e.Empleado_ID
+                    JOIN Servicios_Elegidos se ON c.Contrato_ID = se.Contrato_ID
+                    JOIN Servicios s ON se.Servicio_ID = s.Servicio_ID
+                    GROUP BY c.Contrato_ID;
+                    """
+            )
         return Connection.query1(
             """
                 SELECT
