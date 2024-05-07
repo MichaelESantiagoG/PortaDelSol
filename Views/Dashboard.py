@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from modules import conn
 
 
 class Dashboard:
@@ -31,7 +32,10 @@ class Dashboard:
         )
 
         col1, col2, col3 = st.columns(3)
-        col1.metric("Ingreso", f"${400}")  # La suma de los montos totales
+        col1.metric(
+            "Numero de Contratos",
+            f"{conn.Select_All.Contratos(2)['Total_Contratos']}",
+        )  # La suma de los montos totales
         col2.metric("Wind", "9 mph", "-8%")  # count de certificados de defuncion
         col3.metric("Humidity", "86%", "4%")  # count de contratos
 
@@ -39,7 +43,8 @@ class Dashboard:
             np.random.randn(50, 20), columns=("col %d" % i for i in range(20))
         )
 
-        my_table = st.table(df1)
+        with st.expander("data"):
+            my_table = st.table(df1)
 
         df2 = pd.DataFrame(
             np.random.randn(50, 20), columns=("col %d" % i for i in range(20))

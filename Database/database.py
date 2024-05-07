@@ -550,15 +550,14 @@ CREATE TABLE IF NOT EXISTS Servicios_Elegidos (
 
 # ____________________________________
 # CREATE Tables
-Database.Empleados(50)  # int
-Database.Credenciales()
-Database.Servicios()
-Database.Clientes(50)  # int
-Database.Difuntos(50)  # int
-Database.Documentos(50)  # int
-Database.Contratos(50)  # int
-Database.Servicios_Elegidos(50)  # int
-
+# Database.Empleados(50)  # number of records (int)
+# Database.Credenciales()
+# Database.Servicios()
+# Database.Clientes(50)  # number of records (int)
+# Database.Difuntos(50)  # number of records (int)
+# Database.Documentos(50)  # number of records (int)
+# Database.Contratos(50)  # number of records (int)
+Database.Servicios_Elegidos(120)  # number of records (int)
 # Commit changes and close connection
 conn.commit()
 conn.close()

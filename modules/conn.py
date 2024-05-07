@@ -53,7 +53,11 @@ class Select_All(Connection):
                 FROM Credenciales"""
         )
 
-    def Empleados():
+    def Empleados(_=0):
+        if _ == 1:
+            return Connection.query1(
+                """SELECT Empleado_ID || ': ' || Nombre || ' ' || Apellido_Paterno FROM Empleados;"""
+            )
         return Connection.query1(
             """
                 SELECT
@@ -77,19 +81,28 @@ class Select_All(Connection):
                 FROM Empleados;"""
         )
 
-    def Servicios():
+    def Servicios(_=0):
+        if _ == 1:
+            return Connection.query1(
+                "SELECT Servicio_ID || ': ' || Servicio_Nombre FROM Servicios"
+            )
         return Connection.query1(
             """
             SELECT Servicio_ID, Servicio_Nombre, Servicio_Precio FROM Servicios"""
         )
 
-    def Servicios_Elegidos():
+    def Servicios_Elegidos(_=0):
         return Connection.query1(
             """SELECT Servicios_Elegidos_ID, Contrato_ID, Servicio_ID
                 FROM Servicios_Elegidos;"""
         )
 
-    def CLientes():
+    def CLientes(_=0):
+        if _ == 1:
+            return Connection.query1(
+                """SELECT Cliente_ID || ': ' || Nombre || ' ' || Apellido_Paterno FROM Clientes;"""
+            )
+
         return Connection.query1(
             """
                 SELECT Cliente_ID,
@@ -112,7 +125,11 @@ class Select_All(Connection):
                 FROM Clientes;"""
         )
 
-    def Difuntos():
+    def Difuntos(_=0):
+        if _ == 1:
+            return Connection.query1(
+                "SELECT Difunto_ID || ': ' || Nombre || ' ' || Apellido_Paterno FROM Difuntos;"
+            )
         return Connection.query1(
             """SELECT 
                     Difunto_ID,
@@ -129,7 +146,7 @@ class Select_All(Connection):
                     Lugar_Nacimiento,
                     Fecha_Nacimiento,
                     Fecha_Defuncion    
-                FROM Difuntos;      """
+                FROM Difuntos;"""
         )
 
     def Documentos():
@@ -143,15 +160,19 @@ class Select_All(Connection):
             FROM Documentos"""
         )
 
-    def Contratos(_):
-        if _ == "1":
+    def Contratos(_=0):
+        if _ == 2:
+            return Connection.query3(
+                "SELECT COUNT(*) AS Total_Contratos FROM Contratos;"
+            )
+        if _ == 1:
             return Connection.query1(
                 """
                     SELECT
                         c.Contrato_ID,
-                        cl.Cliente_ID || ': ' || cl.Nombre AS Cliente,
-                        d.Difunto_ID || ': ' || d.Nombre AS Difunto,
-                        e.Empleado_ID || ': ' || e.Nombre AS Empleado,
+                        cl.Cliente_ID || ': ' || cl.Nombre || ' ' || cl.Apellido_Paterno AS Cliente,
+                        d.Difunto_ID || ': ' || d.Nombre  || ' ' || d.Apellido_Paterno AS Difunto,
+                        e.Empleado_ID || ': ' || e.Nombre  || ' ' || e.Apellido_Paterno AS Empleado,
                         GROUP_CONCAT(se.Servicio_ID || ': ' || s.Servicio_Nombre) AS Servicios_Elegidos,
                         c.Parentesco_Difunto,
                         c.Fecha_Contrato,
@@ -300,7 +321,7 @@ class Select(Connection):
             WHERE Documentos_ID= {id};"""
         )
 
-    def Contratos(id):
+    def Contrato(id):
         return Connection.query3(
             f"""
                 SELECT
