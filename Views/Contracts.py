@@ -67,15 +67,18 @@ class Contracts:
         st.dataframe(conn.Select_All.Contratos(1), hide_index=True)
 
     def add_contract():
-        contrato = Contracts.form(key="add", label="Añadir", disabled=False)
-        if contrato:
-            try:
-                # conn.Insert.Contrato(contrato)
-                st.success("Contrato Añadido")
-            except:
-                st.warning(
-                    "Contrato no se pudo Añadir.\nFavor intente mas tarde o notifique al departamento de I.T."
-                )
+        try:
+            contrato = Contracts.form(key="add", label="Añadir", disabled=False)
+            if contrato:
+                try:
+                    # conn.Insert.Contrato(contrato)
+                    st.success("Contrato Añadido")
+                except:
+                    st.warning(
+                        "Contrato no se pudo Añadir.\nFavor intente mas tarde o notifique al departamento de I.T."
+                    )
+        except:
+            pass
 
     def edit_contract():
         search_id = st.number_input(
@@ -336,10 +339,7 @@ class Contracts:
                 label=label,
                 use_container_width=True,
             ):
-                print(Servicios)
-
                 d = [item.split(":")[0] for item in Servicios]
-                print(d)
                 Contrato = {
                     "Empleado_ID": int(Empleado_ID.split(":")[0]),
                     "Cliente_ID": int(Cliente_ID.split(":")[0]),
@@ -355,7 +355,6 @@ class Contracts:
                     "Servicios": Servicios,
                     "Servicio_Detalles": Servicio_Detalles,
                 }
-                print(Contrato["Servicios"])
 
                 # __________________________________
                 # Documentos = {
