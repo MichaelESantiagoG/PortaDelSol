@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+import matplotlib.pyplot as plt
 from modules import conn
 
 
@@ -35,40 +35,35 @@ class Dashboard:
         col1.metric(
             "Numero de Contratos",
             f"{conn.Select_All.Contratos(2)['Total_Contratos']}",
-        )  # La suma de los montos totales
-        col2.metric("Wind", "9 mph", "-8%")  # count de certificados de defuncion
-        col3.metric("Humidity", "86%", "4%")  # count de contratos
+        )
+        col2.metric(
+            "Ganacias",
+            "${:,.2f}".format(round(conn.Select_All.Contratos(3)["Revenue"], 2)),
+        )
+        col3.metric(
+            "Empleados Activos",
+            f"{conn.Select_All.Empleados(2)['Activos']}",
+        )
+        st.write("***")
 
+        df = pd.DataFrame(conn.Select_All.Contratos(6))
+        st.bar_chart(df.set_index("Mes"))
+        with st.expander("Reporte Mensual de Ingreso Bruto"):
+            st.table(df)
+        # ____________________________________________________________________________________________________________________
         df1 = pd.DataFrame(
-            np.random.randn(50, 20), columns=("col %d" % i for i in range(20))
+            pd.DataFrame(conn.Select_All.Contratos(7)),
+            columns=["Mes", "Tipo_Servicio", "Cantidad_Servicios"],
         )
 
-        with st.expander("data"):
-            my_table = st.table(df1)
-
-        df2 = pd.DataFrame(
-            np.random.randn(50, 20), columns=("col %d" % i for i in range(20))
-        )
-
-        my_table.add_rows(df2)
-        my_chart = st.line_chart(df1)
-        # my_chart.add_rows(df2)
-        # my_chart = (
-        #     st.vega_lite_chart(
-        #         {
-        #             "mark": "line",
-        #             "encoding": {"x": "a", "y": "b"},
-        #             "datasets": {
-        #                 "some_fancy_name": df1,  # <-- named dataset
-        #             },
-        #             "data": {"name": "some_fancy_name"},
-        #         }
-        #     ),
-        # )
-        # my_chart.add_rows(some_fancy_name=df2)  # <-- name used as keyword
-
-        # chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
-        # st.line_chart(chart_data)
-
-        # df = pd.read_csv("https://storage.googleapis.com/tf-datasets/titanic/train.csv")
-        # st.dataframe(df)
+        # Crear un gráfico de barras
+        fig, ax = plt.subplots(figsize=(20, 6))
+        df1.pivot(
+            index="Mes", columns="Tipo_Servicio", values="Cantidad_Servicios"
+        ).plot(kind="bar", stacked=True, ax=ax)
+        ax.set_xlabel("Mes")
+        ax.set_ylabel("Cantidad de Servicios")
+        ax.set_title("Cantidad de Servicios Seleccionados por Mes y Tipo de Servicio")
+        st.pyplot(fig)
+        with st.expander("Reporte Mensual de Servicios Elegidos"):
+            st.table(df1)

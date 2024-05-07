@@ -166,170 +166,171 @@ class Contracts:
         ]
 
         with st.form(key=key, clear_on_submit=False, border=False):
-            # col1, col2 = st.columns(2)
-            # with col1:
-            Empleado_ID = st.selectbox(
-                label="Empleado",
-                key=key + "Empleado_ID",
-                disabled=disabled,
-                options=conn.Select_All.Empleados(1),
-                index=(
-                    default["Empleado_ID"]
-                    if default and "Empleado_ID" in default
-                    else None
-                ),
-            )
-            Cliente_ID = st.selectbox(
-                label="Cliente",
-                key=key + "Cliente_ID",
-                disabled=disabled,
-                options=conn.Select_All.CLientes(1),
-                index=(
-                    default["Cliente_ID"]
-                    if default and "Cliente_ID" in default
-                    else None
-                ),
-            )
-            Servicios = (
-                st.multiselect(
-                    label="Servicios",
-                    key=key + "Servicio_ID",
+            col1, col2 = st.columns(2)
+            with col1:
+                Empleado_ID = st.selectbox(
+                    label="Empleado",
+                    key=key + "Empleado_ID",
                     disabled=disabled,
-                    options=conn.Select_All.Servicios(1),
-                    default=(
-                        default["Servicio_ID"]
-                        if default and "Servicio_ID" in default
-                        else []
+                    options=conn.Select_All.Empleados(1),
+                    index=(
+                        default["Empleado_ID"]
+                        if default and "Empleado_ID" in default
+                        else None
                     ),
-                ),
-            )
-            Servicio_Detalles = st.text_input(
-                label="Detalles de servicios",
-                key=key + "Servicio_Detalles",
-                disabled=disabled,
-                placeholder="Detalles...",
-                value=(
-                    default["Servicio_Detalles"]
-                    if default and "Servicio_Detalles" in default
-                    else ""
-                ),
-            )
-            Difunto_ID = st.selectbox(
-                label="Difunto",
-                key=key + "Difunto_ID",
-                disabled=disabled,
-                options=conn.Select_All.Difuntos(1),
-                index=(
-                    default["Difunto_ID"]
-                    if default and "Difunto_ID" in default
-                    else None
-                ),
-            )
-            Certificado_Defuncion = st.selectbox(
-                label="Tipo de certificado de defunción",
-                key=key + "Certificado_Defuncion",
-                disabled=disabled,
-                options=[
-                    "Certificado Estándar de Muerte",
-                    "Certificado Coroner's de Muerte",
-                ],
-                index=(
-                    default["Certificado_Defuncion"]
-                    if default and "Certificado_Defuncion" in default
-                    else 0
-                ),
-            )
-            Autorizacion_Cremacion = st.checkbox(
-                label="Autorizacion de cremacion",
-                key=key + "Autorizacion_Cremacion",
-                value=(
-                    default["Autorizacion_Cremacion"]
-                    if default and "Autorizacion_Cremacion" in default
-                    else None
-                ),
-            )
-            Permiso_Cremacion = st.checkbox(
-                label="Permiso de cremacion",
-                key=key + "Permiso_Cremacion",
-                value=(
-                    default["Permiso_Cremacion"]
-                    if default and "Permiso_Cremacion" in default
-                    else None
-                ),
-            )
-            Parentesco_Difunto = st.selectbox(
-                label="Parentesco",
-                key=key + "Parentesco_Difunto",
-                disabled=disabled,
-                options=Parentesco,
-                index=(
-                    default["Certificado_Defuncion"]
-                    if default and "Certificado_Defuncion" in default
-                    else 0
-                ),
-            )
-            Fecha_Contrato_default = (
-                "today"
-                if not default or "Fecha_Contrato" not in default
-                else datetime.strptime(default["Fecha_Contrato"], "%Y-%m-%d").date()
-            )
-            Fecha_Contrato = st.date_input(
-                key=key + "Fecha_Contrato",
-                label="Fecha de Contrato",
-                min_value=None,
-                max_value=None,
-                disabled=disabled,
-                value=Fecha_Contrato_default,
-            ).strftime("%Y-%m-%d")
+                )
+                Cliente_ID = st.selectbox(
+                    label="Cliente",
+                    key=key + "Cliente_ID",
+                    disabled=disabled,
+                    options=conn.Select_All.CLientes(1),
+                    index=(
+                        default["Cliente_ID"]
+                        if default and "Cliente_ID" in default
+                        else None
+                    ),
+                )
+                Servicios = (
+                    st.multiselect(
+                        label="Servicios",
+                        key=key + "Servicio_ID",
+                        disabled=disabled,
+                        options=conn.Select_All.Servicios(1),
+                        default=(
+                            default["Servicio_ID"]
+                            if default and "Servicio_ID" in default
+                            else []
+                        ),
+                    ),
+                )
+                Servicio_Detalles = st.text_input(
+                    label="Detalles de servicios",
+                    key=key + "Servicio_Detalles",
+                    disabled=disabled,
+                    placeholder="Detalles...",
+                    value=(
+                        default["Servicio_Detalles"]
+                        if default and "Servicio_Detalles" in default
+                        else ""
+                    ),
+                )
+                Difunto_ID = st.selectbox(
+                    label="Difunto",
+                    key=key + "Difunto_ID",
+                    disabled=disabled,
+                    options=conn.Select_All.Difuntos(1),
+                    index=(
+                        default["Difunto_ID"]
+                        if default and "Difunto_ID" in default
+                        else None
+                    ),
+                )
+                Certificado_Defuncion = st.selectbox(
+                    label="Tipo de certificado de defunción",
+                    key=key + "Certificado_Defuncion",
+                    disabled=disabled,
+                    options=[
+                        "Certificado Estándar de Muerte",
+                        "Certificado Coroner's de Muerte",
+                    ],
+                    index=(
+                        default["Certificado_Defuncion"]
+                        if default and "Certificado_Defuncion" in default
+                        else 0
+                    ),
+                )
+            with col2:
+                Parentesco_Difunto = st.selectbox(
+                    label="Parentesco",
+                    key=key + "Parentesco_Difunto",
+                    disabled=disabled,
+                    options=Parentesco,
+                    index=(
+                        default["Certificado_Defuncion"]
+                        if default and "Certificado_Defuncion" in default
+                        else 0
+                    ),
+                )
+                Fecha_Contrato_default = (
+                    "today"
+                    if not default or "Fecha_Contrato" not in default
+                    else datetime.strptime(default["Fecha_Contrato"], "%Y-%m-%d").date()
+                )
+                Fecha_Contrato = st.date_input(
+                    key=key + "Fecha_Contrato",
+                    label="Fecha de Contrato",
+                    min_value=None,
+                    max_value=None,
+                    disabled=disabled,
+                    value=Fecha_Contrato_default,
+                ).strftime("%Y-%m-%d")
 
-            Fecha_Servicio_default = (
-                "today"
-                if not default or "Fecha_Servicio" not in default
-                else datetime.strptime(default["Fecha_Servicio"], "%Y-%m-%d").date()
-            )
-            Fecha_Servicio = st.date_input(
-                key=key + "Fecha_Servicio",
-                label="Fecha de Servicio",
-                min_value=None,
-                max_value=None,
-                disabled=disabled,
-                value=Fecha_Servicio_default,
-            ).strftime("%Y-%m-%d")
+                Fecha_Servicio_default = (
+                    "today"
+                    if not default or "Fecha_Servicio" not in default
+                    else datetime.strptime(default["Fecha_Servicio"], "%Y-%m-%d").date()
+                )
+                Fecha_Servicio = st.date_input(
+                    key=key + "Fecha_Servicio",
+                    label="Fecha de Servicio",
+                    min_value=None,
+                    max_value=None,
+                    disabled=disabled,
+                    value=Fecha_Servicio_default,
+                ).strftime("%Y-%m-%d")
 
-            # Ensure default is not None and "Metodo_Pago" key exists
-            if default and "Metodo_Pago" in default:
-                # Convert the value to an integer
-                try:
-                    index = int(default["Metodo_Pago"])
-                except ValueError:
-                    # Handle the case where the value cannot be converted to an integer
+                # Ensure default is not None and "Metodo_Pago" key exists
+                if default and "Metodo_Pago" in default:
+                    # Convert the value to an integer
+                    try:
+                        index = int(default["Metodo_Pago"])
+                    except ValueError:
+                        # Handle the case where the value cannot be converted to an integer
+                        index = 0
+                else:
                     index = 0
-            else:
-                index = 0
 
-            # Pass the integer index to the selectbox
-            Metodo_Pago = st.selectbox(
-                label="Metodo pago",
-                key=key + "Metodo_Pago",
-                disabled=disabled,
-                options=Pago_Metodos,
-                index=index,
-            )
+                # Pass the integer index to the selectbox
+                Metodo_Pago = st.selectbox(
+                    label="Metodo pago",
+                    key=key + "Metodo_Pago",
+                    disabled=disabled,
+                    options=Pago_Metodos,
+                    index=index,
+                )
 
-            Monto_Total = st.number_input(
-                label="Monto Total",
-                key=key + "Monto_Total",
-                step=0.01,
-                min_value=0.0,
-                disabled=disabled,
-                value=(
-                    float(
-                        default["Monto_Total"]
-                    )  # Ensure default["Monto_Total"] is converted to float
-                    if default and "Monto_Total" in default
-                    else 0.0  # Ensure default value is a float
-                ),
-            )
+                Monto_Total = st.number_input(
+                    label="Monto Total",
+                    key=key + "Monto_Total",
+                    step=0.01,
+                    min_value=0.0,
+                    disabled=disabled,
+                    value=(
+                        float(
+                            default["Monto_Total"]
+                        )  # Ensure default["Monto_Total"] is converted to float
+                        if default and "Monto_Total" in default
+                        else 0.0  # Ensure default value is a float
+                    ),
+                )
+                Autorizacion_Cremacion = st.checkbox(
+                    label="Autorizacion de cremacion",
+                    key=key + "Autorizacion_Cremacion",
+                    value=(
+                        default["Autorizacion_Cremacion"]
+                        if default and "Autorizacion_Cremacion" in default
+                        else None
+                    ),
+                )
+                Permiso_Cremacion = st.checkbox(
+                    label="Permiso de cremacion",
+                    key=key + "Permiso_Cremacion",
+                    value=(
+                        default["Permiso_Cremacion"]
+                        if default and "Permiso_Cremacion" in default
+                        else None
+                    ),
+                )
 
             if st.form_submit_button(
                 label=label,

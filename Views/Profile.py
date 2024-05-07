@@ -1,4 +1,6 @@
 import streamlit as st
+import sqlite3 as sql
+import pandas as pd
 
 
 class Profile:
@@ -70,5 +72,23 @@ class Profile:
                     if st.form_submit_button(label="Actualizar", type="primary"):
                         st.success("Perfil actualizado")
 
+            with tab2:
+                conn = sql.connect(
+                    "Database/portadelsol.db"
+                )  # Change this to your database name
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM Credenciales")
+                data = cursor.fetchall()
+                columns = [description[0] for description in cursor.description]
+                df = pd.DataFrame(data, columns=columns)
+                edited_df = st.data_editor(df)
+
+                # Check if the data has been modified
+                if not df.equals(edited_df):
+                    edited_df.to_sql(
+                        "Credenciales", conn, if_exists="replace", index=False
+                    )
+                    st.success("Data updated successfully!")
+                conn.close()
             with tab3:
                 st.image("Media/CapyLogo.jpeg", caption="CapyCorpS Monochrome Logo")

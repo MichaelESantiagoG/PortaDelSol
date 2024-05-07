@@ -54,6 +54,13 @@ class Select_All(Connection):
         )
 
     def Empleados(_=0):
+        if _ == 2:
+            return Connection.query3(
+                """
+                SELECT COUNT(*) AS Activos
+                FROM Empleados
+                WHERE Estado_Empleo = 'Activo'"""
+            )
         if _ == 1:
             return Connection.query1(
                 """SELECT Empleado_ID || ': ' || Nombre || ' ' || Apellido_Paterno FROM Empleados;"""
@@ -161,6 +168,43 @@ class Select_All(Connection):
         )
 
     def Contratos(_=0):
+        if _ == 7:
+            return Connection.query1(
+                """
+            SELECT strftime('%Y-%m', c.Fecha_Contrato) AS Mes,
+                s.Servicio_Nombre AS Tipo_Servicio,
+                COUNT(se.Servicio_ID) AS Cantidad_Servicios
+            FROM Contratos c
+            INNER JOIN Servicios_Elegidos se ON c.Contrato_ID = se.Contrato_ID
+            INNER JOIN Servicios s ON se.Servicio_ID = s.Servicio_ID
+            GROUP BY Mes, Tipo_Servicio
+            ORDER BY Mes, Tipo_Servicio"""
+            )
+        if _ == 6:
+            return Connection.query1(
+                """
+               SELECT strftime('%Y-%m', Fecha_Contrato) AS Mes,
+               SUM(Monto_Total) AS Ganancia_Total
+                FROM Contratos
+                GROUP BY Mes
+                ORDER BY Mes;"""
+            )
+        if _ == 5:
+            return Connection.query1(
+                """
+                SELECT Fecha_Contrato, SUM(Monto_Total) AS Total_Revenue
+                FROM Contratos
+                GROUP BY Fecha_Contrato
+                ORDER BY Fecha_Contrato"""
+            )
+        if _ == 4:
+            return Connection.query1(
+                """SELECT Fecha_Contrato, Monto_Total FROM Contratos"""
+            )
+        if _ == 3:
+            return Connection.query3(
+                "SELECT SUM(Monto_Total) AS Revenue FROM Contratos"
+            )
         if _ == 2:
             return Connection.query3(
                 "SELECT COUNT(*) AS Total_Contratos FROM Contratos;"
