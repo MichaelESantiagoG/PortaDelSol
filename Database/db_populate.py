@@ -1,11 +1,10 @@
 import sqlite3 as sql
+import pandas as pd
 import random
 import string
-import pandas as pd
 from faker import Faker
 from datetime import datetime, timedelta
 
-# /Users/michaelsantiago/Documents/_Classes/SICI4097/App/PortaDelSol/Database/db_populate.py
 
 # Initialize Faker to generate fake data
 fake = Faker()
@@ -15,7 +14,7 @@ conn = sql.connect("Database/portadelsol.db")
 cursor = conn.cursor()
 
 
-class Database():
+class Database:
 
     def Empleados(n: int):
         # Create Empleados Table
@@ -44,7 +43,16 @@ class Database():
 
         # # Generate 50 records for Empleados table
         for _ in range(n):
-            Posicion = fake.job()
+            Posicion = random.choice(
+                [
+                    "Embalsamador",
+                    "Gerente",
+                    "Supervisor",
+                    "Cafeteria",
+                    "Mantenimiento",
+                    "Tecnico",
+                ]
+            )
             Nombre = fake.first_name()
             Apellido_Paterno = fake.last_name()
             Apellido_Materno = fake.last_name()
@@ -542,26 +550,17 @@ CREATE TABLE IF NOT EXISTS Servicios_Elegidos (
 
 # ____________________________________
 # CREATE Tables
-# Database.Empleados(50)  # int
+# Database.Empleados(50)  # number of records (int)
 # Database.Credenciales()
 # Database.Servicios()
-# Database.Clientes(50)  # int
-# Database.Difuntos(50)  # int
-# Database.Documentos(50)  # int
-# Database.Contratos(50)  # int
-# Database.Servicios_Elegidos(50)  # int
-
-
+# Database.Clientes(50)  # number of records (int)
+# Database.Difuntos(50)  # number of records (int)
+# Database.Documentos(50)  # number of records (int)
+# Database.Contratos(50)  # number of records (int)
+# Database.Servicios_Elegidos(120)  # number of records (int)
 # Commit changes and close connection
-# conn.commit()
-# conn.close()
-print("Successfully Built Database with sample records.")
-
-# ____________________________________
-
-# Connect to SQLite database
-# conn = sql.connect("Database/portadelsol.db")
-# cursor = conn.cursor()
+conn.commit()
+conn.close()
 
 
 class Connection:
@@ -1135,6 +1134,7 @@ Difunto = {
     "Fecha_Nacimiento": "",
     "Fecha_Defuncion": "",
 }
+
 Documento = {
     "Certificado_Defuncion": "None",
     "Autorizacion_Cremacion": True,
@@ -1426,7 +1426,7 @@ Contrato = {
 # Update.Cliente(id, Cliente)
 # Update.Difunto(id, Difunto)
 # Update.Documentos(id, Documentos)
-Update.Servicios_Elegidos(id, Servicios_Elegidos)
+# Update.Servicios_Elegidos(id, Servicios_Elegidos)
 # Update.Contrato(id, Contrato)
 
 print("Records inserted successfully.")
