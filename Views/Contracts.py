@@ -339,7 +339,7 @@ class Contracts:
                 label=label,
                 use_container_width=True,
             ):
-                d = [item.split(":")[0] for item in Servicios]
+                # d = [item.split(":")[0] for item in Servicios]
                 Contrato = {
                     "Empleado_ID": int(Empleado_ID.split(":")[0]),
                     "Cliente_ID": int(Cliente_ID.split(":")[0]),
