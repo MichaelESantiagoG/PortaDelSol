@@ -1,0 +1,23 @@
+Información del cliente -> ClienteApellidoMaterno, ClienteApellidoPaterno, ClienteCelular, ClienteCelularSecundario, ClienteDirección, ClienteGénero, ClienteLugarDeNacimiento, ClienteMétodoDePago, ClienteNombre, ClienteNumeroServicioMilitar, ClienteSeguroSocial, ClienteFechaDeNacimiento
+
+Información del empleado -> EmpleadoApellidoMaterno, EmpleadoApellidoPaterno, EmpleadoCelular, EmpleadoCelularSecundario,EmpleadoDirección,EmpleadoNombre, EmpleadoOcupación, EmpleadoSeguroSocial, EmpleadoCorreoElectronico, EmpleadoFechaDeNacimiento
+
+Información del difunto -> DifuntoApellidoMaterno, DifuntoApellidoPaterno, DifuntoEstadoCivil, DifuntoGénero, DifuntoLugarDeDefunción, DifuntoNombre, DifuntoNombreDeMadre, DifuntoNombreDePadre, DifuntoSeguroSocial, DifuntoFechaDeNacimiento
+
+Informacion de servicios -> ServicioNombre, ServicioPrecio, DiasDeVelorioDeseados
+
+
+
+
+Documents: Autorización de Cremación, Certificado de Cremación, Certificado de Defunción, Contrato, Informe de Certificados de Defunción, Informe de Cremación, Informe de Ingresos, Informe de Servicios, Recibo de Pago, Solicitud de Cremación, Solicitud de Entierro.
+Credentials: Credenciales.
+Customer Data: Datos del Cliente.
+Employee Data: Datos del Empleado.
+Financial Information: Monto Adeudado, Monto Total, Pago de Factura, Pagos Recibidos.
+Service Records: Récord del Cliente, Récord del Empleado.
+Service Availability: Disponibilidad de Cremación, Disponibilidad de Entierro, Disponibilidad de Velorio.
+Service Management: Servicios Elegidos, Servicios Gestionados, Servicios Ofrecidos.
+
+
+Unnormalized Form (UNF): Autorización de Cremación, Autorizaciones de Cremación, Certificado de Cremación, Certificado de Defunción, Certificados de Defunción, Contrato, Contrato de Cremación, Contrato de Entierro, Contrato de Pre-Arreglo, Credenciales, Datos Actualizados, Datos del  Empleado, Datos del Cliente, Disponibilidad de Cremación, Disponibilidad de Entierro, Disponibilidad de Velorio, Informe de Certificados de Defunción, Informe de Cremación, Informe de Ingresos , Informe de Servicios, Monto Adeudado, Monto Total, Pago de Factura, Pagos Recibidos, Recibo de Pago, Récord Actualizado, Récord del Cliente, Récord del Empleado, Servicios Elegidos, Servicios Gestionados, Servicios Ofrecidos, Solicitud de Cremación, Solicitud de Entierro, Autorización de Cremación
+

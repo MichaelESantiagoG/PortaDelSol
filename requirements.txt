@@ -1,10 +1,15 @@
-streamlit==1.31.0
-streamlit_extras==0.4.0
-streamlit_pandas_profiling==0.1.3
-streamlit_option_menu==0.3.12
 pandas==2.2.0
+<<<<<<< HEAD
 pandas-profiling==3.2.0
 numpy==1.26.4
 faker==23.1.0
 sqlalchemy==2.0.27
 streamlit_lottie==0.0.5
+=======
+streamlit==1.32.0
+streamlit_extras==0.4.0
+streamlit_lottie==0.0.5
+streamlit_option_menu==0.3.12
+streamlit_pandas_profiling==0.1.3
+# pymssql==2.2.11
+>>>>>>> a9c36b6ec9d3069dfa991d761b00a4ff2f2af9b3
