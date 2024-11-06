@@ -1,16 +1,10 @@
 import streamlit as st
 import pandas as pd
-<<<<<<< HEAD
-
-class Services:
-    @staticmethod
-=======
 from modules import conn
 import time
 
 
 class Servicios:
->>>>>>> a9c36b6ec9d3069dfa991d761b00a4ff2f2af9b3
     def view():
         header = """
             <style>
@@ -35,48 +29,6 @@ class Servicios:
             """
         st.markdown(header, unsafe_allow_html=True)
 
-<<<<<<< HEAD
-        col1, col2 = st.columns(2)
-        with col1:
-            search = st.text_input(label="Buscar", placeholder="Buscar")
-        with col2:
-            services_add_container =  st.container()
-            with services_add_container:
-                st.markdown(
-                    """
-                    <style>
-                    .stButton > button {
-                    margin-top:10px; 
-                    float:right;               
-                    }
-                    </style>
-
-                    """,
-                    unsafe_allow_html=True,
-                )          
-                if st.button(label="Más +", type="primary"): pass
-                    # more_btn_session_state['more_opitions'] = not more_btn_session_state.get('more_opitions', False)
-        # Crear el DataFrame con los datos de los servicios
-        datos_servicios = {
-            'Servicio': ['Cremación', 'Entierro tradicional', 'Funeral religioso', 'Servicio de urna', 'Pre-arreglos funerarios'],
-            'Disponibilidad': ['Ofrecido', 'Ofrecido', 'Ofrecido', 'Por ofrecer', 'Por ofrecer'],
-            'Precio': ['$1000', '$2000', '$1500', 'N/A', 'N/A'],
-            'Duración': ['2 horas', '4 horas', '3 horas', 'N/A', 'N/A'],
-            'Incluye': ['Urna básica', 'Ataúd, sala de velatorio', 'Servicio religioso', 'N/A', 'N/A']
-        }
-
-        # Replicar los datos 50 veces
-        datos_repetidos = {k: v * 50 for k, v in datos_servicios.items()}
-
-        # Crear el DataFrame con los datos repetidos
-        df_servicios = pd.DataFrame(datos_repetidos)
-
-        # Mostrar el DataFrame en Streamlit
-        st.title('Servicios de la Funeraria')
-        st.dataframe(df_servicios)
-
-    
-=======
         col1, col2 = st.columns([50, 50])
         with col1:
             st.dataframe(data=conn.Select_All.Servicios(), hide_index=True)
@@ -216,4 +168,3 @@ class Servicios:
             return service_info
         except:
             return False
->>>>>>> a9c36b6ec9d3069dfa991d761b00a4ff2f2af9b3

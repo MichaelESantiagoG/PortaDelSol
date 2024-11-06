@@ -1,11 +1,5 @@
 import streamlit as st
 import pandas as pd
-<<<<<<< HEAD
-import numpy as np
-
-class Dashboard:
-    def view():
-=======
 import matplotlib.pyplot as plt
 from modules import conn
 
@@ -13,7 +7,6 @@ from modules import conn
 class Dashboard:
     def view():
         # print ('this is path', st.query_params.get('path'))
->>>>>>> a9c36b6ec9d3069dfa991d761b00a4ff2f2af9b3
         header = st.empty()
         header.markdown(
             """
@@ -37,20 +30,6 @@ class Dashboard:
             """,
             unsafe_allow_html=True,
         )
-<<<<<<< HEAD
-        col1, col2 = st.columns(2)
-        with col1:
-            chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
-            st.line_chart(chart_data)
-        with col2:
-            df = pd.read_csv(
-                "https://storage.googleapis.com/tf-datasets/titanic/train.csv"
-            )
-            st.dataframe(df)
-
-    pass
-
-=======
 
         col1, col2, col3 = st.columns(3)
         col1.metric(
@@ -88,4 +67,3 @@ class Dashboard:
         st.pyplot(fig)
         with st.expander("Reporte Mensual de Servicios Elegidos"):
             st.table(df1)
->>>>>>> a9c36b6ec9d3069dfa991d761b00a4ff2f2af9b3
