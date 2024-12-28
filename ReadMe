@@ -1,1 +1,5 @@
+# Capstone Project - Funeral management system POC
+
+username = Any
+password = 9999
 streamlit run main.py --server.enableCORS false --server.enableXsrfProtection false
